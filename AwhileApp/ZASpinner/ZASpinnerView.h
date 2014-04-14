@@ -23,7 +23,7 @@
 @property (nonatomic) CGFloat extraSpacing;
 @property (nonatomic) CGFloat verticalShift;
 @property (nonatomic, strong) NSString *fontName;
-//@property (nonatomic) NSInteger startIndex;
+@property (nonatomic) NSInteger startIndex;
 @property BOOL isInfinite;
 
 //Good parameters

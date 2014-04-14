@@ -75,6 +75,7 @@
     [self.valueSpinner setFocusedFontColor:[UIColor whiteColor]];
     [self.valueSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
     [self.valueSpinner setFontName:@"HelveticaNeue-Bold"];
+    [self.valueSpinner setIsInfinite:YES];
     [self addSubview:self.valueSpinner];
     
     self.incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectMake(0.0f, self.frame.size.height-320.0f+10.0f, self.frame.size.width, 120.0f)];

@@ -14,6 +14,10 @@
 
 @property (nonatomic, strong) ZASpinnerTableView *tableView;
 
+//For infinite
+@property (nonatomic, strong) NSMutableArray *infiniteArrays;
+@property (nonatomic) NSInteger currInfiniteArrayIndex;
+
 @end
 
 @implementation ZASpinnerView
@@ -74,6 +78,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.isInfinite)
+        return 200;
     return [self.contents count];
 }
 
@@ -117,6 +123,21 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.isInfinite) {
+        CGPoint offset = scrollView.contentOffset;
+        if (offset.y < scrollView.contentSize.height*0.125f && ![self isShowingBelow25]) {
+            [self moveToPreviousInfiniteArray];
+            scrollView.contentOffset = CGPointMake(offset.x, scrollView.contentSize.height*0.5f);
+        }
+        else if (offset.y > scrollView.contentSize.height*0.875f) {
+            [self moveToNextInfiniteArray];
+            scrollView.contentOffset = CGPointMake(offset.x, scrollView.contentSize.height*0.5f);
+        }
+    }
+}
+
 
 #pragma mark Helper functions
 
@@ -151,10 +172,65 @@
 
 - (NSString*)stringAtIndexPath:(NSIndexPath*)indexPath
 {
+    if (self.isInfinite)
+        return [self stringForInfiniteAtIndexPath:indexPath];
     NSString *cellString = @"";
     if ([[[self contents] objectAtIndex:indexPath.row] isKindOfClass:[NSString class]])
         cellString = [[self contents] objectAtIndex:indexPath.row];
     return cellString;
+}
+
+- (NSString*)stringForInfiniteAtIndexPath:(NSIndexPath*)indexPath
+{
+    NSNumber *currNumber = [[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:indexPath.row];
+    return [NSString stringWithFormat:@"%ld", (long)currNumber.integerValue];
+}
+
+- (BOOL)isShowingBelow25
+{
+    if (((NSNumber*)[[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:0]).integerValue == 0)
+        return YES;
+    return NO;
+}
+
+- (void)moveToPreviousInfiniteArray
+{
+    self.currInfiniteArrayIndex = [self previousInfiniteArrayIndexValue];
+    NSInteger newPreviousArrayIndex = [self previousInfiniteArrayIndexValue];
+    [((NSMutableArray*)[self.infiniteArrays objectAtIndex:newPreviousArrayIndex]) removeAllObjects];
+    NSInteger startValue = ((NSNumber*)[((NSMutableArray*)[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex]) objectAtIndex:0]).integerValue-75;
+    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+        NSNumber *currIndexValue = [NSNumber numberWithInteger:startValue+currIndex];
+        [((NSMutableArray*)[self.infiniteArrays objectAtIndex:newPreviousArrayIndex]) addObject:currIndexValue];
+    }
+}
+
+- (void)moveToNextInfiniteArray
+{
+    self.currInfiniteArrayIndex = [self nextInfiniteArrayIndexValue];
+    NSInteger newNextArrayIndex = [self nextInfiniteArrayIndexValue];
+    [((NSMutableArray*)[self.infiniteArrays objectAtIndex:newNextArrayIndex]) removeAllObjects];
+    NSInteger startValue = ((NSNumber*)[((NSMutableArray*)[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex]) objectAtIndex:0]).integerValue+75;
+    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+        NSNumber *currIndexValue = [NSNumber numberWithInteger:startValue+currIndex];
+        [((NSMutableArray*)[self.infiniteArrays objectAtIndex:newNextArrayIndex]) addObject:currIndexValue];
+    }
+}
+
+- (NSInteger)previousInfiniteArrayIndexValue
+{
+    NSInteger returnValue = self.currInfiniteArrayIndex - 1;
+    if (returnValue < 0)
+        return 2;
+    return returnValue;
+}
+
+- (NSInteger)nextInfiniteArrayIndexValue
+{
+    NSInteger returnValue = self.currInfiniteArrayIndex + 1;
+    if (returnValue > 2)
+        return 0;
+    return returnValue;
 }
 
 
@@ -175,8 +251,6 @@
         self.tableView.radius = radius;
     }
 }
-
-
 
 - (CGFloat)extraSpacing
 {
@@ -212,6 +286,23 @@
     if (_fontName == nil)
         return @"HelveticaNeue";
     return _fontName;
+}
+
+- (NSMutableArray *)infiniteArrays
+{
+    if (!_infiniteArrays) {
+        self.currInfiniteArrayIndex = 0;
+        _infiniteArrays = [[NSMutableArray alloc] init];
+        NSMutableArray *firstArray = [[NSMutableArray alloc] init];
+        NSMutableArray *secondArray = [[NSMutableArray alloc] init];
+        NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
+        for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+            [firstArray addObject:[NSNumber numberWithInteger:currIndex]];
+            [secondArray addObject:[NSNumber numberWithInteger:currIndex+75]];
+        }
+        [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
+    }
+    return _infiniteArrays;
 }
 
 @end
