@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol ZASpinnerViewDelegate;
+@class ZASpinnerView;
+
+@protocol ZASpinnerViewDelegate <NSObject>
+
+
+- (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
+
+@end
 
 @interface ZASpinnerView : UIView <UITableViewDataSource, UITableViewDelegate>
 
@@ -29,11 +36,5 @@
 //Good parameters
 //R=260, V=400, W=320
 //R=150, V=120, W=200
-
-@end
-
-@protocol ZASpinnerViewDelegate <NSObject>
-
-- (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
 
 @end
