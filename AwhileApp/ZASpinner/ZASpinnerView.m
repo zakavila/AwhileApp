@@ -10,6 +10,8 @@
 #import "ZASpinnerTableView.h"
 #import "ZASpinnerTableViewCell.h"
 
+#define SpinnerTableViewCellIdentifier @"Spinner Table View Cell Identifier"
+
 @interface ZASpinnerView ()
 
 @property (nonatomic, strong) ZASpinnerTableView *tableView;
@@ -50,6 +52,9 @@
     self.tableView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+	
+	[self.tableView registerClass:[ZASpinnerTableViewCell class] forCellReuseIdentifier:SpinnerTableViewCellIdentifier];
+	
     [self addSubview:self.tableView];
 }
 
@@ -87,17 +92,16 @@
 {
     UILabel *dummyLabel = [[UILabel alloc] init];
     dummyLabel.text = [self stringAtIndexPath:indexPath];
-    CGFloat textWidth = [dummyLabel.text sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:self.focusedFontSize]}].width;
-    return textWidth + 10.0f + self.extraSpacing;
+	
+	CGRect dummyRect = CGRectIntegral([dummyLabel.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.focusedFontSize]} context:nil]);
+	
+    return dummyRect.size.width + 10.0f + self.extraSpacing;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"cell";
-    ZASpinnerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[ZASpinnerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
+    ZASpinnerTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:SpinnerTableViewCellIdentifier forIndexPath:indexPath];
+	
     cell.circularTextLabel.text = [self stringAtIndexPath:indexPath];
     return cell;
 }
