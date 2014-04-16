@@ -116,6 +116,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		057EFC2B18FE0BE80067C9DF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		057EFC2C18FE0BED0067C9DF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B295DE9118F7A58600497CDD /* AWBirthView.h */,
+				B295DE9218F7A58600497CDD /* AWBirthView.m */,
+				B295DE6C18F72A0700497CDD /* AWHomeView.h */,
+				B295DE6D18F72A0700497CDD /* AWHomeView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		057EFC2D18FE0BF10067C9DF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B295DE8E18F7A56300497CDD /* AWBirthViewController.h */,
+				B295DE8F18F7A56300497CDD /* AWBirthViewController.m */,
+				B295DE6918F729E700497CDD /* AWHomeViewController.h */,
+				B295DE6A18F729E700497CDD /* AWHomeViewController.m */,
+				B295DE7218F775A800497CDD /* AWYouAreViewController.h */,
+				B295DE7318F775A800497CDD /* AWYouAreViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		B295DE2E18F728DB00497CDD = {
 			isa = PBXGroup;
 			children = (
@@ -149,20 +180,13 @@
 		B295DE4018F728DB00497CDD /* AwhileApp */ = {
 			isa = PBXGroup;
 			children = (
+				057EFC2D18FE0BF10067C9DF /* Controller */,
+				057EFC2C18FE0BED0067C9DF /* View */,
+				057EFC2B18FE0BE80067C9DF /* Model */,
 				B295DE4918F728DB00497CDD /* AWAppDelegate.h */,
 				B295DE4A18F728DB00497CDD /* AWAppDelegate.m */,
 				B295DE4C18F728DB00497CDD /* Images.xcassets */,
 				B295DE4118F728DB00497CDD /* Supporting Files */,
-				B295DE8E18F7A56300497CDD /* AWBirthViewController.h */,
-				B295DE8F18F7A56300497CDD /* AWBirthViewController.m */,
-				B295DE9118F7A58600497CDD /* AWBirthView.h */,
-				B295DE9218F7A58600497CDD /* AWBirthView.m */,
-				B295DE6918F729E700497CDD /* AWHomeViewController.h */,
-				B295DE6A18F729E700497CDD /* AWHomeViewController.m */,
-				B295DE6C18F72A0700497CDD /* AWHomeView.h */,
-				B295DE6D18F72A0700497CDD /* AWHomeView.m */,
-				B295DE7218F775A800497CDD /* AWYouAreViewController.h */,
-				B295DE7318F775A800497CDD /* AWYouAreViewController.m */,
 				B295DE7518F775CE00497CDD /* AWYouAreView.h */,
 				B295DE7618F775CE00497CDD /* AWYouAreView.m */,
 				B295DE8218F7852500497CDD /* AWYoullBeViewController.h */,
@@ -535,6 +559,7 @@
 				B295DE6518F728DB00497CDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B295DE6618F728DB00497CDD /* Build configuration list for PBXNativeTarget "AwhileAppTests" */ = {
 			isa = XCConfigurationList;
@@ -543,6 +568,7 @@
 				B295DE6818F728DB00497CDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
