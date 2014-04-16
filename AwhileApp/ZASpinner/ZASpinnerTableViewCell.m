@@ -30,7 +30,8 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.circularTextLabel.frame = CGRectMake(0.0, 0.0, self.frame.size.height, self.frame.size.height);
+	
+    self.circularTextLabel.frame = CGRectMake(0.0, 0.0, self.bounds.size.width, self.bounds.size.height);
 }
 
 @end
