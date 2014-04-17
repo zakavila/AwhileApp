@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSString *fontName;
 @property (nonatomic) NSInteger startIndex;
 @property BOOL isInfinite;
+@property (nonatomic, strong) NSString *spinnerName;
 
 //Good parameters
 //R=260, V=400, W=320

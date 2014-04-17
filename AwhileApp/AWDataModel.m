@@ -15,7 +15,7 @@
     self = [super init];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateStyle:NSDateFormatterShortStyle];
-    self.birthTime = [dateFormat dateFromString:@"12/27/1990"];
+    self.birthTime = [dateFormat dateFromString:@"12/27/1980"];
     return self;
 }
 

@@ -9,6 +9,14 @@
 #import "AWYoullBeView.h"
 #import "CoreTextArcView.h"
 
+@interface AWYoullBeView()
+@property (nonatomic, strong) NSNumber* value;
+@property (nonatomic, strong) NSString* units;
+@property (nonatomic, strong) NSNumber* day;
+@property (nonatomic, strong) NSNumber* month;
+@property (nonatomic, strong) NSNumber* year;
+@end
+
 @implementation AWYoullBeView
 
 - (id)initWithFrame:(CGRect)frame andData:(AWDataModel*)data
@@ -17,6 +25,10 @@
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         self.dataModel = data;
+        self.units = @"Seconds";
+        self.day = [NSNumber numberWithInt:17];
+        self.month = [NSNumber numberWithInt:4];
+        self.year = [NSNumber numberWithInt:2014];
         [self drawText];
         [self drawImages];
         [self drawSpinners];
@@ -68,6 +80,7 @@
 - (void)drawSpinners
 {
     self.valueSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectMake(0.0f, self.frame.size.height-385.0f+5.0f, self.frame.size.width, 120.0f)];
+    self.valueSpinner.spinnerDelegate = self;
     [self.valueSpinner setContents:[self daySpinnerContents]];
     [self.valueSpinner setRadius:390.0f];
     [self.valueSpinner setVerticalShift:700.0f];
@@ -76,10 +89,12 @@
     [self.valueSpinner setFocusedFontColor:[UIColor whiteColor]];
     [self.valueSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
     [self.valueSpinner setFontName:@"HelveticaNeue-Bold"];
+    [self.valueSpinner setSpinnerName:@"valueSpinner"];
     [self.valueSpinner setIsInfinite:YES];
     [self addSubview:self.valueSpinner];
     
     self.incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectMake(0.0f, self.frame.size.height-320.0f+10.0f, self.frame.size.width, 120.0f)];
+    self.incrementSpinner.spinnerDelegate = self;
     [self.incrementSpinner setContents:[self incrementSpinnerContents]];
     [self.incrementSpinner setRadius:220.0f];
     [self.incrementSpinner setVerticalShift:360.0f];
@@ -89,9 +104,11 @@
     [self.incrementSpinner setFocusedFontColor:[UIColor whiteColor]];
     [self.incrementSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
     [self.incrementSpinner setFontName:@"HelveticaNeue-Bold"];
+    [self.incrementSpinner setSpinnerName:@"incrementSpinner"];
     [self addSubview:self.incrementSpinner];
     
     self.daySpinner = [[ZASpinnerView alloc] initWithFrame:CGRectMake(0.0f, self.frame.size.height-195.0f, self.frame.size.width, 195.0f)];
+    self.daySpinner.spinnerDelegate = self;
     [self.daySpinner setContents:[self daySpinnerContents]];
     [self.daySpinner setRadius:190.0f];
     [self.daySpinner setVerticalShift:135.0f];
@@ -101,9 +118,11 @@
     [self.daySpinner setFocusedFontColor:[UIColor whiteColor]];
     [self.daySpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
     [self.daySpinner setFontName:@"HelveticaNeue-Bold"];
+    [self.daySpinner setSpinnerName:@"daySpinner"];
     [self addSubview:self.daySpinner];
     
     self.monthSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectMake(0.0f+(self.frame.size.width-280.0f)/2, self.frame.size.height-160.0f, 280.0f, 160.0f)];
+    self.monthSpinner.spinnerDelegate = self;
     [self.monthSpinner setContents:[self monthSpinnerContents]];
     [self.monthSpinner setRadius:141.0f];
     [self.monthSpinner setVerticalShift:35.0f];
@@ -113,9 +132,11 @@
     [self.monthSpinner setFocusedFontColor:[UIColor whiteColor]];
     [self.monthSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
     [self.monthSpinner setFontName:@"HelveticaNeue-Bold"];
+    [self.monthSpinner setSpinnerName:@"monthSpinner"];
     [self addSubview:self.monthSpinner];
     
     self.yearSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectMake(0.0f+(self.frame.size.width-200.0f)/2, self.frame.size.height-125.0f, 200.0f, 125.0f)];
+    self.yearSpinner.spinnerDelegate = self;
     [self.yearSpinner setContents:[self monthSpinnerContents]];
     [self.yearSpinner setRadius:101.0f];
     [self.yearSpinner setVerticalShift:20.0f];
@@ -125,6 +146,7 @@
     [self.yearSpinner setFocusedFontColor:[UIColor whiteColor]];
     [self.yearSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
     [self.yearSpinner setFontName:@"HelveticaNeue-Bold"];
+    [self.yearSpinner setSpinnerName:@"yearSpinner"];
     [self addSubview:self.yearSpinner];
 }
 
@@ -227,7 +249,93 @@
 
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value
 {
-    
+    if ([spinner.spinnerName isEqualToString:@"valueSpinner"])
+    {
+        self.value = @([value intValue]);
+        NSDate *newDate;
+        if ([self.units isEqualToString:@"Seconds"])
+        {
+            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:[self.value floatValue]];
+        }
+        else if ([self.units isEqualToString:@"Minutes"])
+        {
+            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60)];
+        }
+        else if ([self.units isEqualToString:@"Hours"])
+        {
+            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60)];
+        }
+        else if ([self.units isEqualToString:@"Days"])
+        {
+            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24)];
+        }
+        else if ([self.units isEqualToString:@"Weeks"])
+        {
+            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24*7)];
+        }
+        else if ([self.units isEqualToString:@"Months"])
+        {
+            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24*30)];
+        }
+        else
+        {
+            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24*365)];
+        }
+        
+        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:newDate];
+        
+        self.day = [NSNumber numberWithInt:[components day]];
+        self.month = [NSNumber numberWithInt:[components month]];
+        self.year = [NSNumber numberWithInt:[components year]];
+    }
+    else if ([spinner.spinnerName isEqualToString:@"incrementSpinner"])
+    {
+        //value is the new unit that has been selected, self.units is the old unit type
+        if ([value isEqualToString:@"Seconds"])
+        {
+            
+        }
+        else if ([value isEqualToString:@"Minutes"])
+        {
+            
+        }
+        else if ([value isEqualToString:@"Hours"])
+        {
+            
+        }
+        else if ([value isEqualToString:@"Days"])
+        {
+            
+        }
+        else if ([value isEqualToString:@"Weeks"])
+        {
+            
+        }
+        else if ([value isEqualToString:@"Months"])
+        {
+            
+        }
+        else
+        {
+            
+        }
+        self.units = value;
+    }
+    else if ([spinner.spinnerName isEqualToString:@"daySpinner"])
+    {
+        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*([value integerValue] - [self.day integerValue])))];
+        self.day = @([value intValue]);
+    }
+    else if ([spinner.spinnerName isEqualToString:@"monthSpinner"])
+    {
+        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*30*([value integerValue] - [self.month integerValue])))];
+        self.month = @([value intValue]);
+    }
+    else
+    {
+        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*365*([value integerValue] - [self.year integerValue])))];
+        self.year = @([value intValue] + 2000);
+    }
 }
 
 @end
