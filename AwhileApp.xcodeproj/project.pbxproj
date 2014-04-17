@@ -126,10 +126,19 @@
 		057EFC2C18FE0BED0067C9DF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B295DE7818F77DFC00497CDD /* ZASpinner */,
+				B295DE8B18F7A09F00497CDD /* AWMilestoneView.h */,
+				B295DE8C18F7A0A000497CDD /* AWMilestoneView.m */,
+				B295DE8518F7854000497CDD /* AWYoullBeView.h */,
+				B295DE8618F7854000497CDD /* AWYoullBeView.m */,
+				B295DE7518F775CE00497CDD /* AWYouAreView.h */,
+				B295DE7618F775CE00497CDD /* AWYouAreView.m */,
 				B295DE9118F7A58600497CDD /* AWBirthView.h */,
 				B295DE9218F7A58600497CDD /* AWBirthView.m */,
 				B295DE6C18F72A0700497CDD /* AWHomeView.h */,
 				B295DE6D18F72A0700497CDD /* AWHomeView.m */,
+				B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */,
+				B295DE7018F76E4A00497CDD /* CoreTextArcView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -143,6 +152,10 @@
 				B295DE6A18F729E700497CDD /* AWHomeViewController.m */,
 				B295DE7218F775A800497CDD /* AWYouAreViewController.h */,
 				B295DE7318F775A800497CDD /* AWYouAreViewController.m */,
+				B295DE8218F7852500497CDD /* AWYoullBeViewController.h */,
+				B295DE8318F7852500497CDD /* AWYoullBeViewController.m */,
+				B295DE8818F7A08D00497CDD /* AWMilestonesViewController.h */,
+				B295DE8918F7A08D00497CDD /* AWMilestonesViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -187,19 +200,6 @@
 				B295DE4A18F728DB00497CDD /* AWAppDelegate.m */,
 				B295DE4C18F728DB00497CDD /* Images.xcassets */,
 				B295DE4118F728DB00497CDD /* Supporting Files */,
-				B295DE7518F775CE00497CDD /* AWYouAreView.h */,
-				B295DE7618F775CE00497CDD /* AWYouAreView.m */,
-				B295DE8218F7852500497CDD /* AWYoullBeViewController.h */,
-				B295DE8318F7852500497CDD /* AWYoullBeViewController.m */,
-				B295DE8518F7854000497CDD /* AWYoullBeView.h */,
-				B295DE8618F7854000497CDD /* AWYoullBeView.m */,
-				B295DE8818F7A08D00497CDD /* AWMilestonesViewController.h */,
-				B295DE8918F7A08D00497CDD /* AWMilestonesViewController.m */,
-				B295DE8B18F7A09F00497CDD /* AWMilestoneView.h */,
-				B295DE8C18F7A0A000497CDD /* AWMilestoneView.m */,
-				B295DE7818F77DFC00497CDD /* ZASpinner */,
-				B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */,
-				B295DE7018F76E4A00497CDD /* CoreTextArcView.m */,
 			);
 			path = AwhileApp;
 			sourceTree = "<group>";
