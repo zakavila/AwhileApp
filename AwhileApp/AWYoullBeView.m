@@ -225,4 +225,9 @@
     return contents;
 }
 
+- (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value
+{
+    
+}
+
 @end

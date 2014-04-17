@@ -15,7 +15,7 @@
     self = [super init];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateStyle:NSDateFormatterShortStyle];
-    self.birthTime = [dateFormat dateFromString:@"12/27/2013"];
+    self.birthTime = [dateFormat dateFromString:@"12/27/1990"];
     return self;
 }
 
@@ -34,25 +34,25 @@
         return [NSNumber numberWithInt:abs(difference)];
     }
     else if ([unit isEqualToString:@"Minutes"]) {
-        return [NSNumber numberWithInt:abs(difference/60)];
+        return [NSNumber numberWithInt:abs(difference/60.0)];
     }
     else if ([unit isEqualToString:@"Hours"]) {
-        return [NSNumber numberWithInt:abs(difference/(60*60))];
+        return [NSNumber numberWithInt:abs(difference/(60.0*60))];
     }
     else if ([unit isEqualToString:@"Days"]) {
-        return [NSNumber numberWithInt:abs(difference/(60*60*24))];
+        return [NSNumber numberWithInt:abs(difference/(60.0*60*24))];
     }
     else if ([unit isEqualToString:@"Weeks"]) {
-        return [NSNumber numberWithInt:abs(difference/(60*60*24*7))];
+        return [NSNumber numberWithInt:abs(difference/(60.0*60*24*7))];
     }
     else if ([unit isEqualToString:@"Months"]) {
-        return [NSNumber numberWithInt:abs(difference/(60*60*24*7*4))];
+        return [NSNumber numberWithInt:abs(difference/(60.0*60*24*30))];
     }
     else if ([unit isEqualToString:@"Years"]) {
-        return [NSNumber numberWithInt:abs(difference/(60*60*24*7*4*12))];
+        return [NSNumber numberWithInt:abs(difference/(60.0*60*24*365))];
     }
     else {
-        return [NSNumber numberWithInt:abs(difference/(60*60*24*7*4*12*10))];
+        return [NSNumber numberWithInt:abs(difference/(60.0*60*24*365*10))];
     }
 }
 

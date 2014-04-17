@@ -10,7 +10,7 @@
 #import "ZASpinnerView.h"
 #import "AWDataModel.h"
 
-@interface AWYoullBeView : UIView
+@interface AWYoullBeView : UIView <ZASpinnerViewDelegate>
 
 @property (nonatomic, strong) ZASpinnerView *valueSpinner;
 @property (nonatomic, strong) ZASpinnerView *incrementSpinner;
