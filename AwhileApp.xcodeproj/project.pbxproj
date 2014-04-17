@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		05918F3318FF8A3100A0F579 /* TCAwhileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05918F3218FF8A3100A0F579 /* TCAwhileView.m */; };
-		05918F3618FF8B8E00A0F579 /* awhileBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3518FF8B8E00A0F579 /* awhileBar@2x.png */; };
+		05918F3A18FF947300A0F579 /* awhileBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3918FF947300A0F579 /* awhileBar@2x.png */; };
+		05918F3D18FFA42300A0F579 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3C18FFA42300A0F579 /* home@2x.png */; };
 		15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F6D3E318FEFED800A176DC /* AWDataModel.m */; };
 		B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3A18F728DB00497CDD /* Foundation.framework */; };
 		B295DE3D18F728DB00497CDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3C18F728DB00497CDD /* CoreGraphics.framework */; };
@@ -51,7 +52,8 @@
 /* Begin PBXFileReference section */
 		05918F3118FF8A3100A0F579 /* TCAwhileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCAwhileView.h; sourceTree = "<group>"; };
 		05918F3218FF8A3100A0F579 /* TCAwhileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCAwhileView.m; sourceTree = "<group>"; };
-		05918F3518FF8B8E00A0F579 /* awhileBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "awhileBar@2x.png"; sourceTree = "<group>"; };
+		05918F3918FF947300A0F579 /* awhileBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "awhileBar@2x.png"; sourceTree = "<group>"; };
+		05918F3C18FFA42300A0F579 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
 		15F6D3E218FEFED800A176DC /* AWDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWDataModel.h; sourceTree = "<group>"; };
 		15F6D3E318FEFED800A176DC /* AWDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWDataModel.m; sourceTree = "<group>"; };
 		B295DE3718F728DB00497CDD /* AwhileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwhileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,6 +183,7 @@
 		05918F3718FF8B9000A0F579 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				05918F3B18FFA41700A0F579 /* Home */,
 				05918F3818FF8B9700A0F579 /* Awhile bar */,
 			);
 			name = Icons;
@@ -189,9 +192,17 @@
 		05918F3818FF8B9700A0F579 /* Awhile bar */ = {
 			isa = PBXGroup;
 			children = (
-				05918F3518FF8B8E00A0F579 /* awhileBar@2x.png */,
+				05918F3918FF947300A0F579 /* awhileBar@2x.png */,
 			);
 			name = "Awhile bar";
+			sourceTree = "<group>";
+		};
+		05918F3B18FFA41700A0F579 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				05918F3C18FFA42300A0F579 /* home@2x.png */,
+			);
+			name = Home;
 			sourceTree = "<group>";
 		};
 		B295DE2E18F728DB00497CDD = {
@@ -386,7 +397,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B295DE4518F728DB00497CDD /* InfoPlist.strings in Resources */,
-				05918F3618FF8B8E00A0F579 /* awhileBar@2x.png in Resources */,
+				05918F3D18FFA42300A0F579 /* home@2x.png in Resources */,
+				05918F3A18FF947300A0F579 /* awhileBar@2x.png in Resources */,
 				B295DE4D18F728DB00497CDD /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
