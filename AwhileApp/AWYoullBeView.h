@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ZASpinnerView.h"
+#import "AWDataModel.h"
 
 @interface AWYoullBeView : UIView
 
@@ -19,5 +20,9 @@
 
 @property (nonatomic, strong) UIButton *milestonesButton;
 @property (nonatomic, strong) UIButton *homeButton;
+
+@property (nonatomic, strong) AWDataModel* dataModel;
+
+- (id)initWithFrame:(CGRect)frame andData:(AWDataModel*)data;
 
 @end

@@ -19,7 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.mainView = [[AWYouAreView alloc] initWithFrame:self.view.frame];
+    self.mainView = [[AWYouAreView alloc] initWithFrame:self.view.frame andData:self.dataModel];
     [self.mainView.milestonesButton addTarget:self action:sel_registerName("milestonesButtonPressed") forControlEvents:UIControlEventTouchUpInside];
     [self.mainView.homeButton addTarget:self action:sel_registerName("homeButtonPressed") forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mainView];
