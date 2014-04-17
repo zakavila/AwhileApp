@@ -8,6 +8,12 @@
 
 #import "AWYouAreView.h"
 
+#define NUMBER_OF_CIRCLES 5
+
+// screen dimensions
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+
 @implementation AWYouAreView
 
 - (id)initWithFrame:(CGRect)frame andData:(AWDataModel*)data
@@ -16,6 +22,8 @@
     if (self) {
         self.backgroundColor = [UIColor colorWithRed:242.0f/255 green:147.0f/255 blue:30.0f/255 alpha:1.0f];
         self.dataModel = data;
+		
+		[self setUpCircles];
         [self drawText];
         [self drawImages];
         [self drawSpinners];
@@ -24,8 +32,66 @@
     return self;
 }
 
-- (void)drawText
-{
+#pragma mark - Set up circles
+
+- (void)setUpCircles {
+	NSMutableArray *circleViews = [NSMutableArray array];
+	
+	CGFloat initialRadius = 2*(kScreenHeight - 68.0f)/(NUMBER_OF_CIRCLES + 1);
+	CGFloat radius = initialRadius;
+	CGFloat radiusAddition = initialRadius/2;
+	
+	for (NSUInteger i = 0; i < NUMBER_OF_CIRCLES; i++) {
+		UIView *circleView = [[UIView alloc] initWithFrame:CGRectZero];
+		
+		[circleView.layer setCornerRadius:radius];
+		
+		CGRect frame = circleView.frame;
+		frame.size.width = 2*radius;
+		frame.size.height = 2*radius;
+		[circleView setFrame:frame];
+		
+		radius += radiusAddition;
+		
+		UIColor *backgroundColor;
+		
+		backgroundColor = [UIColor blackColor];
+		
+		if (i == 0) {
+			backgroundColor = [UIColor colorWithRed:128.0/255.0 green:21.0/255.0 blue:34.0/255.0 alpha:1.0];
+		}
+		
+		else if (i == 1) {
+			backgroundColor = [UIColor colorWithRed:189.0/255.0 green:32.0/255.0 blue:37.0/255.0 alpha:1.0];
+		}
+		
+		else if (i == 2) {
+			backgroundColor = [UIColor colorWithRed:226.0/255.0 green:31.0/255.0 blue:39.0/255.0 alpha:1.0];
+		}
+		
+		else if (i == 3) {
+			backgroundColor = [UIColor colorWithRed:239.0/255.0 green:59.0/255.0 blue:35.0/255.0 alpha:1.0];
+		}
+		
+		else if (i == 4) {
+			backgroundColor = [UIColor colorWithRed:229.0/255.0 green:94.0/255.0 blue:36.0/255.0 alpha:1.0];
+		}
+		
+		[circleView setBackgroundColor:backgroundColor];
+		
+		[circleViews addObject:circleView];
+	}
+	
+	[circleViews enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		UIView *circleView = (UIView *)obj;
+		
+		[self addSubview:circleView];
+	}];
+	
+	_circleViews = [circleViews copy];
+}
+
+- (void)drawText {
     CoreTextArcView *youAreText = [[CoreTextArcView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.size.height-480.0f, self.frame.size.width, 120.0f)];
     youAreText.backgroundColor = [UIColor clearColor];
     youAreText.text = @"You are:";
@@ -74,8 +140,7 @@
     [self addSubview:homeImageView];
 }
 
-- (void)drawSpinners
-{
+- (void)drawSpinners {
     self.incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectMake(0.0f, self.frame.size.height-300.0f+10.0f, self.frame.size.width, 120.0f)];
     self.incrementSpinner.spinnerDelegate = self;
     [self.incrementSpinner setContents:[self incrementSpinnerContents]];
@@ -89,8 +154,7 @@
     [self addSubview:self.incrementSpinner];
 }
 
-- (void)drawButtons
-{
+- (void)drawButtons {
     self.milestonesButton = [[UIButton alloc] initWithFrame:CGRectMake((self.frame.size.width-270.0f)/2, self.frame.size.height-135.0f, 270.0f, 270.0f)];
     self.milestonesButton.layer.cornerRadius = 135.0f;
     [self addSubview:self.milestonesButton];
@@ -98,42 +162,6 @@
     self.homeButton = [[UIButton alloc] initWithFrame:CGRectMake((self.frame.size.width-120.0f)/2, self.frame.size.height-60.0f, 120.0f, 120.0f)];
     self.homeButton.layer.cornerRadius = 60.0f;
     [self addSubview:self.homeButton];
-}
-
-- (void)drawRect:(CGRect)rect
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetLineWidth(context, 0.0f);
-    
-    CGContextBeginPath(context);
-    CGContextAddArc(context, self.frame.size.width/2, self.frame.size.height, 390.0f, 0, M_PI, YES);
-    CGContextClosePath(context);
-    CGContextSetRGBFillColor(context, 229.0f/255, 94.0f/255, 36.0f/255, 1.0f);
-    CGContextDrawPath(context, kCGPathFill);
-    
-    CGContextBeginPath(context);
-    CGContextAddArc(context, self.frame.size.width/2, self.frame.size.height, 300.0f, 0, M_PI, YES);
-    CGContextClosePath(context);
-    CGContextSetRGBFillColor(context, 239.0f/255, 59.0f/255, 35.0f/255, 1.0f);
-    CGContextDrawPath(context, kCGPathFill);
-    
-    CGContextBeginPath(context);
-    CGContextAddArc(context, self.frame.size.width/2, self.frame.size.height, 220.0f, 0, M_PI, YES);
-    CGContextClosePath(context);
-    CGContextSetRGBFillColor(context, 226.0f/255, 31.0f/255, 39.0f/255, 1.0f);
-    CGContextDrawPath(context, kCGPathFill);
-    
-    CGContextBeginPath(context);
-    CGContextAddArc(context, self.frame.size.width/2, self.frame.size.height, 135.0f, 0, M_PI, YES);
-    CGContextClosePath(context);
-    CGContextSetRGBFillColor(context, 189.0f/255, 32.0f/255, 37.0f/255, 1.0f);
-    CGContextDrawPath(context, kCGPathFill);
-    
-    CGContextBeginPath(context);
-    CGContextAddArc(context, self.frame.size.width/2, self.frame.size.height, 60.0f, 0, M_PI, YES);
-    CGContextClosePath(context);
-    CGContextSetRGBFillColor(context, 128.0f/255, 21.0f/255, 34.0f/255, 1.0f);
-    CGContextDrawPath(context, kCGPathFill);
 }
 
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value
@@ -153,6 +181,14 @@
     [contents addObject:@"Years"];
     [contents addObject:@"Decades"];
     return contents;
+}
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+	
+	for (UIView *circleView in self.circleViews) {
+		[circleView setCenter:CGPointMake(kScreenWidth/2, kScreenHeight)];
+	}
 }
 
 @end
