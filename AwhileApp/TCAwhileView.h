@@ -11,5 +11,6 @@
 @interface TCAwhileView : UIView
 
 @property (nonatomic, strong) UIImageView *awhileBar;
+@property (nonatomic, strong) UIView *awhileBarPaddingView;
 
 @end
