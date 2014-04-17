@@ -10,6 +10,8 @@
 #import "AWYouAreView.h"
 #import "AWMilestonesViewController.h"
 
+#import "TCAwhileView.h"
+
 @interface AWYouAreViewController ()
 @property (nonatomic, strong) AWYouAreView *mainView;
 @end
@@ -19,10 +21,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	[self setUpStatusBar];
+	
+	CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+	CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+	
     self.mainView = [[AWYouAreView alloc] initWithFrame:self.view.frame andData:self.dataModel];
     [self.mainView.milestonesButton addTarget:self action:sel_registerName("milestonesButtonPressed") forControlEvents:UIControlEventTouchUpInside];
     [self.mainView.homeButton addTarget:self action:sel_registerName("homeButtonPressed") forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mainView];
+	
+	TCAwhileView *awhileView = [[TCAwhileView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
+	[self.view addSubview:awhileView];
+}
+
+- (void)setUpStatusBar {
+	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)milestonesButtonPressed
