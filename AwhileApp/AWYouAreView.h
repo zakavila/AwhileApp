@@ -13,6 +13,8 @@
 
 @interface AWYouAreView : UIView <ZASpinnerViewDelegate>
 
+@property (nonatomic, strong) NSArray *circleViews;
+
 @property (nonatomic, strong) CoreTextArcView *valueText;
 @property (nonatomic, strong) ZASpinnerView *incrementSpinner;
 
