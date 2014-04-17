@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AWDataModel.h"
 
 @interface AWYoullBeViewController : UIViewController
+
+@property (nonatomic, strong) AWDataModel* dataModel;
 
 @end

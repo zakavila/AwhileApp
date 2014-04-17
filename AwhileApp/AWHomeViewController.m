@@ -11,9 +11,11 @@
 #import "AWYouAreViewController.h"
 #import "AWYoullBeViewController.h"
 #import "AWMilestonesViewController.h"
+#import "AWDataModel.h"
 
 @interface AWHomeViewController ()
 @property (nonatomic, strong) AWHomeView *mainView;
+@property (nonatomic, strong) AWDataModel* dataModel;
 @end
 
 @implementation AWHomeViewController
@@ -21,6 +23,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.dataModel = [[AWDataModel alloc] init];
+    [self.dataModel check];
     self.mainView = [[AWHomeView alloc] initWithFrame:self.view.frame];
     [self.mainView.yourAgeButton addTarget:self action:sel_registerName("yourAgeButtonPressed") forControlEvents:UIControlEventTouchUpInside];
     [self.mainView.calculatorButton addTarget:self action:sel_registerName("calculatorButtonPressed") forControlEvents:UIControlEventTouchUpInside];
@@ -30,12 +34,16 @@
 
 - (void)yourAgeButtonPressed
 {
-    [self.navigationController pushViewController:[[AWYouAreViewController alloc] init] animated:YES];
+    AWYouAreViewController *youAre = [[AWYouAreViewController alloc] init];
+    youAre.dataModel = self.dataModel;
+    [self.navigationController pushViewController:youAre animated:YES];
 }
 
 - (void)calculatorButtonPressed
 {
-    [self.navigationController pushViewController:[[AWYoullBeViewController alloc] init] animated:YES];
+    AWYoullBeViewController *youllBe = [[AWYoullBeViewController alloc] init];
+    youllBe.dataModel = self.dataModel;
+    [self.navigationController pushViewController:youllBe animated:YES];
 }
 - (void)milestonesButtonPressed
 {

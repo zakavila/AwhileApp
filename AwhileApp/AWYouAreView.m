@@ -10,11 +10,12 @@
 
 @implementation AWYouAreView
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame andData:(AWDataModel*)data
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor colorWithRed:242.0f/255 green:147.0f/255 blue:30.0f/255 alpha:1.0f];
+        self.dataModel = data;
         [self drawText];
         [self drawImages];
         [self drawSpinners];
@@ -37,7 +38,7 @@
     
     self.valueText = [[CoreTextArcView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.size.height-390.0f+10.0f, self.frame.size.width, 120.0f)];
     self.valueText.backgroundColor = [UIColor clearColor];
-    self.valueText.text = @"1038441600";
+    self.valueText.text = [[self.dataModel youAreUnit:@"Seconds"] stringValue];
     self.valueText.color = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
     self.valueText.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:52.0f];
     self.valueText.radius = 300.0f;
@@ -76,6 +77,7 @@
 - (void)drawSpinners
 {
     self.incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectMake(0.0f, self.frame.size.height-300.0f+10.0f, self.frame.size.width, 120.0f)];
+    self.incrementSpinner.spinnerDelegate = self;
     [self.incrementSpinner setContents:[self incrementSpinnerContents]];
     [self.incrementSpinner setRadius:260.0f];
     [self.incrementSpinner setVerticalShift:460.0f];
@@ -132,6 +134,11 @@
     CGContextClosePath(context);
     CGContextSetRGBFillColor(context, 128.0f/255, 21.0f/255, 34.0f/255, 1.0f);
     CGContextDrawPath(context, kCGPathFill);
+}
+
+- (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value
+{
+    self.valueText.text = [[self.dataModel youAreUnit:value] stringValue];
 }
 
 - (NSArray*)incrementSpinnerContents

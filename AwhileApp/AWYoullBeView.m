@@ -11,11 +11,12 @@
 
 @implementation AWYoullBeView
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame andData:(AWDataModel*)data
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
+        self.dataModel = data;
         [self drawText];
         [self drawImages];
         [self drawSpinners];

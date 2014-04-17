@@ -20,6 +20,7 @@
         [self drawImages];
         [self drawButtons];
     }
+    
     return self;
 }
 
