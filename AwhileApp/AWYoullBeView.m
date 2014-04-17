@@ -9,6 +9,16 @@
 #import "AWYoullBeView.h"
 #import "CoreTextArcView.h"
 
+typedef NS_ENUM(NSInteger, CircleType) {
+	CircleTypeHome = 0,
+	CircleTypeYear = 1,
+	CircleTypeDay = 2,
+	CircleTypeMonth = 3,
+	CircleTypeOldOn = 4,
+	CircleTypeUnits = 5,
+	CircleTypeTotalTime = 6
+};
+
 @implementation AWYoullBeView
 
 - (id)initWithFrame:(CGRect)frame andData:(AWDataModel*)data
