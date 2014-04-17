@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TCAwhileView.h"
 #import "CoreTextArcView.h"
 #import "ZASpinnerView.h"
 #import "AWDataModel.h"
 
-@interface AWYouAreView : UIView <ZASpinnerViewDelegate>
+@interface AWYouAreView : TCAwhileView <ZASpinnerViewDelegate>
 
 @property (nonatomic, strong) NSArray *circleViews;
 

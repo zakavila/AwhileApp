@@ -10,25 +10,61 @@
 
 #define NUMBER_OF_CIRCLES 5
 
+// home button
+#define HOME_BUTTON_HORIZONTAL_MARGIN 30.0f
+
+// home image view
+#define HOME_IMAGE_VIEW_VERTICAL_MARGIN 14.0f
+
+// you are circle text arc view
+#define YOU_ARE_CIRCLE_TEXT_ARC_VIEW_LOWER_PADDING 14.0f
+
+// old circle text arc view
+#define OLD_CIRCLE_TEXT_ARC_VIEW_LOWER_PADDING 30.0f
+
 // screen dimensions
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
+typedef NS_ENUM(NSInteger, CircleType) {
+	CircleTypeHome = 0,
+	CircleTypeOld = 1,
+	CircleTypeUnits = 2,
+	CircleTypeTotalTime = 3,
+	CircleTypeYouAre = 4
+};
+
+@interface AWYouAreView ()
+
+@property (nonatomic, strong) UIImageView *homeImageView;
+@property (nonatomic, strong) CoreTextArcView *youAreCircleTextArcView;
+@property (nonatomic, strong) CoreTextArcView *oldCircleTextArcView;
+
+@end
+
 @implementation AWYouAreView
 
-- (id)initWithFrame:(CGRect)frame andData:(AWDataModel*)data
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [UIColor colorWithRed:242.0f/255 green:147.0f/255 blue:30.0f/255 alpha:1.0f];
-        self.dataModel = data;
-		
+- (id)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
+	
+	if (self) {
 		[self setUpCircles];
-        [self drawText];
-        [self drawImages];
-        [self drawSpinners];
-        [self drawButtons];
+        //[self drawSpinners];
+		
+		// home image view
+		[self addSubview:self.homeImageView];
+	}
+	
+	return self;
+}
+
+- (id)initWithFrame:(CGRect)frame andData:(AWDataModel*)data {
+    self = [self initWithFrame:frame];
+	
+    if (self) {
+        self.dataModel = data;
     }
+	
     return self;
 }
 
@@ -37,44 +73,56 @@
 - (void)setUpCircles {
 	NSMutableArray *circleViews = [NSMutableArray array];
 	
-	CGFloat initialRadius = 2*(kScreenHeight - 68.0f)/(NUMBER_OF_CIRCLES + 1);
-	CGFloat radius = initialRadius;
-	CGFloat radiusAddition = initialRadius/2;
-	
 	for (NSUInteger i = 0; i < NUMBER_OF_CIRCLES; i++) {
 		UIView *circleView = [[UIView alloc] initWithFrame:CGRectZero];
 		
-		[circleView.layer setCornerRadius:radius];
-		
-		CGRect frame = circleView.frame;
-		frame.size.width = 2*radius;
-		frame.size.height = 2*radius;
-		[circleView setFrame:frame];
-		
-		radius += radiusAddition;
-		
 		UIColor *backgroundColor;
 		
-		backgroundColor = [UIColor blackColor];
-		
-		if (i == 0) {
+		if (i == CircleTypeHome) {
+			[circleView setClipsToBounds:YES];
+			
+			_homeButton = [[UIButton alloc] initWithFrame:CGRectZero];
+			[_homeButton addTarget:self action:@selector(homeButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
+			
+			[circleView addSubview:_homeButton];
+			
 			backgroundColor = [UIColor colorWithRed:128.0/255.0 green:21.0/255.0 blue:34.0/255.0 alpha:1.0];
 		}
 		
-		else if (i == 1) {
+		else if (i == CircleTypeOld) {
+			[circleView setClipsToBounds:YES];
+			
+			_oldCircleTextArcView = [[CoreTextArcView alloc] init];
+			[_oldCircleTextArcView setText:@"Old"];
+			[_oldCircleTextArcView setFont:[self circleFont]];
+			[_oldCircleTextArcView setColor:[UIColor whiteColor]];
+			[_oldCircleTextArcView setBackgroundColor:[UIColor clearColor]];
+			
+			[circleView addSubview:_oldCircleTextArcView];
+			
 			backgroundColor = [UIColor colorWithRed:189.0/255.0 green:32.0/255.0 blue:37.0/255.0 alpha:1.0];
 		}
 		
-		else if (i == 2) {
+		else if (i == CircleTypeUnits) {
 			backgroundColor = [UIColor colorWithRed:226.0/255.0 green:31.0/255.0 blue:39.0/255.0 alpha:1.0];
 		}
 		
-		else if (i == 3) {
+		else if (i == CircleTypeTotalTime) {
 			backgroundColor = [UIColor colorWithRed:239.0/255.0 green:59.0/255.0 blue:35.0/255.0 alpha:1.0];
 		}
 		
-		else if (i == 4) {
-			backgroundColor = [UIColor colorWithRed:229.0/255.0 green:94.0/255.0 blue:36.0/255.0 alpha:1.0];
+		else if (i == CircleTypeYouAre) {
+			[circleView setClipsToBounds:YES];
+			
+			_youAreCircleTextArcView = [[CoreTextArcView alloc] initWithFrame:CGRectZero];
+			[_youAreCircleTextArcView setText:@"You are:"];
+			[_youAreCircleTextArcView setFont:[self circleFont]];
+			[_youAreCircleTextArcView setColor:[UIColor blackColor]];
+			[_youAreCircleTextArcView setBackgroundColor:[UIColor clearColor]];
+			
+			[circleView addSubview:_youAreCircleTextArcView];
+			
+			backgroundColor = [UIColor whiteColor];
 		}
 		
 		[circleView setBackgroundColor:backgroundColor];
@@ -91,17 +139,19 @@
 	_circleViews = [circleViews copy];
 }
 
+- (void)homeButtonTouched:(id)sender {
+	NSLog(@"home button touched");
+}
+
+- (UIFont *)circleFont {
+	UIFont *circleFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:48.0f];
+	
+	return circleFont;
+}
+
 - (void)drawText {
-    CoreTextArcView *youAreText = [[CoreTextArcView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.size.height-480.0f, self.frame.size.width, 120.0f)];
-    youAreText.backgroundColor = [UIColor clearColor];
-    youAreText.text = @"You are:";
-    youAreText.color = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.75f];
-    youAreText.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:48.0f];
-    youAreText.radius = 390.0f;
-    youAreText.arcSize = 23.0f;
-    youAreText.shiftV = -205.0f;
-    [self addSubview:youAreText];
-    
+	
+	
     self.valueText = [[CoreTextArcView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.size.height-390.0f+10.0f, self.frame.size.width, 120.0f)];
     self.valueText.backgroundColor = [UIColor clearColor];
     self.valueText.text = [[self.dataModel youAreUnit:@"Seconds"] stringValue];
@@ -133,13 +183,6 @@
     [self addSubview:milestonesText];
 }
 
-- (void)drawImages
-{
-    UIImageView *homeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Home"]];
-    homeImageView.frame = CGRectMake((self.frame.size.width-30.0f)/2, self.frame.size.height-35.0f, 30.0f, 30.0f);
-    [self addSubview:homeImageView];
-}
-
 - (void)drawSpinners {
     self.incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectMake(0.0f, self.frame.size.height-300.0f+10.0f, self.frame.size.width, 120.0f)];
     self.incrementSpinner.spinnerDelegate = self;
@@ -152,16 +195,6 @@
     [self.incrementSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
     [self.incrementSpinner setFontName:@"HelveticaNeue-Bold"];
     [self addSubview:self.incrementSpinner];
-}
-
-- (void)drawButtons {
-    self.milestonesButton = [[UIButton alloc] initWithFrame:CGRectMake((self.frame.size.width-270.0f)/2, self.frame.size.height-135.0f, 270.0f, 270.0f)];
-    self.milestonesButton.layer.cornerRadius = 135.0f;
-    [self addSubview:self.milestonesButton];
-    
-    self.homeButton = [[UIButton alloc] initWithFrame:CGRectMake((self.frame.size.width-120.0f)/2, self.frame.size.height-60.0f, 120.0f, 120.0f)];
-    self.homeButton.layer.cornerRadius = 60.0f;
-    [self addSubview:self.homeButton];
 }
 
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value
@@ -183,12 +216,85 @@
     return contents;
 }
 
+#pragma mark - Home image view
+
+- (UIImageView *)homeImageView {
+	if (!_homeImageView) {
+		_homeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home"]];
+	}
+	
+	return _homeImageView;
+}
+
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	
+	// circles
+	CGFloat initialRadius = (kScreenWidth - 2*HOME_BUTTON_HORIZONTAL_MARGIN)/2;
+	CGFloat availableHeight = kScreenHeight - (initialRadius + self.awhileBar.bounds.size.height + self.awhileBarPaddingView.bounds.size.height);
+	CGFloat radiusDelta = floorf(availableHeight/(NUMBER_OF_CIRCLES - 1));
+	CGFloat radius = initialRadius;
+	CGFloat previousRadius = radius;
+	
+	NSUInteger index = 0;
+	
 	for (UIView *circleView in self.circleViews) {
+		CGRect frame = circleView.frame;
+		
+		CGFloat diameter = 2*radius;
+		
+		frame.size.width = diameter;
+		frame.size.height = diameter;
+		
+		[circleView.layer setCornerRadius:radius];
+		[circleView setFrame:frame];
+		
 		[circleView setCenter:CGPointMake(kScreenWidth/2, kScreenHeight)];
+		
+		if (index == CircleTypeHome) {
+			[_homeButton setFrame:circleView.bounds];
+		}
+		
+		else if (index == CircleTypeOld) {
+			CGFloat bottomRadiusPadding = previousRadius - floorf((previousRadius*sinf(acosf((kScreenWidth/2)/previousRadius))));
+			CGFloat oldCirleTextArcViewHeight = radiusDelta;
+			
+			if (!isnan(bottomRadiusPadding)) {
+				oldCirleTextArcViewHeight += bottomRadiusPadding;
+			}
+			
+			[_oldCircleTextArcView setFrame:CGRectMake(0, 0, circleView.bounds.size.width, oldCirleTextArcViewHeight)];
+			[_oldCircleTextArcView setRadius:radius];
+			[_oldCircleTextArcView setArcSize:20];
+			[_oldCircleTextArcView setShiftV:-(radius/2 + OLD_CIRCLE_TEXT_ARC_VIEW_LOWER_PADDING)];
+		}
+		
+		else if (index == CircleTypeYouAre) {
+			CGFloat bottomRadiusPadding = previousRadius - floorf((previousRadius*sinf(acosf((kScreenWidth/2)/previousRadius))));
+			CGFloat circleTextArcViewHeight = radiusDelta;
+			
+			if (!isnan(bottomRadiusPadding)) {
+				circleTextArcViewHeight += bottomRadiusPadding;
+			}
+			
+			[_youAreCircleTextArcView setFrame:CGRectMake(0, 0, circleView.bounds.size.width, circleTextArcViewHeight)];
+			
+			[_youAreCircleTextArcView setRadius:radius];
+			[_youAreCircleTextArcView setArcSize:20];
+			[_youAreCircleTextArcView setShiftV:-(radius/2 + YOU_ARE_CIRCLE_TEXT_ARC_VIEW_LOWER_PADDING)];
+		}
+		
+		previousRadius = radius;
+		radius += radiusDelta;
+		
+		index++;
 	}
+	
+	// home image view
+	CGRect homeImageViewFrame = self.homeImageView.frame;
+	homeImageViewFrame.origin.x = (kScreenWidth - homeImageViewFrame.size.width)/2;
+	homeImageViewFrame.origin.y = kScreenHeight - (HOME_IMAGE_VIEW_VERTICAL_MARGIN + homeImageViewFrame.size.height);
+	[self.homeImageView setFrame:homeImageViewFrame];
 }
 
 @end

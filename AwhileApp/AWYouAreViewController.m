@@ -12,59 +12,51 @@
 
 #import "TCAwhileView.h"
 
+// screen dimensions
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+
 @interface AWYouAreViewController ()
-@property (nonatomic, strong) AWYouAreView *mainView;
+
+@property (nonatomic, strong) AWYouAreView *youAreView;
+
 @end
 
 @implementation AWYouAreViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	
 	[self setUpStatusBar];
 	
-	CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-	CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-	
-    self.mainView = [[AWYouAreView alloc] initWithFrame:self.view.frame andData:self.dataModel];
-    [self.mainView.milestonesButton addTarget:self action:sel_registerName("milestonesButtonPressed") forControlEvents:UIControlEventTouchUpInside];
-    [self.mainView.homeButton addTarget:self action:sel_registerName("homeButtonPressed") forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.mainView];
-	
-	TCAwhileView *awhileView = [[TCAwhileView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
-	[self.view addSubview:awhileView];
+    [self.view addSubview:self.youAreView];
 }
 
 - (void)setUpStatusBar {
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
-- (void)milestonesButtonPressed
-{
+- (void)milestonesButtonPressed {
     [self.navigationController pushViewController:[[AWMilestonesViewController alloc] init] animated:YES];
 }
 
-- (void)homeButtonPressed
-{
+- (void)homeButtonPressed {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
+#pragma mark - You are view
+
+- (AWYouAreView *)youAreView {
+	if (!_youAreView) {
+		_youAreView = [[AWYouAreView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+	}
+	
+	return _youAreView;
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
