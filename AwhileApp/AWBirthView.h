@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ZASpinnerView.h"
+#import "TCAwhileView.h"
 
-@interface AWBirthView : UIView
+@interface AWBirthView : TCAwhileView
 
 @property (nonatomic, strong) UIButton *nextButton;
 

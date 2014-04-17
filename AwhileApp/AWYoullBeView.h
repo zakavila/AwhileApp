@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ZASpinnerView.h"
 #import "AWDataModel.h"
+#import "TCAwhileView.h"
 
-@interface AWYoullBeView : UIView
+@interface AWYoullBeView : TCAwhileView
 
 @property (nonatomic, strong) ZASpinnerView *valueSpinner;
 @property (nonatomic, strong) ZASpinnerView *incrementSpinner;

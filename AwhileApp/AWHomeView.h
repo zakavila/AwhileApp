@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TCAwhileView.h"
 
-@interface AWHomeView : UIView
+@interface AWHomeView : TCAwhileView
 
 @property (nonatomic, strong) UIButton *homeButton;
 @property (nonatomic, strong) UIButton *milestonesButton;
