@@ -12,8 +12,7 @@
 
 @implementation ZASpinnerTableView
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.radius = 0;
@@ -22,14 +21,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    [self repositionCells];
-}
-
-- (void)repositionCells
-{
+- (void)repositionCells {
     for (NSIndexPath *currIndexPath in [self indexPathsForVisibleRows]) {
         UITableViewCell *currCell = [self cellForRowAtIndexPath:currIndexPath];
         CGRect rawCurrRect = [self rectForRowAtIndexPath:currIndexPath];
@@ -48,20 +40,17 @@
     }
 }
 
-- (void)styleUnfocusedCell:(ZASpinnerTableViewCell*)cell
-{
+- (void)styleUnfocusedCell:(ZASpinnerTableViewCell*)cell {
     cell.circularTextLabel.textColor = [self parent].unfocusedFontColor;
     cell.circularTextLabel.font = [UIFont fontWithName:[self parent].fontName size:[self parent].unfocusedFontSize];
 }
 
-- (void)styleFocusedCell:(ZASpinnerTableViewCell*)cell
-{
+- (void)styleFocusedCell:(ZASpinnerTableViewCell*)cell {
     cell.circularTextLabel.textColor = [self parent].focusedFontColor;
     cell.circularTextLabel.font = [UIFont fontWithName:[self parent].fontName size:[self parent].focusedFontSize];
 }
 
-- (CGFloat)arcHeightFromX:(CGFloat)x
-{
+- (CGFloat)arcHeightFromX:(CGFloat)x {
     CGFloat x0 = 0.0f;
     CGFloat y0 = 0.0f;
     CGFloat rSquared = 0.0f;
@@ -81,9 +70,13 @@
     return arcHeight;
 }
 
-- (ZASpinnerView*)parent
-{
+- (ZASpinnerView*)parent {
     return (ZASpinnerView*)self.delegate;;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self repositionCells];
 }
 
 @end

@@ -7,14 +7,10 @@
 //
 
 #import "ZASpinnerView.h"
-#import "ZASpinnerTableView.h"
-#import "ZASpinnerTableViewCell.h"
 
 #define SpinnerTableViewCellIdentifier @"Spinner Table View Cell Identifier"
 
 @interface ZASpinnerView ()
-
-@property (nonatomic, strong) ZASpinnerTableView *tableView;
 
 //For infinite
 @property (nonatomic, strong) NSMutableArray *infiniteArrays;
@@ -49,7 +45,6 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.radius = self.radius;
     self.tableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
-    self.tableView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 	
@@ -307,6 +302,12 @@
         [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
     }
     return _infiniteArrays;
+}
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+	
+	[self.tableView setFrame:self.bounds];
 }
 
 @end

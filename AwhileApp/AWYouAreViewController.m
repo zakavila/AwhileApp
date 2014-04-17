@@ -16,7 +16,7 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
-@interface AWYouAreViewController ()
+@interface AWYouAreViewController () <AWYouAreViewDelegate>
 
 @property (nonatomic, strong) AWYouAreView *youAreView;
 
@@ -49,9 +49,20 @@
 - (AWYouAreView *)youAreView {
 	if (!_youAreView) {
 		_youAreView = [[AWYouAreView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+		[_youAreView setDelegate:self];
 	}
 	
 	return _youAreView;
+}
+
+#pragma mark - You are view delegate
+
+- (void)youAreView:(AWYouAreView *)youAreView spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value {
+	 NSString *totalAgeString = [[self.dataModel youAreUnit:value] stringValue];
+	
+	self.youAreView.valueText.text = totalAgeString;
+	
+	[self.youAreView setNeedsLayout];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -16,6 +16,9 @@
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateStyle:NSDateFormatterShortStyle];
     self.birthTime = [dateFormat dateFromString:@"12/27/2013"];
+	
+	[self setBirthTime:[dateFormat dateFromString:@"02/17/1992"]];
+	
     return self;
 }
 
@@ -27,8 +30,7 @@
     //NSLog([dateFormat stringFromDate:self.birthTime]);
 }
 
-- (NSNumber*)youAreUnit:(NSString*)unit
-{
+- (NSNumber*)youAreUnit:(NSString*)unit {
     int difference = [self.birthTime timeIntervalSinceNow];
     if ([unit isEqualToString:@"Seconds"]) {
         return [NSNumber numberWithInt:abs(difference)];
@@ -46,13 +48,13 @@
         return [NSNumber numberWithInt:abs(difference/(60*60*24*7))];
     }
     else if ([unit isEqualToString:@"Months"]) {
-        return [NSNumber numberWithInt:abs(difference/(60*60*24*7*4))];
+        return [NSNumber numberWithInt:abs(difference/(60*60*24*30))];
     }
     else if ([unit isEqualToString:@"Years"]) {
-        return [NSNumber numberWithInt:abs(difference/(60*60*24*7*4*12))];
+        return [NSNumber numberWithInt:abs(difference/(60*60*24*365))];
     }
     else {
-        return [NSNumber numberWithInt:abs(difference/(60*60*24*7*4*12*10))];
+        return [NSNumber numberWithInt:abs(difference/(60*60*24*365*10))];
     }
 }
 

@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZASpinnerTableView.h"
+#import "ZASpinnerTableViewCell.h"
 
 @class ZASpinnerView;
 
 @protocol ZASpinnerViewDelegate <NSObject>
-
 
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
 
@@ -21,6 +22,7 @@
 
 @property id<ZASpinnerViewDelegate> spinnerDelegate;
 
+@property (nonatomic, strong) ZASpinnerTableView *tableView;
 @property (nonatomic, strong) NSArray *contents;
 @property (nonatomic) CGFloat radius;
 @property (nonatomic) CGFloat unfocusedFontSize;

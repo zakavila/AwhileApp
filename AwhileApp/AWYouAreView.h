@@ -12,12 +12,22 @@
 #import "ZASpinnerView.h"
 #import "AWDataModel.h"
 
+@class AWYouAreView;
+
+@protocol AWYouAreViewDelegate <NSObject>
+
+- (void)youAreView:(AWYouAreView *)youAreView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
+
+@end
+
 @interface AWYouAreView : TCAwhileView <ZASpinnerViewDelegate>
+
+@property id <AWYouAreViewDelegate> delegate;
 
 @property (nonatomic, strong) NSArray *circleViews;
 
 @property (nonatomic, strong) CoreTextArcView *valueText;
-@property (nonatomic, strong) ZASpinnerView *incrementSpinner;
+@property (nonatomic, strong) ZASpinnerView *incrementSpinnerView;
 
 @property (nonatomic, strong) UIButton *milestonesButton;
 @property (nonatomic, strong) UIButton *homeButton;
