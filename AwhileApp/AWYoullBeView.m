@@ -323,7 +323,18 @@
     }
     else if ([spinner.spinnerName isEqualToString:@"daySpinner"])
     {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*([value integerValue] - [self.day integerValue])))];
+        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*(-[value integerValue] + [self.day integerValue])))];
+        NSArray* visibleCells = spinner.tableView.visibleCells;
+        for (ZASpinnerTableViewCell *visCell in visibleCells)
+        {
+            BOOL isPointInsideView = [visCell pointInside:CGPointMake([UIScreen mainScreen].bounds.size.width/2, visCell.frame.origin.y) withEvent:nil];
+            if (isPointInsideView)
+            {
+                NSIndexPath* path = [spinner.tableView indexPathForCell:visCell];
+                NSIndexPath* newPath = [NSIndexPath indexPathForRow:path.row + [self.value integerValue] inSection:path.section];
+                [spinner.tableView scrollToRowAtIndexPath:newPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+            }
+        }
         self.day = @([value intValue]);
     }
     else if ([spinner.spinnerName isEqualToString:@"monthSpinner"])
@@ -336,6 +347,11 @@
         self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*365*([value integerValue] - [self.year integerValue])))];
         self.year = @([value intValue] + 2000);
     }
+    //NSLog([self.value stringValue]);
+    //NSLog(self.units);
+    //NSLog([self.day stringValue]);
+    //NSLog([self.month stringValue]);
+    //NSLog([self.year stringValue]);
 }
 
 @end

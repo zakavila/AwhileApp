@@ -7,14 +7,10 @@
 //
 
 #import "ZASpinnerView.h"
-#import "ZASpinnerTableView.h"
-#import "ZASpinnerTableViewCell.h"
 
 #define SpinnerTableViewCellIdentifier @"Spinner Table View Cell Identifier"
 
 @interface ZASpinnerView ()
-
-@property (nonatomic, strong) ZASpinnerTableView *tableView;
 
 //For infinite
 @property (nonatomic, strong) NSMutableArray *infiniteArrays;
@@ -142,6 +138,38 @@
     }
 }
 
+//For moving to a found point
+- (void)scrollToFoundPoint:(UIScrollView *)scrollView {
+    CGFloat newYOffset = [self getOffsetToCenter];
+    if (scrollView.contentOffset.y != newYOffset) {
+        [self.spinnerDelegate spinner:self didChangeTo:[self stringAtIndexPath:[self getClosestIndexPathToCenter]]];
+        [UIView animateWithDuration:.5f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, newYOffset);
+            [scrollView layoutSubviews];
+        }completion:nil];
+    }
+}
+
+- (CGFloat)getOffsetToCenter
+{
+    NSIndexPath *bestIndexPath = [self getIndexPathToCenter];
+    return self.tableView.contentOffset.y + [self getIndexPath:bestIndexPath distanceFromCenterOf:self.tableView];
+}
+
+- (NSIndexPath*)getIndexPathToCenter
+{
+    NSArray *visibleIndexPaths = [self.tableView indexPathsForVisibleRows];
+    NSIndexPath* bestIndexPath = nil;
+    CGFloat leastDistance = -1.0;
+    for (NSIndexPath *currIndexPath in visibleIndexPaths) {
+        CGFloat distanceFromCenter = fabsf([self getIndexPath:currIndexPath distanceFromCenterOf:self.tableView]);
+        if (leastDistance == -1.0 || leastDistance > distanceFromCenter) {
+            leastDistance = distanceFromCenter;
+            bestIndexPath = currIndexPath;
+        }
+    }
+    return bestIndexPath;
+}
 
 #pragma mark Helper functions
 
@@ -180,7 +208,7 @@
         return [self stringForInfiniteAtIndexPath:indexPath];
     NSString *cellString = @"";
     if ([[[self contents] objectAtIndex:indexPath.row] isKindOfClass:[NSString class]])
-        cellString = [[self contents] objectAtIndex:indexPath.row];
+        cellString = self.contents[indexPath.row];
     return cellString;
 }
 

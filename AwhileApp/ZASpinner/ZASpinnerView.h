@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZASpinnerTableView.h"
+#import "ZASpinnerTableViewCell.h"
 
 @class ZASpinnerView;
+
 
 @protocol ZASpinnerViewDelegate <NSObject>
 
@@ -33,9 +36,12 @@
 @property (nonatomic) NSInteger startIndex;
 @property BOOL isInfinite;
 @property (nonatomic, strong) NSString *spinnerName;
+@property (nonatomic, strong) ZASpinnerTableView *tableView;
 
 //Good parameters
 //R=260, V=400, W=320
 //R=150, V=120, W=200
+
+
 
 @end
