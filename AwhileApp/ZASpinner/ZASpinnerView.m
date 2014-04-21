@@ -7,6 +7,7 @@
 //
 
 #import "ZASpinnerView.h"
+#import "ZASpinnerTableViewCell.h"
 
 #define SpinnerTableViewCellIdentifier @"Spinner Table View Cell Identifier"
 
@@ -16,6 +17,8 @@
 @property (nonatomic, strong) NSMutableArray *infiniteArrays;
 @property (nonatomic) NSInteger currInfiniteArrayIndex;
 
+@property (nonatomic) BOOL hasLoaded;
+
 @end
 
 @implementation ZASpinnerView
@@ -24,6 +27,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.hasLoaded = NO;
+        
         self.radius = -1;
         self.extraSpacing = -1;
         self.focusedFontSize = -1;
@@ -53,13 +58,14 @@
     [self addSubview:self.tableView];
 }
 
-- (void)goToRow:(NSInteger)rowIndex
+- (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate
 {
-    if (![self isInfinite]) {
-        [self moveToIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
+    if (![self isInfinite] || !self.hasLoaded) {
+        [self moveToIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0] withAnimation:animate];
     }
     else {
-        
+        NSInteger adjustedRowIndex = 0;
+        [self moveToIndexPath:[NSIndexPath indexPathForRow:adjustedRowIndex inSection:0] withAnimation:animate];
     }
 }
 
@@ -106,6 +112,20 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (!self.hasLoaded && indexPath.row == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row) {
+        self.hasLoaded = YES;
+        [self.tableView reloadData];
+        if (!self.isInfinite || self.startIndex < 175)
+            [self goToRow:self.startIndex withAnimation:NO];
+        else {
+            NSInteger targetRowIndex = self.startIndex - [self offsetForInfiniteArrays];
+            [self goToRow:targetRowIndex withAnimation:NO];
+        }
+    }
+}
+
 
 #pragma mark ScrollView methods
 
@@ -145,10 +165,11 @@
 
 #pragma mark Helper functions
 
-- (void)moveToIndexPath:(NSIndexPath*)indexPath
+- (void)moveToIndexPath:(NSIndexPath*)indexPath withAnimation:(BOOL)animate
 {
     CGFloat newYOffset = self.tableView.contentOffset.y + [self getIndexPath:indexPath distanceFromCenterOf:self.tableView];
-    [UIView animateWithDuration:.5f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    CGFloat duration = animate ? 0.5f : 0.0f;
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, newYOffset);
         [self.tableView layoutSubviews];
     }completion:nil];
@@ -246,6 +267,41 @@
     return returnValue;
 }
 
+- (void)createInfiniteArraysForBeginning
+{
+    self.currInfiniteArrayIndex = 0;
+    _infiniteArrays = [[NSMutableArray alloc] init];
+    NSMutableArray *firstArray = [[NSMutableArray alloc] init];
+    NSMutableArray *secondArray = [[NSMutableArray alloc] init];
+    NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
+    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+        [firstArray addObject:[NSNumber numberWithInteger:currIndex]];
+        [secondArray addObject:[NSNumber numberWithInteger:currIndex+75]];
+    }
+    [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
+}
+
+- (NSInteger)offsetForInfiniteArrays
+{
+    return ceil((self.startIndex-175)/75.0f)*75;
+}
+
+- (void)createInfiniteArraysForStartIndex
+{
+    self.currInfiniteArrayIndex = 1;
+    _infiniteArrays = [[NSMutableArray alloc] init];
+    NSMutableArray *firstArray = [[NSMutableArray alloc] init];
+    NSMutableArray *secondArray = [[NSMutableArray alloc] init];
+    NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
+    NSInteger offset =  [self offsetForInfiniteArrays];//Need to create offset to account for section of arrays
+    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+        [firstArray addObject:[NSNumber numberWithInteger:currIndex-75+offset]];
+        [secondArray addObject:[NSNumber numberWithInteger:currIndex+offset]];
+        [thirdArray addObject:[NSNumber numberWithInteger:currIndex+175+offset]];
+    }
+    [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
+}
+
 
 #pragma mark Getters/setters
 
@@ -301,26 +357,25 @@
     return _fontName;
 }
 
+- (void)setStartIndex:(NSInteger)startIndex
+{
+    _infiniteArrays = nil;
+    _startIndex = startIndex;
+}
+
 - (NSMutableArray *)infiniteArrays
 {
     if (!_infiniteArrays) {
-        self.currInfiniteArrayIndex = 0;
-        _infiniteArrays = [[NSMutableArray alloc] init];
-        NSMutableArray *firstArray = [[NSMutableArray alloc] init];
-        NSMutableArray *secondArray = [[NSMutableArray alloc] init];
-        NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
-        for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
-            [firstArray addObject:[NSNumber numberWithInteger:currIndex]];
-            [secondArray addObject:[NSNumber numberWithInteger:currIndex+75]];
-        }
-        [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
+        if (self.startIndex < 175)
+            [self createInfiniteArraysForBeginning];
+        else
+            [self createInfiniteArraysForStartIndex];
     }
     return _infiniteArrays;
 }
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
-	
 	[self.tableView setFrame:self.bounds];
 }
 

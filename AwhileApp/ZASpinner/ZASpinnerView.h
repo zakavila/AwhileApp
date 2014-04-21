@@ -32,9 +32,10 @@
 @property (nonatomic) CGFloat extraSpacing;
 @property (nonatomic) CGFloat verticalShift;
 @property (nonatomic, strong) NSString *fontName;
+@property (nonatomic) NSInteger startIndex;
 @property BOOL isInfinite;
 
-- (void)goToRow:(NSInteger)rowIndex;
+- (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate;
 
 //Good parameters
 //R=260, V=400, W=320

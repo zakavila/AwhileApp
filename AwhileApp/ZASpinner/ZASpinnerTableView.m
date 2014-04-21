@@ -28,13 +28,13 @@
         CGRect currRect = CGRectOffset(rawCurrRect, -self.contentOffset.x, -self.contentOffset.y);
         CGFloat x = currRect.origin.y+currRect.size.height/2;
         CGFloat arcHeight = [self arcHeightFromX:x];
-        currCell.frame = CGRectMake(arcHeight, currCell.frame.origin.y, currCell.bounds.size.width, currCell.bounds.size.height);
+        currCell.frame = CGRectMake(arcHeight-50, currCell.frame.origin.y, currCell.bounds.size.width, currCell.bounds.size.height);
         CGFloat halfwayThroughTable = self.frame.size.width/2;
         currCell.circularArcText.radius = self.radius;
         currCell.circularArcText.arcSize = 4*currCell.circularArcText.text.length;
         currCell.circularArcText.shiftV = -0.534f*self.radius-0.8573f;
         CGFloat rotateAngle = [self angleFromX:x];
-        CGFloat l = (self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
+        CGFloat l = self.frame.size.width/2;//(self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
         if (x < l)
             rotateAngle *= -1;
         currCell.circularArcText.transform = CGAffineTransformMakeRotation(rotateAngle+M_PI_2);
@@ -50,17 +50,19 @@
 - (void)styleUnfocusedCell:(ZASpinnerTableViewCell*)cell {
     cell.circularArcText.color = [self parent].unfocusedFontColor;
     cell.circularArcText.font = [UIFont fontWithName:[self parent].fontName size:[self parent].unfocusedFontSize];
+    [cell.circularArcText setNeedsDisplay];
 }
 
 - (void)styleFocusedCell:(ZASpinnerTableViewCell*)cell {
     cell.circularArcText.color = [self parent].focusedFontColor;
     cell.circularArcText.font = [UIFont fontWithName:[self parent].fontName size:[self parent].focusedFontSize];
+    [cell.circularArcText setNeedsDisplay];
 }
 
 - (CGFloat)arcHeightFromX:(CGFloat)x {
     //http://liutaiomottola.com/formulae/sag.htm
     CGFloat r = self.radius;
-    CGFloat l = (self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
+    CGFloat l = self.frame.size.width/2;//(self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
     CGFloat dist_x = fabsf(x-l);
     CGFloat height = -sqrtf(powf(r,2)-powf(l,2))+sqrtf(powf(r,2)-powf(dist_x,2));
     if (isnan(height))

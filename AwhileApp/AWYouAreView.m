@@ -265,7 +265,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 			
 			[_incrementSpinnerView setFrame:CGRectMake(320.0f/2, 0.0, self.frame.size.width, incrementSpinnerViewHeight)];
 			
-			[_incrementSpinnerView setRadius:radius];
+			[_incrementSpinnerView setRadius:previousRadius];
 			[_incrementSpinnerView setVerticalShift:2*radius - 60];
 		}
 		
