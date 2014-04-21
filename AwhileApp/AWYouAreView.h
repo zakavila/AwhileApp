@@ -16,6 +16,7 @@
 
 @protocol AWYouAreViewDelegate <NSObject>
 
+- (void)youAreView:(AWYouAreView *)youAreView homeButtonTouched:(UIButton *)homeButton;
 - (void)youAreView:(AWYouAreView *)youAreView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
 
 @end
@@ -29,7 +30,6 @@
 @property (nonatomic, strong) CoreTextArcView *valueText;
 @property (nonatomic, strong) ZASpinnerView *incrementSpinnerView;
 
-@property (nonatomic, strong) UIButton *milestonesButton;
 @property (nonatomic, strong) UIButton *homeButton;
 
 @property (nonatomic, strong) AWDataModel* dataModel;

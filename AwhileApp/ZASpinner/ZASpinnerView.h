@@ -25,13 +25,12 @@
 @property (nonatomic, strong) ZASpinnerTableView *tableView;
 @property (nonatomic, strong) NSArray *contents;
 @property (nonatomic) CGFloat radius;
-@property (nonatomic) CGFloat unfocusedFontSize;
-@property (nonatomic) CGFloat focusedFontSize;
+@property (nonatomic, strong) UIFont *unfocusedFont;
+@property (nonatomic, strong) UIFont *focusedFont;
 @property (nonatomic) UIColor *unfocusedFontColor;
 @property (nonatomic) UIColor *focusedFontColor;
 @property (nonatomic) CGFloat extraSpacing;
 @property (nonatomic) CGFloat verticalShift;
-@property (nonatomic, strong) NSString *fontName;
 @property (nonatomic) NSInteger startIndex;
 @property BOOL isInfinite;
 

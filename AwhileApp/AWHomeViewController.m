@@ -10,26 +10,34 @@
 #import "AWHomeView.h"
 #import "AWYouAreViewController.h"
 #import "AWYoullBeViewController.h"
-#import "AWMilestonesViewController.h"
 #import "AWDataModel.h"
 
-@interface AWHomeViewController ()
+@interface AWHomeViewController () <AWHomeViewDelegate>
 
-@property (nonatomic, strong) AWHomeView *mainView;
+@property (nonatomic, strong) AWHomeView *homeView;
 @property (nonatomic, strong) AWDataModel* dataModel;
+
 @end
 
 @implementation AWHomeViewController
 
+- (id)init {
+    self = [super init];
+	
+    if (self) {
+		self.dataModel = [[AWDataModel alloc] init];
+		[self.dataModel check];
+		
+		[self.view addSubview:self.homeView];
+    }
+	
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.dataModel = [[AWDataModel alloc] init];
-    [self.dataModel check];
-    self.mainView = [[AWHomeView alloc] initWithFrame:self.view.frame];
-    [self.mainView.yourAgeButton addTarget:self action:sel_registerName("yourAgeButtonPressed") forControlEvents:UIControlEventTouchUpInside];
-    [self.mainView.calculatorButton addTarget:self action:sel_registerName("calculatorButtonPressed") forControlEvents:UIControlEventTouchUpInside];
 	
-    [self.view addSubview:self.mainView];
+    [self.view addSubview:self.homeView];
 }
 
 - (void)yourAgeButtonPressed {
@@ -44,21 +52,31 @@
     [self.navigationController pushViewController:youllBe animated:YES];
 }
 
-- (void)milestonesButtonPressed {
-    [self.navigationController pushViewController:[[AWMilestonesViewController alloc] init] animated:YES];
-}
+#pragma mark - Home view
 
-#pragma mark - Main view
-
-- (AWHomeView *)mainView {
-	if (!_mainView) {
-		_mainView = [[AWHomeView alloc] initWithFrame:self.view.frame];
-		[_mainView.yourAgeButton addTarget:self action:sel_registerName("yourAgeButtonPressed") forControlEvents:UIControlEventTouchUpInside];
-		[_mainView.calculatorButton addTarget:self action:sel_registerName("calculatorButtonPressed") forControlEvents:UIControlEventTouchUpInside];
-		[_mainView.milestonesButton addTarget:self action:sel_registerName("milestonesButtonPressed") forControlEvents:UIControlEventTouchUpInside];
+- (AWHomeView *)homeView {
+	if (!_homeView) {
+		_homeView = [[AWHomeView alloc] initWithFrame:self.view.frame];
+		[_homeView setDelegate:self];
 	}
 	
-	return _mainView;
+	return _homeView;
+}
+
+#pragma mark - Home view delegate
+
+- (void)awHomeView:(AWHomeView *)awHomeView calculatorButtonTouched:(UIButton *)calculatorButtonTouched {
+	AWYoullBeViewController *youllBeViewController = [[AWYoullBeViewController alloc] init];
+	[youllBeViewController setDataModel:self.dataModel];
+	
+	[self presentViewController:youllBeViewController animated:YES completion:nil];
+}
+
+- (void)awHomeView:(AWHomeView *)awHomeView yourAgeButtonTouched:(UIButton *)yourAgeButtonTouched {
+	AWYouAreViewController *youAreViewController = [[AWYouAreViewController alloc] init];
+	[youAreViewController setDataModel:self.dataModel];
+	
+	[self presentViewController:youAreViewController animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

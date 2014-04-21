@@ -9,10 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "TCAwhileView.h"
 
+@class AWHomeView;
+
+@protocol AWHomeViewDelegate <NSObject>
+
+- (void)awHomeView:(AWHomeView *)awHomeView calculatorButtonTouched:(UIButton *)calculatorButtonTouched;
+- (void)awHomeView:(AWHomeView *)awHomeView yourAgeButtonTouched:(UIButton *)yourAgeButtonTouched;
+
+@end
+
 @interface AWHomeView : TCAwhileView
 
-@property (nonatomic, strong) UIButton *homeButton;
-@property (nonatomic, strong) UIButton *milestonesButton;
+@property (weak) id <AWHomeViewDelegate> delegate;
+@property (nonatomic, strong) NSArray *circleViews;
 @property (nonatomic, strong) UIButton *calculatorButton;
 @property (nonatomic, strong) UIButton *yourAgeButton;
 

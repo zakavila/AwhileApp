@@ -8,48 +8,41 @@
 
 #import "AWYoullBeViewController.h"
 #import "AWYoullBeView.h"
-#import "AWMilestonesViewController.h"
 
-@interface AWYoullBeViewController ()
-@property (nonatomic, strong) AWYoullBeView *mainView;
+@interface AWYoullBeViewController () <AWYoullBeViewDelegate>
+
+@property (nonatomic, strong) AWYoullBeView *youllBeView;
+
 @end
 
 @implementation AWYoullBeViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    self.mainView = [[AWYoullBeView alloc] initWithFrame:self.view.frame andData:self.dataModel];
-    [self.mainView.milestonesButton addTarget:self action:sel_registerName("milestonesButtonPressed") forControlEvents:UIControlEventTouchUpInside];
-    [self.mainView.homeButton addTarget:self action:sel_registerName("homeButtonPressed") forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.mainView];
+
+    [self.view addSubview:self.youllBeView];
 }
 
-- (void)milestonesButtonPressed
-{
-    [self.navigationController pushViewController:[[AWMilestonesViewController alloc] init] animated:YES];
+#pragma mark - Youll be view
+
+- (AWYoullBeView *)youllBeView {
+	if (!_youllBeView) {
+		_youllBeView = [[AWYoullBeView alloc] initWithFrame:self.view.frame andData:self.dataModel];
+		[_youllBeView setDelegate:self];
+	}
+	
+	return _youllBeView;
 }
 
-- (void)homeButtonPressed
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+#pragma mark - Youll be view delegate
+
+- (void)awYoullBeView:(AWYoullBeView *)awYoullBeView homeButtonTouched:(UIButton *)homeButton {
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -10,14 +10,19 @@
 #import "ZASpinnerTableViewCell.h"
 #import "ZASpinnerView.h"
 
+#define CIRCULAR_CORE_TEXT_ARC_VIEW_VERTICAL_PADDING 14.0f
+
+static inline double radians (double degrees) { return degrees * M_PI/180; }
+
 @implementation ZASpinnerTableView
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
+	
     if (self) {
         self.radius = 0;
-        
     }
+	
     return self;
 }
 
@@ -41,6 +46,7 @@
         if (roundf(x) == halfwayThroughTable) {
             [self styleFocusedCell:currCell];
         }
+		
         else {
             [self styleUnfocusedCell:currCell];
         }
@@ -49,13 +55,13 @@
 
 - (void)styleUnfocusedCell:(ZASpinnerTableViewCell*)cell {
     cell.circularArcText.color = [self parent].unfocusedFontColor;
-    cell.circularArcText.font = [UIFont fontWithName:[self parent].fontName size:[self parent].unfocusedFontSize];
+    cell.circularArcText.font = [[self parent] unfocusedFont];//[UIFont fontWithName:[self parent].fontName size:[self parent].unfocusedFontSize];
     [cell.circularArcText setNeedsDisplay];
 }
 
 - (void)styleFocusedCell:(ZASpinnerTableViewCell*)cell {
     cell.circularArcText.color = [self parent].focusedFontColor;
-    cell.circularArcText.font = [UIFont fontWithName:[self parent].fontName size:[self parent].focusedFontSize];
+    cell.circularArcText.font = [[self parent] focusedFont];//[UIFont fontWithName:[self parent].fontName size:[self parent].focusedFontSize];
     [cell.circularArcText setNeedsDisplay];
 }
 

@@ -92,7 +92,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 			
 			[circleView addSubview:_homeButton];
 			
-			backgroundColor = [UIColor colorWithRed:128.0/255.0 green:21.0/255.0 blue:34.0/255.0 alpha:1.0];
+			backgroundColor = [UIColor colorWithRed:13.0/255.0 green:85.0/255.0 blue:39.0/255.0 alpha:1.0];
 		}
 		
 		else if (i == CircleTypeOld) {
@@ -106,13 +106,13 @@ typedef NS_ENUM(NSInteger, CircleType) {
 			
 			[circleView addSubview:_oldCircleTextArcView];
 			
-			backgroundColor = [UIColor colorWithRed:189.0/255.0 green:32.0/255.0 blue:37.0/255.0 alpha:1.0];
+			backgroundColor = [UIColor colorWithRed:49.0/255.0 green:157.0/255.0 blue:40.0/255.0 alpha:1.0];
 		}
 		
 		else if (i == CircleTypeUnits) {
 			[circleView addSubview:self.incrementSpinnerView];
 			
-			backgroundColor = [UIColor colorWithRed:226.0/255.0 green:31.0/255.0 blue:39.0/255.0 alpha:1.0];
+			backgroundColor = [UIColor colorWithRed:134.0/255.0 green:184.0/255.0 blue:25.0/255.0 alpha:1.0];
 		}
 		
 		else if (i == CircleTypeTotalTime) {
@@ -126,7 +126,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 			
 			[circleView addSubview:_valueText];
 			
-			backgroundColor = [UIColor colorWithRed:239.0/255.0 green:59.0/255.0 blue:35.0/255.0 alpha:1.0];
+			backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:10.0/255.0 alpha:1.0];
 		}
 		
 		else if (i == CircleTypeYouAre) {
@@ -135,7 +135,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 			_youAreCircleTextArcView = [[CoreTextArcView alloc] initWithFrame:CGRectZero];
 			[_youAreCircleTextArcView setText:@"You are:"];
 			[_youAreCircleTextArcView setFont:[self circleFont]];
-			[_youAreCircleTextArcView setColor:[UIColor blackColor]];
+			[_youAreCircleTextArcView setColor:[UIColor colorWithRed:45.0/255.0 green:156.0/255.0 blue:35.0/255.0 alpha:1.0]];
 			[_youAreCircleTextArcView setBackgroundColor:[UIColor clearColor]];
 			
 			[circleView addSubview:_youAreCircleTextArcView];
@@ -159,6 +159,12 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 - (void)homeButtonTouched:(id)sender {
 	NSLog(@"home button touched");
+	
+	UIButton *homeButton = (UIButton *)sender;
+	
+	if ([self.delegate respondsToSelector:@selector(youAreView:homeButtonTouched:)]) {
+		[self.delegate youAreView:self homeButtonTouched:homeButton];
+	}
 }
 
 - (UIFont *)circleFont {
@@ -166,6 +172,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 	
 	return circleFont;
 }
+
 
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {
 	if ([self.delegate respondsToSelector:@selector(youAreView:spinner:didChangeTo:)]) {
@@ -193,8 +200,8 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_incrementSpinnerView = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_incrementSpinnerView.spinnerDelegate = self;
 		[_incrementSpinnerView setContents:[self incrementSpinnerContents]];
-		[_incrementSpinnerView setFocusedFontSize:INCREMENT_SPINNER_VIEW_FONT_SIZE];
-		[_incrementSpinnerView setUnfocusedFontSize:INCREMENT_SPINNER_VIEW_FONT_SIZE];
+		[_incrementSpinnerView setUnfocusedFont:[self circleFont]];
+		[_incrementSpinnerView setFocusedFont:[self circleFont]];
 		[_incrementSpinnerView setFocusedFontColor:[UIColor whiteColor]];
 		[_incrementSpinnerView setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
@@ -263,10 +270,9 @@ typedef NS_ENUM(NSInteger, CircleType) {
 				incrementSpinnerViewHeight += bottomRadiusPadding;
 			}
 			
-			[_incrementSpinnerView setFrame:CGRectMake(320.0f/2, 0.0, self.frame.size.width, incrementSpinnerViewHeight)];
-			
+			[_incrementSpinnerView setFrame:CGRectMake(self.bounds.size.width/2 - 2, 0.0, self.bounds.size.width, incrementSpinnerViewHeight)];
 			[_incrementSpinnerView setRadius:previousRadius];
-			[_incrementSpinnerView setVerticalShift:2*radius - 60];
+			[_incrementSpinnerView setVerticalShift:2*previousRadius - 80];
 		}
 		
 		else if (index == CircleTypeTotalTime) {

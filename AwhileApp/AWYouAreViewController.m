@@ -8,7 +8,6 @@
 
 #import "AWYouAreViewController.h"
 #import "AWYouAreView.h"
-#import "AWMilestonesViewController.h"
 
 #import "TCAwhileView.h"
 
@@ -36,14 +35,6 @@
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
-- (void)milestonesButtonPressed {
-    [self.navigationController pushViewController:[[AWMilestonesViewController alloc] init] animated:YES];
-}
-
-- (void)homeButtonPressed {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
 #pragma mark - You are view
 
 - (AWYouAreView *)youAreView {
@@ -56,6 +47,10 @@
 }
 
 #pragma mark - You are view delegate
+
+- (void)youAreView:(AWYouAreView *)youAreView homeButtonTouched:(UIButton *)homeButton {
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)youAreView:(AWYouAreView *)youAreView spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value {
 	 NSString *totalAgeString = [[self.dataModel youAreUnit:value] stringValue];

@@ -31,8 +31,6 @@
         
         self.radius = -1;
         self.extraSpacing = -1;
-        self.focusedFontSize = -1;
-        self.unfocusedFontSize = -1;
         self.verticalShift = -1;
         self.isInfinite = NO;
                 
@@ -69,6 +67,25 @@
     }
 }
 
+- (void)setUnfocusedFont:(UIFont *)unfocusedFont {
+	_unfocusedFont = unfocusedFont;
+	self.tableView.unfocusedFont = unfocusedFont;
+}
+
+- (void)setFocusedFont:(UIFont *)focusedFont {
+	_focusedFont = focusedFont;
+	self.tableView.focusedFont = focusedFont;
+}
+
+- (void)setUnfocusedFontColor:(UIColor *)unfocusedFontColor {
+	_unfocusedFontColor = unfocusedFontColor;
+	self.tableView.unfocusedFontColor = unfocusedFontColor;
+}
+
+- (void)setFocusedFontColor:(UIColor *)focusedFontColor {
+	_focusedFontColor = focusedFontColor;
+	self.tableView.focusedFontColor = focusedFontColor;
+}
 
 #pragma mark TableView methods
 
@@ -101,7 +118,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	CGRect dummyRect = CGRectIntegral([[self stringAtIndexPath:indexPath] boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.focusedFontSize]} context:nil]);
+	CGRect dummyRect = CGRectIntegral([[self stringAtIndexPath:indexPath] boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.focusedFont} context:nil]);
     return dummyRect.size.width + 10.0f + self.extraSpacing;
 }
 
@@ -160,6 +177,8 @@
             scrollView.contentOffset = CGPointMake(offset.x, scrollView.contentSize.height*0.5f);
         }
     }
+	
+	[self setNeedsLayout];
 }
 
 
@@ -329,20 +348,6 @@
         return _extraSpacing;
 }
 
-- (CGFloat)focusedFontSize
-{
-    if (_focusedFontSize == -1)
-        return 14.0f;
-    return _focusedFontSize;
-}
-
-- (CGFloat)unfocusedFontSize
-{
-    if (_unfocusedFontSize == -1)
-        return 12.0f;
-    return _unfocusedFontSize;
-}
-
 - (CGFloat)verticalShift
 {
     if (_verticalShift == -1)
@@ -350,12 +355,12 @@
     return _verticalShift;
 }
 
-- (NSString*)fontName
-{
-    if (_fontName == nil)
-        return @"HelveticaNeue";
-    return _fontName;
-}
+//- (NSString*)fontName
+//{
+//    if (_fontName == nil)
+//        return @"HelveticaNeue";
+//    return _fontName;
+//}
 
 - (void)setStartIndex:(NSInteger)startIndex
 {
