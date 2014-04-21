@@ -26,7 +26,7 @@
 #define OLD_CIRCLE_TEXT_ARC_VIEW_LOWER_PADDING 30.0f
 
 // increment spinner view font size
-#define INCREMENT_SPINNER_VIEW_FONT_SIZE 32.0f
+#define INCREMENT_SPINNER_VIEW_FONT_SIZE 44.0f
 
 // screen dimensions
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
@@ -183,7 +183,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
     [contents addObject:@"Months"];
     [contents addObject:@"Years"];
     [contents addObject:@"Decades"];
-	
     return contents;
 }
 

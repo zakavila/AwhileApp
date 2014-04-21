@@ -30,7 +30,7 @@
         self.unfocusedFontSize = -1;
         self.verticalShift = -1;
         self.isInfinite = NO;
-        
+                
         [self setUpTableView];
     }
     return self;
@@ -51,6 +51,16 @@
 	[self.tableView registerClass:[ZASpinnerTableViewCell class] forCellReuseIdentifier:SpinnerTableViewCellIdentifier];
 	
     [self addSubview:self.tableView];
+}
+
+- (void)goToRow:(NSInteger)rowIndex
+{
+    if (![self isInfinite]) {
+        [self moveToIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
+    }
+    else {
+        
+    }
 }
 
 
@@ -85,19 +95,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UILabel *dummyLabel = [[UILabel alloc] init];
-    dummyLabel.text = [self stringAtIndexPath:indexPath];
-	
-	CGRect dummyRect = CGRectIntegral([dummyLabel.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.focusedFontSize]} context:nil]);
-	
+	CGRect dummyRect = CGRectIntegral([[self stringAtIndexPath:indexPath] boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.focusedFontSize]} context:nil]);
     return dummyRect.size.width + 10.0f + self.extraSpacing;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZASpinnerTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:SpinnerTableViewCellIdentifier forIndexPath:indexPath];
-	
-    cell.circularTextLabel.text = [self stringAtIndexPath:indexPath];
+    cell.circularArcText.text = [self stringAtIndexPath:indexPath];
     return cell;
 }
 
@@ -139,6 +144,15 @@
 
 
 #pragma mark Helper functions
+
+- (void)moveToIndexPath:(NSIndexPath*)indexPath
+{
+    CGFloat newYOffset = self.tableView.contentOffset.y + [self getIndexPath:indexPath distanceFromCenterOf:self.tableView];
+    [UIView animateWithDuration:.5f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, newYOffset);
+        [self.tableView layoutSubviews];
+    }completion:nil];
+}
 
 - (CGFloat)getOffsetToCenterCells
 {
