@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ZASpinnerView.h"
+#import "TCAwhileView.h"
 
-@interface AWMilestoneView : UIView
+@interface AWMilestoneView : TCAwhileView
 
 @property (nonatomic, strong) ZASpinnerView *valueSpinner;
 @property (nonatomic, strong) ZASpinnerView *incrementSpinner;

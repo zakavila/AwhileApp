@@ -9,16 +9,27 @@
 #import <UIKit/UIKit.h>
 #import "ZASpinnerView.h"
 #import "AWDataModel.h"
+#import "TCAwhileView.h"
 
-@interface AWYoullBeView : UIView <ZASpinnerViewDelegate>
+@class AWYoullBeView;
 
-@property (nonatomic, strong) ZASpinnerView *valueSpinner;
+@protocol AWYoullBeViewDelegate <NSObject>
+
+- (void)awYoullBeView:(AWYoullBeView *)awYoullBeView homeButtonTouched:(UIButton *)homeButton;
+
+@end
+
+@interface AWYoullBeView : TCAwhileView
+
+@property (weak) id <AWYoullBeViewDelegate> delegate;
+
+@property (nonatomic, strong) NSArray *circleViews;
+@property (nonatomic, strong) ZASpinnerView *totalTimeSpinner;
 @property (nonatomic, strong) ZASpinnerView *incrementSpinner;
 @property (nonatomic, strong) ZASpinnerView *daySpinner;
 @property (nonatomic, strong) ZASpinnerView *monthSpinner;
 @property (nonatomic, strong) ZASpinnerView *yearSpinner;
 
-@property (nonatomic, strong) UIButton *milestonesButton;
 @property (nonatomic, strong) UIButton *homeButton;
 
 @property (nonatomic, strong) AWDataModel* dataModel;

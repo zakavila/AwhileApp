@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZASpinnerTableView.h"
+#import "ZASpinnerTableViewCell.h"
 
 @class ZASpinnerView;
 
 @protocol ZASpinnerViewDelegate <NSObject>
-
 
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
 
@@ -21,17 +22,20 @@
 
 @property id<ZASpinnerViewDelegate> spinnerDelegate;
 
+@property (nonatomic, strong) ZASpinnerTableView *tableView;
 @property (nonatomic, strong) NSArray *contents;
 @property (nonatomic) CGFloat radius;
-@property (nonatomic) CGFloat unfocusedFontSize;
-@property (nonatomic) CGFloat focusedFontSize;
+@property (nonatomic, strong) UIFont *unfocusedFont;
+@property (nonatomic, strong) UIFont *focusedFont;
 @property (nonatomic) UIColor *unfocusedFontColor;
 @property (nonatomic) UIColor *focusedFontColor;
 @property (nonatomic) CGFloat extraSpacing;
 @property (nonatomic) CGFloat verticalShift;
-@property (nonatomic, strong) NSString *fontName;
+@property (nonatomic) CGFloat arcMultiplier;
 @property (nonatomic) NSInteger startIndex;
 @property BOOL isInfinite;
+
+- (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate;
 
 //Good parameters
 //R=260, V=400, W=320

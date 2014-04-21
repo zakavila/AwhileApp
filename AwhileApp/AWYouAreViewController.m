@@ -8,48 +8,61 @@
 
 #import "AWYouAreViewController.h"
 #import "AWYouAreView.h"
-#import "AWMilestonesViewController.h"
 
-@interface AWYouAreViewController ()
-@property (nonatomic, strong) AWYouAreView *mainView;
+#import "TCAwhileView.h"
+
+// screen dimensions
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+
+@interface AWYouAreViewController () <AWYouAreViewDelegate>
+
+@property (nonatomic, strong) AWYouAreView *youAreView;
+
 @end
 
 @implementation AWYouAreViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    self.mainView = [[AWYouAreView alloc] initWithFrame:self.view.frame andData:self.dataModel];
-    [self.mainView.milestonesButton addTarget:self action:sel_registerName("milestonesButtonPressed") forControlEvents:UIControlEventTouchUpInside];
-    [self.mainView.homeButton addTarget:self action:sel_registerName("homeButtonPressed") forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.mainView];
+	
+	[self setUpStatusBar];
+	
+    [self.view addSubview:self.youAreView];
 }
 
-- (void)milestonesButtonPressed
-{
-    [self.navigationController pushViewController:[[AWMilestonesViewController alloc] init] animated:YES];
+- (void)setUpStatusBar {
+	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
-- (void)homeButtonPressed
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+#pragma mark - You are view
+
+- (AWYouAreView *)youAreView {
+	if (!_youAreView) {
+		_youAreView = [[AWYouAreView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+		[_youAreView setDelegate:self];
+	}
+	
+	return _youAreView;
 }
 
-- (void)didReceiveMemoryWarning
-{
+#pragma mark - You are view delegate
+
+- (void)youAreView:(AWYouAreView *)youAreView homeButtonTouched:(UIButton *)homeButton {
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)youAreView:(AWYouAreView *)youAreView spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value {
+	 NSString *totalAgeString = [[self.dataModel youAreUnit:value] stringValue];
+	
+	self.youAreView.valueText.text = totalAgeString;
+	
+	[self.youAreView setNeedsLayout];
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

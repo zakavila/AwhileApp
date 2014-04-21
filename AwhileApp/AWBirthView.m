@@ -30,8 +30,7 @@
     return self;
 }
 
-- (void)drawText
-{
+- (void)drawText {
     self.yourText = [[CoreTextArcView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.size.height-480.0f, self.frame.size.width, 120.0f)];
     self.yourText.backgroundColor = [UIColor clearColor];
     self.yourText.text = @"";

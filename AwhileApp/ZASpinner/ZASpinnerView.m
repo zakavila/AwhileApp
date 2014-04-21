@@ -7,18 +7,17 @@
 //
 
 #import "ZASpinnerView.h"
-#import "ZASpinnerTableView.h"
 #import "ZASpinnerTableViewCell.h"
 
 #define SpinnerTableViewCellIdentifier @"Spinner Table View Cell Identifier"
 
 @interface ZASpinnerView ()
 
-@property (nonatomic, strong) ZASpinnerTableView *tableView;
-
 //For infinite
 @property (nonatomic, strong) NSMutableArray *infiniteArrays;
 @property (nonatomic) NSInteger currInfiniteArrayIndex;
+
+@property (nonatomic) BOOL hasLoaded;
 
 @end
 
@@ -28,13 +27,13 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.hasLoaded = NO;
+        
         self.radius = -1;
         self.extraSpacing = -1;
-        self.focusedFontSize = -1;
-        self.unfocusedFontSize = -1;
-        self.verticalShift = -1;
+        self.arcMultiplier = 1.0f;
         self.isInfinite = NO;
-        
+                
         [self setUpTableView];
     }
     return self;
@@ -49,7 +48,6 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.radius = self.radius;
     self.tableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
-    self.tableView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 	
@@ -58,6 +56,36 @@
     [self addSubview:self.tableView];
 }
 
+- (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate
+{
+    if (![self isInfinite] || !self.hasLoaded) {
+        [self moveToIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0] withAnimation:animate];
+    }
+    else {
+        NSInteger adjustedRowIndex = 0;
+        [self moveToIndexPath:[NSIndexPath indexPathForRow:adjustedRowIndex inSection:0] withAnimation:animate];
+    }
+}
+
+- (void)setUnfocusedFont:(UIFont *)unfocusedFont {
+	_unfocusedFont = unfocusedFont;
+	self.tableView.unfocusedFont = unfocusedFont;
+}
+
+- (void)setFocusedFont:(UIFont *)focusedFont {
+	_focusedFont = focusedFont;
+	self.tableView.focusedFont = focusedFont;
+}
+
+- (void)setUnfocusedFontColor:(UIColor *)unfocusedFontColor {
+	_unfocusedFontColor = unfocusedFontColor;
+	self.tableView.unfocusedFontColor = unfocusedFontColor;
+}
+
+- (void)setFocusedFontColor:(UIColor *)focusedFontColor {
+	_focusedFontColor = focusedFontColor;
+	self.tableView.focusedFontColor = focusedFontColor;
+}
 
 #pragma mark TableView methods
 
@@ -90,20 +118,29 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UILabel *dummyLabel = [[UILabel alloc] init];
-    dummyLabel.text = [self stringAtIndexPath:indexPath];
-	
-	CGRect dummyRect = CGRectIntegral([dummyLabel.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.focusedFontSize]} context:nil]);
-	
+	CGRect dummyRect = CGRectIntegral([[self stringAtIndexPath:indexPath] boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.focusedFont} context:nil]);
     return dummyRect.size.width + 10.0f + self.extraSpacing;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZASpinnerTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:SpinnerTableViewCellIdentifier forIndexPath:indexPath];
-	
-    cell.circularTextLabel.text = [self stringAtIndexPath:indexPath];
+    cell.circularArcText.text = [self stringAtIndexPath:indexPath];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (!self.hasLoaded && indexPath.row == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row) {
+        self.hasLoaded = YES;
+        [self.tableView reloadData];
+        if (!self.isInfinite || self.startIndex < 175)
+            [self goToRow:self.startIndex withAnimation:NO];
+        else {
+            NSInteger targetRowIndex = self.startIndex - [self offsetForInfiniteArrays];
+            [self goToRow:targetRowIndex withAnimation:NO];
+        }
+    }
 }
 
 
@@ -140,10 +177,22 @@
             scrollView.contentOffset = CGPointMake(offset.x, scrollView.contentSize.height*0.5f);
         }
     }
+	
+	[self setNeedsLayout];
 }
 
 
 #pragma mark Helper functions
+
+- (void)moveToIndexPath:(NSIndexPath*)indexPath withAnimation:(BOOL)animate
+{
+    CGFloat newYOffset = self.tableView.contentOffset.y + [self getIndexPath:indexPath distanceFromCenterOf:self.tableView];
+    CGFloat duration = animate ? 0.5f : 0.0f;
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, newYOffset);
+        [self.tableView layoutSubviews];
+    }completion:nil];
+}
 
 - (CGFloat)getOffsetToCenterCells
 {
@@ -237,6 +286,41 @@
     return returnValue;
 }
 
+- (void)createInfiniteArraysForBeginning
+{
+    self.currInfiniteArrayIndex = 0;
+    _infiniteArrays = [[NSMutableArray alloc] init];
+    NSMutableArray *firstArray = [[NSMutableArray alloc] init];
+    NSMutableArray *secondArray = [[NSMutableArray alloc] init];
+    NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
+    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+        [firstArray addObject:[NSNumber numberWithInteger:currIndex]];
+        [secondArray addObject:[NSNumber numberWithInteger:currIndex+75]];
+    }
+    [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
+}
+
+- (NSInteger)offsetForInfiniteArrays
+{
+    return ceil((self.startIndex-175)/75.0f)*75;
+}
+
+- (void)createInfiniteArraysForStartIndex
+{
+    self.currInfiniteArrayIndex = 1;
+    _infiniteArrays = [[NSMutableArray alloc] init];
+    NSMutableArray *firstArray = [[NSMutableArray alloc] init];
+    NSMutableArray *secondArray = [[NSMutableArray alloc] init];
+    NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
+    NSInteger offset =  [self offsetForInfiniteArrays];//Need to create offset to account for section of arrays
+    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+        [firstArray addObject:[NSNumber numberWithInteger:currIndex-75+offset]];
+        [secondArray addObject:[NSNumber numberWithInteger:currIndex+offset]];
+        [thirdArray addObject:[NSNumber numberWithInteger:currIndex+175+offset]];
+    }
+    [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
+}
+
 
 #pragma mark Getters/setters
 
@@ -264,49 +348,26 @@
         return _extraSpacing;
 }
 
-- (CGFloat)focusedFontSize
+- (void)setStartIndex:(NSInteger)startIndex
 {
-    if (_focusedFontSize == -1)
-        return 14.0f;
-    return _focusedFontSize;
-}
-
-- (CGFloat)unfocusedFontSize
-{
-    if (_unfocusedFontSize == -1)
-        return 12.0f;
-    return _unfocusedFontSize;
-}
-
-- (CGFloat)verticalShift
-{
-    if (_verticalShift == -1)
-        return 400.0f;
-    return _verticalShift;
-}
-
-- (NSString*)fontName
-{
-    if (_fontName == nil)
-        return @"HelveticaNeue";
-    return _fontName;
+    _infiniteArrays = nil;
+    _startIndex = startIndex;
 }
 
 - (NSMutableArray *)infiniteArrays
 {
     if (!_infiniteArrays) {
-        self.currInfiniteArrayIndex = 0;
-        _infiniteArrays = [[NSMutableArray alloc] init];
-        NSMutableArray *firstArray = [[NSMutableArray alloc] init];
-        NSMutableArray *secondArray = [[NSMutableArray alloc] init];
-        NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
-        for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
-            [firstArray addObject:[NSNumber numberWithInteger:currIndex]];
-            [secondArray addObject:[NSNumber numberWithInteger:currIndex+75]];
-        }
-        [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
+        if (self.startIndex < 175)
+            [self createInfiniteArraysForBeginning];
+        else
+            [self createInfiniteArraysForStartIndex];
     }
     return _infiniteArrays;
+}
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+	[self.tableView setFrame:self.bounds];
 }
 
 @end
