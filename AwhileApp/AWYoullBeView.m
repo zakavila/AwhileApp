@@ -57,14 +57,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 @end
 
-@interface AWYoullBeView()
-@property (nonatomic, strong) NSNumber* value;
-@property (nonatomic, strong) NSString* units;
-@property (nonatomic, strong) NSNumber* day;
-@property (nonatomic, strong) NSNumber* month;
-@property (nonatomic, strong) NSNumber* year;
-@end
-
 @implementation AWYoullBeView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -119,6 +111,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeYear) {
 			
 			[circleView addSubview:self.yearSpinner];
+            _yearSpinner.spinnerName = @"yearSpinner";
 			
 			backgroundColor = [UIColor colorWithRed:207.0/255.0 green:0 blue:16.0/255.0 alpha:1.0];
 		}
@@ -126,6 +119,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeDay) {
 			
 			[circleView addSubview:self.daySpinner];
+            _daySpinner.spinnerName = @"daySpinner";
 			
 			backgroundColor = [UIColor colorWithRed:251.0/255.0 green:24.0/255.0 blue:18.0/255.0 alpha:1.0];
 		}
@@ -133,6 +127,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeMonth) {
 			
 			[circleView addSubview:self.monthSpinner];
+            _monthSpinner.spinnerName = @"monthSpinner";
 			
 			backgroundColor = [UIColor colorWithRed:225.0/255.0 green:70.0/255.0 blue:22.0/255.0 alpha:1.0];
 		}
@@ -152,6 +147,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeUnits) {
 			
 			[circleView addSubview:self.incrementSpinner];
+            _incrementSpinner.spinnerName = @"incrementSpinner";
 			
 			backgroundColor = [UIColor colorWithRed:245.0/255.0 green:163.0/255.0 blue:40.0/255.0 alpha:1.0];
 		}
@@ -159,6 +155,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeTotalTime) {
 			
 			[circleView addSubview:self.totalTimeSpinner];
+            _totalTimeSpinner.spinnerName = @"totalTimeSpinner";
 			
 			backgroundColor = [UIColor colorWithRed:238.0/255.0 green:222.0/255.0 blue:23.0/255.0 alpha:1.0];
 		}
@@ -239,7 +236,9 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 - (void)spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value
 {
-    
+    if ([self.delegate respondsToSelector:@selector(youllBeView:spinner:didChangeTo:)]) {
+		[self.delegate youllBeView:self spinner:spinner didChangeTo:value];
+	}
 }
 
 - (NSArray*)incrementSpinnerContents
@@ -297,109 +296,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
 	}
 	
 	return _totalTimeSpinner;
-    if ([spinner.spinnerName isEqualToString:@"valueSpinner"])
-    {
-        self.value = @([value intValue]);
-        NSDate *newDate;
-        if ([self.units isEqualToString:@"Seconds"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:[self.value floatValue]];
-        }
-        else if ([self.units isEqualToString:@"Minutes"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60)];
-        }
-        else if ([self.units isEqualToString:@"Hours"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60)];
-        }
-        else if ([self.units isEqualToString:@"Days"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24)];
-        }
-        else if ([self.units isEqualToString:@"Weeks"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24*7)];
-        }
-        else if ([self.units isEqualToString:@"Months"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24*30)];
-        }
-        else
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24*365)];
-        }
-        
-        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:newDate];
-        
-        self.day = [NSNumber numberWithInt:[components day]];
-        self.month = [NSNumber numberWithInt:[components month]];
-        self.year = [NSNumber numberWithInt:[components year]];
-    }
-    else if ([spinner.spinnerName isEqualToString:@"incrementSpinner"])
-    {
-        //value is the new unit that has been selected, self.units is the old unit type
-        if ([value isEqualToString:@"Seconds"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Minutes"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Hours"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Days"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Weeks"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Months"])
-        {
-            
-        }
-        else
-        {
-            
-        }
-        self.units = value;
-    }
-    else if ([spinner.spinnerName isEqualToString:@"daySpinner"])
-    {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*(-[value integerValue] + [self.day integerValue])))];
-        NSArray* visibleCells = spinner.tableView.visibleCells;
-        for (ZASpinnerTableViewCell *visCell in visibleCells)
-        {
-            BOOL isPointInsideView = [visCell pointInside:CGPointMake([UIScreen mainScreen].bounds.size.width/2, visCell.frame.origin.y) withEvent:nil];
-            if (isPointInsideView)
-            {
-                NSIndexPath* path = [spinner.tableView indexPathForCell:visCell];
-                NSIndexPath* newPath = [NSIndexPath indexPathForRow:path.row + [self.value integerValue] inSection:path.section];
-                [spinner.tableView scrollToRowAtIndexPath:newPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-            }
-        }
-        self.day = @([value intValue]);
-    }
-    else if ([spinner.spinnerName isEqualToString:@"monthSpinner"])
-    {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*30*([value integerValue] - [self.month integerValue])))];
-        self.month = @([value intValue]);
-    }
-    else
-    {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*365*([value integerValue] - [self.year integerValue])))];
-        self.year = @([value intValue] + 2000);
-    }
-    //NSLog([self.value stringValue]);
-    //NSLog(self.units);
-    //NSLog([self.day stringValue]);
-    //NSLog([self.month stringValue]);
-    //NSLog([self.year stringValue]);
 }
 
 - (ZASpinnerView*)incrementSpinner

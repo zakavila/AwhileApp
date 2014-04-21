@@ -36,7 +36,6 @@
 @property (nonatomic) NSInteger startIndex;
 @property BOOL isInfinite;
 @property (nonatomic, strong) NSString *spinnerName;
-@property (nonatomic, strong) ZASpinnerTableView *tableView;
 
 - (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate;
 
