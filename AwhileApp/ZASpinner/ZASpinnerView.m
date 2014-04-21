@@ -31,7 +31,7 @@
         
         self.radius = -1;
         self.extraSpacing = -1;
-        self.verticalShift = -1;
+        self.arcMultiplier = 1.0f;
         self.isInfinite = NO;
                 
         [self setUpTableView];
@@ -347,20 +347,6 @@
     else
         return _extraSpacing;
 }
-
-- (CGFloat)verticalShift
-{
-    if (_verticalShift == -1)
-        return 400.0f;
-    return _verticalShift;
-}
-
-//- (NSString*)fontName
-//{
-//    if (_fontName == nil)
-//        return @"HelveticaNeue";
-//    return _fontName;
-//}
 
 - (void)setStartIndex:(NSInteger)startIndex
 {

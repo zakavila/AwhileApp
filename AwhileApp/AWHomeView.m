@@ -84,13 +84,13 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		else if (i == CircleTypeCalculator) {
 			_calculatorCircleTextArcView = [[CoreTextArcView alloc] initWithFrame:CGRectZero];
-			[_calculatorCircleTextArcView setText:@"Calculator"];
+			[_calculatorCircleTextArcView setText:@"Your age"];
 			[_calculatorCircleTextArcView setFont:[self circleFont]];
 			[_calculatorCircleTextArcView setColor:[UIColor whiteColor]];
 			[_calculatorCircleTextArcView setBackgroundColor:[UIColor clearColor]];
 			
 			_calculatorButton = [[UIButton alloc] initWithFrame:CGRectZero];
-			[_calculatorButton addTarget:self action:@selector(calculatorButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
+			[_calculatorButton addTarget:self action:@selector(yourAgeButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
 			
 			[circleView addSubview:_calculatorCircleTextArcView];
 			[circleView addSubview:_calculatorButton];
@@ -100,13 +100,13 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		else if (i == CircleTypeYourAge) {
 			_yourAgeCircleTextArcView = [[CoreTextArcView alloc] initWithFrame:CGRectZero];
-			[_yourAgeCircleTextArcView setText:@"Your age:"];
+			[_yourAgeCircleTextArcView setText:@"Calculator"];
 			[_yourAgeCircleTextArcView setFont:[self circleFont]];
 			[_yourAgeCircleTextArcView setColor:[UIColor whiteColor]];
 			[_yourAgeCircleTextArcView setBackgroundColor:[UIColor clearColor]];
 			
 			_yourAgeButton = [[UIButton alloc] initWithFrame:CGRectZero];
-			[_yourAgeButton addTarget:self action:@selector(yourAgeButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
+			[_yourAgeButton addTarget:self action:@selector(calculatorButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
 			
 			[circleView addSubview:_yourAgeCircleTextArcView];
 			[circleView addSubview:_yourAgeButton];
@@ -150,7 +150,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 }
 
 - (UIFont *)circleFont {
-	UIFont *circleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:48.0f];
+	UIFont *circleFont = [UIFont fontWithName:@"HelveticaNeue-Thin" size:48.0f];
 	
 	return circleFont;
 }

@@ -9,6 +9,9 @@
 #import "AWYoullBeViewController.h"
 #import "AWYoullBeView.h"
 
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+
 @interface AWYoullBeViewController () <AWYoullBeViewDelegate>
 
 @property (nonatomic, strong) AWYoullBeView *youllBeView;
@@ -19,19 +22,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self.view addSubview:self.youllBeView];
+    [self.view bringSubviewToFront:self.youllBeView];
 }
 
 #pragma mark - Youll be view
 
 - (AWYoullBeView *)youllBeView {
 	if (!_youllBeView) {
-		_youllBeView = [[AWYoullBeView alloc] initWithFrame:self.view.frame andData:self.dataModel];
+		_youllBeView = [[AWYoullBeView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) andData:self.dataModel];
 		[_youllBeView setDelegate:self];
 	}
 	
 	return _youllBeView;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
 }
 
 #pragma mark - Youll be view delegate

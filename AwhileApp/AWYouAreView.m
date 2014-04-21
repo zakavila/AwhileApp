@@ -173,6 +173,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 	return circleFont;
 }
 
+- (UIFont*)unfocusedCircleFont
+{
+    return [UIFont fontWithName:@"HelveticaNeue-Thin" size:36.0f];
+}
+
 
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {
 	if ([self.delegate respondsToSelector:@selector(youAreView:spinner:didChangeTo:)]) {
@@ -200,8 +205,9 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_incrementSpinnerView = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_incrementSpinnerView.spinnerDelegate = self;
 		[_incrementSpinnerView setContents:[self incrementSpinnerContents]];
-		[_incrementSpinnerView setUnfocusedFont:[self circleFont]];
+		[_incrementSpinnerView setUnfocusedFont:[self unfocusedCircleFont]];
 		[_incrementSpinnerView setFocusedFont:[self circleFont]];
+        [_incrementSpinnerView setExtraSpacing:-5.0f];
 		[_incrementSpinnerView setFocusedFontColor:[UIColor whiteColor]];
 		[_incrementSpinnerView setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
@@ -270,9 +276,10 @@ typedef NS_ENUM(NSInteger, CircleType) {
 				incrementSpinnerViewHeight += bottomRadiusPadding;
 			}
 			
-			[_incrementSpinnerView setFrame:CGRectMake(self.bounds.size.width/2 - 2, 0.0, self.bounds.size.width, incrementSpinnerViewHeight)];
+			[_incrementSpinnerView setFrame:CGRectMake(-circleView.frame.origin.x, 0.0, self.bounds.size.width, incrementSpinnerViewHeight)];
 			[_incrementSpinnerView setRadius:previousRadius];
-			[_incrementSpinnerView setVerticalShift:2*previousRadius - 80];
+            [_incrementSpinnerView setVerticalShift:-55.0f];
+            [_incrementSpinnerView setArcMultiplier:5.8f];
 		}
 		
 		else if (index == CircleTypeTotalTime) {

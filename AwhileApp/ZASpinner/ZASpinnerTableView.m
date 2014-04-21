@@ -12,8 +12,6 @@
 
 #define CIRCULAR_CORE_TEXT_ARC_VIEW_VERTICAL_PADDING 14.0f
 
-static inline double radians (double degrees) { return degrees * M_PI/180; }
-
 @implementation ZASpinnerTableView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -33,10 +31,10 @@ static inline double radians (double degrees) { return degrees * M_PI/180; }
         CGRect currRect = CGRectOffset(rawCurrRect, -self.contentOffset.x, -self.contentOffset.y);
         CGFloat x = currRect.origin.y+currRect.size.height/2;
         CGFloat arcHeight = [self arcHeightFromX:x];
-        currCell.frame = CGRectMake(arcHeight-50, currCell.frame.origin.y, currCell.bounds.size.width, currCell.bounds.size.height);
+        currCell.frame = CGRectMake(arcHeight+[self parent].verticalShift, currCell.frame.origin.y, currCell.bounds.size.width, currCell.bounds.size.height);
         CGFloat halfwayThroughTable = self.frame.size.width/2;
         currCell.circularArcText.radius = self.radius;
-        currCell.circularArcText.arcSize = 4*currCell.circularArcText.text.length;
+        currCell.circularArcText.arcSize = [self parent].arcMultiplier*currCell.circularArcText.text.length;
         currCell.circularArcText.shiftV = -0.534f*self.radius-0.8573f;
         CGFloat rotateAngle = [self angleFromX:x];
         CGFloat l = self.frame.size.width/2;//(self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
@@ -55,13 +53,13 @@ static inline double radians (double degrees) { return degrees * M_PI/180; }
 
 - (void)styleUnfocusedCell:(ZASpinnerTableViewCell*)cell {
     cell.circularArcText.color = [self parent].unfocusedFontColor;
-    cell.circularArcText.font = [[self parent] unfocusedFont];//[UIFont fontWithName:[self parent].fontName size:[self parent].unfocusedFontSize];
+    cell.circularArcText.font = [[self parent] unfocusedFont];
     [cell.circularArcText setNeedsDisplay];
 }
 
 - (void)styleFocusedCell:(ZASpinnerTableViewCell*)cell {
     cell.circularArcText.color = [self parent].focusedFontColor;
-    cell.circularArcText.font = [[self parent] focusedFont];//[UIFont fontWithName:[self parent].fontName size:[self parent].focusedFontSize];
+    cell.circularArcText.font = [[self parent] focusedFont];
     [cell.circularArcText setNeedsDisplay];
 }
 

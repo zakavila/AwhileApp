@@ -31,6 +31,7 @@
 @property (nonatomic) UIColor *focusedFontColor;
 @property (nonatomic) CGFloat extraSpacing;
 @property (nonatomic) CGFloat verticalShift;
+@property (nonatomic) CGFloat arcMultiplier;
 @property (nonatomic) NSInteger startIndex;
 @property BOOL isInfinite;
 

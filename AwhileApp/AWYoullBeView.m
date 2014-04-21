@@ -59,23 +59,28 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 @implementation AWYoullBeView
 
-- (id)init {
-    self = [super init];
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
 	
     if (self) {
 		[self setUpCircles];
 		
 		// home image view
 		[self addSubview:self.homeImageView];
-		
+
 		self.backgroundColor = [UIColor whiteColor];
     }
 	
     return self;
 }
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
 - (id)initWithFrame:(CGRect)frame andData:(AWDataModel*)data {
-    self = [self init];
+    self = [self initWithFrame:frame];
 	
     if (self) {
 		self.dataModel = data;
@@ -97,71 +102,36 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		if (i == CircleTypeHome) {
 			_homeButton = [[UIButton alloc] initWithFrame:CGRectZero];
 			[_homeButton addTarget:self action:@selector(homeButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
-			
+
 			[circleView addSubview:_homeButton];
 			
 			backgroundColor = [UIColor colorWithRed:174.0/255.0 green:0 blue:26.0/255.0 alpha:1.0];
 		}
 		
 		else if (i == CircleTypeYear) {
-			_yearSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
-			[_yearSpinner setSpinnerDelegate:self];
 			
-			UIFont *yearSpinnerUnfocusedFont = [UIFont fontWithName:[self fontName] size:18.0f];
-			UIFont *yearSpinnerFocusedFont = [UIFont fontWithName:[self fontName] size:24.0f];
-			
-			[_yearSpinner setUnfocusedFont:yearSpinnerUnfocusedFont];
-			[_yearSpinner setFocusedFont:yearSpinnerFocusedFont];
-			
-			[_yearSpinner setUnfocusedFontColor:[self unfocusedColor]];
-			[_yearSpinner setFocusedFontColor:[self focusedColor]];
-			
-			[circleView addSubview:_yearSpinner];
+			[circleView addSubview:self.yearSpinner];
 			
 			backgroundColor = [UIColor colorWithRed:207.0/255.0 green:0 blue:16.0/255.0 alpha:1.0];
 		}
 		
 		else if (i == CircleTypeDay) {
-			_daySpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 			
-			UIFont *daySpinnerUnfocusedFont = [UIFont fontWithName:[self fontName] size:18.0f];
-			UIFont *daySpinnerFocusedFont = [UIFont fontWithName:[self fontName] size:24.0f];
-			
-			[_daySpinner setUnfocusedFont:daySpinnerUnfocusedFont];
-			[_daySpinner setFocusedFont:daySpinnerFocusedFont];
-			
-			[_daySpinner setUnfocusedFontColor:[self unfocusedColor]];
-			[_daySpinner setFocusedFontColor:[self focusedColor]];
-			
-			[_daySpinner setContents:[self daySpinnerContents]];
-			
-			[circleView addSubview:_daySpinner];
+			[circleView addSubview:self.daySpinner];
 			
 			backgroundColor = [UIColor colorWithRed:251.0/255.0 green:24.0/255.0 blue:18.0/255.0 alpha:1.0];
 		}
 		
 		else if (i == CircleTypeMonth) {
-			_monthSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 			
-			UIFont *monthSpinnerUnfocusedFont = [UIFont fontWithName:[self fontName] size:18.0f];
-			UIFont *monthSpinnerFocusedFont = [UIFont fontWithName:[self fontName] size:24.0f];
-			
-			[_monthSpinner setUnfocusedFont:monthSpinnerUnfocusedFont];
-			[_monthSpinner setFocusedFont:monthSpinnerFocusedFont];
-			
-			[_monthSpinner setUnfocusedFontColor:[self unfocusedColor]];
-			[_monthSpinner setFocusedFontColor:[self focusedColor]];
-			
-			[_monthSpinner setContents:[self monthSpinnerContents]];
-			
-			[circleView addSubview:_monthSpinner];
+			[circleView addSubview:self.monthSpinner];
 			
 			backgroundColor = [UIColor colorWithRed:225.0/255.0 green:70.0/255.0 blue:22.0/255.0 alpha:1.0];
 		}
 		
 		else if (i == CircleTypeOldOn) {
 			_oldOnCircleTextView = [[CoreTextArcView alloc] initWithFrame:CGRectZero];
-			[_oldOnCircleTextView setText:@"Old on"];
+			[_oldOnCircleTextView setText:@"Old on:"];
 			[_oldOnCircleTextView setFont:[self circleFont]];
 			[_oldOnCircleTextView setColor:[UIColor whiteColor]];
 			[_oldOnCircleTextView setBackgroundColor:[UIColor clearColor]];
@@ -172,37 +142,15 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		}
 		
 		else if (i == CircleTypeUnits) {
-			_incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 			
-			UIFont *incrementSpinnerUnfocusedFont = [UIFont fontWithName:[self fontName] size:18.0f];
-			UIFont *incrementSpinnerFocusedFont = [UIFont fontWithName:[self fontName] size:24.0f];
-			
-			[_incrementSpinner setUnfocusedFont:incrementSpinnerUnfocusedFont];
-			[_incrementSpinner setFocusedFont:incrementSpinnerFocusedFont];
-			
-			[_incrementSpinner setUnfocusedFontColor:[self unfocusedColor]];
-			[_incrementSpinner setFocusedFontColor:[self focusedColor]];
-			
-			[circleView addSubview:_incrementSpinner];
+			[circleView addSubview:self.incrementSpinner];
 			
 			backgroundColor = [UIColor colorWithRed:245.0/255.0 green:163.0/255.0 blue:40.0/255.0 alpha:1.0];
 		}
 		
 		else if (i == CircleTypeTotalTime) {
-			_totalTimeSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 			
-			UIFont *totalTimeSpinnerUnfocusedFont = [UIFont fontWithName:[self fontName] size:18.0f];
-			UIFont *totalTimeSpinnerFocusedFont = [UIFont fontWithName:[self fontName] size:24.0f];
-			
-			[_totalTimeSpinner setUnfocusedFont:totalTimeSpinnerUnfocusedFont];
-			[_totalTimeSpinner setFocusedFont:totalTimeSpinnerFocusedFont];
-			
-			[_totalTimeSpinner setUnfocusedFontColor:[self unfocusedColor]];
-			[_totalTimeSpinner setFocusedFontColor:[self focusedColor]];
-			
-			[_totalTimeSpinner setIsInfinite:YES];
-			
-			[circleView addSubview:_totalTimeSpinner];
+			[circleView addSubview:self.totalTimeSpinner];
 			
 			backgroundColor = [UIColor colorWithRed:238.0/255.0 green:222.0/255.0 blue:23.0/255.0 alpha:1.0];
 		}
@@ -236,10 +184,15 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 #pragma mark - Circle font
 
-- (UIFont *)circleFont {
+- (UIFont *)circleFont
+{
 	UIFont *circleFont = [UIFont fontWithName:[self fontName] size:48.0f];
-	
 	return circleFont;
+}
+
+- (UIFont*)unfocusedCircleFont
+{
+    return [UIFont fontWithName:[self fontName] size:36.0f];
 }
 
 #pragma mark - Font name 
@@ -276,6 +229,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 	}
 }
 
+- (void)spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value
+{
+    
+}
+
 - (NSArray*)incrementSpinnerContents
 {
     NSMutableArray *contents = [[NSMutableArray alloc] init];
@@ -294,7 +252,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 {
     NSMutableArray *contents = [[NSMutableArray alloc] init];
     for (int dayIndex = 1; dayIndex < 32; dayIndex++) {
-        [contents addObject:[NSString stringWithFormat:@"%02d", dayIndex]];
+        [contents addObject:[NSString stringWithFormat:@"%d", dayIndex]];
     }
     return contents;
 }
@@ -302,10 +260,100 @@ typedef NS_ENUM(NSInteger, CircleType) {
 - (NSArray*)monthSpinnerContents
 {
     NSMutableArray *contents = [[NSMutableArray alloc] init];
-    for (int monthIndex = 1; monthIndex < 13; monthIndex++) {
-        [contents addObject:[NSString stringWithFormat:@"%02d", monthIndex]];
-    }
+    [contents addObject:@"Jan"];
+    [contents addObject:@"Feb"];
+    [contents addObject:@"Mar"];
+    [contents addObject:@"Apr"];
+    [contents addObject:@"May"];
+    [contents addObject:@"Jun"];
+    [contents addObject:@"Jul"];
+    [contents addObject:@"Aug"];
+    [contents addObject:@"Sep"];
+    [contents addObject:@"Oct"];
+    [contents addObject:@"Nov"];
+    [contents addObject:@"Dec"];
     return contents;
+}
+
+- (ZASpinnerView *)totalTimeSpinner
+{
+    if (!_totalTimeSpinner) {
+		_totalTimeSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
+		_totalTimeSpinner.spinnerDelegate = self;
+		[_totalTimeSpinner setIsInfinite:YES];
+		[_totalTimeSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+		[_totalTimeSpinner setFocusedFont:[self circleFont]];
+        [_totalTimeSpinner setExtraSpacing:-5.0f];
+		[_totalTimeSpinner setFocusedFontColor:[UIColor whiteColor]];
+		[_totalTimeSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+	}
+	
+	return _totalTimeSpinner;
+}
+
+- (ZASpinnerView*)incrementSpinner
+{
+    if (!_incrementSpinner) {
+		_incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
+		_incrementSpinner.spinnerDelegate = self;
+		[_incrementSpinner setContents:[self incrementSpinnerContents]];
+		[_incrementSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+		[_incrementSpinner setFocusedFont:[self circleFont]];
+        [_incrementSpinner setExtraSpacing:0.0f];
+		[_incrementSpinner setFocusedFontColor:[UIColor whiteColor]];
+		[_incrementSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+	}
+	
+	return _incrementSpinner;
+}
+
+- (ZASpinnerView *)monthSpinner
+{
+    if (!_monthSpinner) {
+		_monthSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
+		_monthSpinner.spinnerDelegate = self;
+		[_monthSpinner setContents:[self monthSpinnerContents]];
+		[_monthSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+		[_monthSpinner setFocusedFont:[self circleFont]];
+        [_monthSpinner setExtraSpacing:-5.0f];
+		[_monthSpinner setFocusedFontColor:[UIColor whiteColor]];
+		[_monthSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+	}
+	
+	return _monthSpinner;
+}
+
+- (ZASpinnerView *)daySpinner
+{
+    if (!_daySpinner) {
+		_daySpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
+		_daySpinner.spinnerDelegate = self;
+		[_daySpinner setContents:[self daySpinnerContents]];
+		[_daySpinner setUnfocusedFont:[self unfocusedCircleFont]];
+		[_daySpinner setFocusedFont:[self circleFont]];
+        [_daySpinner setExtraSpacing:-5.0f];
+		[_daySpinner setFocusedFontColor:[UIColor whiteColor]];
+		[_daySpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+	}
+	
+	return _daySpinner;
+}
+
+- (ZASpinnerView *)yearSpinner
+{
+    if (!_yearSpinner) {
+		_yearSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
+		_yearSpinner.spinnerDelegate = self;
+        [_yearSpinner setIsInfinite:YES];
+        [_yearSpinner setStartIndex:2014];
+        [_yearSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+		[_yearSpinner setFocusedFont:[self circleFont]];
+        [_yearSpinner setExtraSpacing:-5.0f];
+		[_yearSpinner setFocusedFontColor:[UIColor whiteColor]];
+		[_yearSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+	}
+	
+	return _yearSpinner;
 }
 
 #pragma mark - Home image view
@@ -350,44 +398,47 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		else if (index == CircleTypeYear) {
 			CGFloat bottomRadiusPadding = previousRadius - floorf((previousRadius*sinf(acosf((kScreenWidth/2)/previousRadius))));
-			CGFloat circleTextArcViewHeight = radiusDelta;
+			CGFloat yearSpinnerHeight = radiusDelta;
 			
 			if (!isnan(bottomRadiusPadding)) {
-				circleTextArcViewHeight += bottomRadiusPadding;
+				yearSpinnerHeight += bottomRadiusPadding;
 			}
 			
-			[_yearSpinner setFrame:CGRectMake(0, 0, circleView.bounds.size.width, circleTextArcViewHeight)];
+			[_yearSpinner setFrame:CGRectMake(-circleView.frame.origin.x, 0, self.bounds.size.width, radius)];
 			
 			[_yearSpinner setRadius:radius];
-			[_yearSpinner setVerticalShift:2*radius - 60];
+            [_yearSpinner setVerticalShift:-40.0f];
+            [_yearSpinner setArcMultiplier:6.2f];
 		}
 		
 		else if (index == CircleTypeDay) {
 			CGFloat bottomRadiusPadding = previousRadius - floorf((previousRadius*sinf(acosf((kScreenWidth/2)/previousRadius))));
-			CGFloat circleTextArcViewHeight = radiusDelta;
+			CGFloat daySpinnerHeight = radiusDelta;
 			
 			if (!isnan(bottomRadiusPadding)) {
-				circleTextArcViewHeight += bottomRadiusPadding;
+				daySpinnerHeight += bottomRadiusPadding;
 			}
 			
-			[_daySpinner setFrame:CGRectMake(0, 0, circleView.bounds.size.width, circleTextArcViewHeight)];
+			[_daySpinner setFrame:CGRectMake(-circleView.frame.origin.x, 0, self.bounds.size.width, daySpinnerHeight)];
 			
 			[_daySpinner setRadius:radius];
-			[_daySpinner setVerticalShift:2*radius - 60];
+            [_daySpinner setVerticalShift:-25.0f];
+            [_daySpinner setArcMultiplier:4.7f];
 		}
 		
 		else if (index == CircleTypeMonth) {
 			CGFloat bottomRadiusPadding = previousRadius - floorf((previousRadius*sinf(acosf((kScreenWidth/2)/previousRadius))));
-			CGFloat circleTextArcViewHeight = radiusDelta;
+			CGFloat monthSpinnerHeight = radiusDelta;
 			
 			if (!isnan(bottomRadiusPadding)) {
-				circleTextArcViewHeight += bottomRadiusPadding;
+				monthSpinnerHeight += bottomRadiusPadding;
 			}
 			
-			[_monthSpinner setFrame:CGRectMake(0, 0, circleView.bounds.size.width, circleTextArcViewHeight)];
+			[_monthSpinner setFrame:CGRectMake(-circleView.frame.origin.x, 0, self.bounds.size.width, monthSpinnerHeight)];
 			
 			[_monthSpinner setRadius:radius];
-			[_monthSpinner setVerticalShift:2*radius - 60];
+            [_monthSpinner setVerticalShift:-25.0f];
+            [_monthSpinner setArcMultiplier:4.5f];
 		}
 		
 		else if (index == CircleTypeOldOn) {
@@ -406,17 +457,34 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		else if (index == CircleTypeUnits) {
 			CGFloat bottomRadiusPadding = previousRadius - floorf((previousRadius*sinf(acosf((kScreenWidth/2)/previousRadius))));
-			CGFloat circleTextArcViewHeight = radiusDelta;
+			CGFloat incrementSpinnerHeight = radiusDelta;
 			
 			if (!isnan(bottomRadiusPadding)) {
-				circleTextArcViewHeight += bottomRadiusPadding;
+				incrementSpinnerHeight += bottomRadiusPadding;
 			}
 			
-			[_incrementSpinner setFrame:CGRectMake(0, 0, circleView.bounds.size.width, circleTextArcViewHeight)];
+			[_incrementSpinner setFrame:CGRectMake(-circleView.frame.origin.x, 0, self.bounds.size.width, incrementSpinnerHeight)];
 			
 			[_incrementSpinner setRadius:radius];
-			[_incrementSpinner setVerticalShift:2*radius - 60];
+            [_incrementSpinner setVerticalShift:-15.0f];
+            [_incrementSpinner setArcMultiplier:3.1f];
+            [_incrementSpinner setExtraSpacing:20.0f];
 		}
+        
+        else if (index == CircleTypeTotalTime) {
+            CGFloat bottomRadiusPadding = previousRadius - floorf((previousRadius*sinf(acosf((kScreenWidth/2)/previousRadius))));
+			CGFloat totalTimeSpinnerHeight = radiusDelta;
+			
+			if (!isnan(bottomRadiusPadding)) {
+				totalTimeSpinnerHeight += bottomRadiusPadding;
+			}
+			
+			[_totalTimeSpinner setFrame:CGRectMake(-circleView.frame.origin.x, 0, self.bounds.size.width, totalTimeSpinnerHeight)];
+			
+			[_totalTimeSpinner setRadius:radius];
+            [_totalTimeSpinner setVerticalShift:-15.0f];
+            [_totalTimeSpinner setArcMultiplier:2.0f];
+        }
 		
 		else if (index == CircleTypeYoullBe) {
 			CGFloat bottomRadiusPadding = previousRadius - floorf((previousRadius*sinf(acosf((kScreenWidth/2)/previousRadius))));
@@ -443,7 +511,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
 	homeImageViewFrame.origin.x = (kScreenWidth - homeImageViewFrame.size.width)/2;
 	homeImageViewFrame.origin.y = kScreenHeight - (HOME_IMAGE_VIEW_VERTICAL_MARGIN + homeImageViewFrame.size.height);
 	[self.homeImageView setFrame:homeImageViewFrame];
-
 }
 
 @end
