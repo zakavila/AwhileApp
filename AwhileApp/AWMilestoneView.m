@@ -72,8 +72,8 @@
     [self.valueSpinner setVerticalShift:700.0f];
 //    [self.valueSpinner setFocusedFontSize:44.0f];
 //    [self.valueSpinner setUnfocusedFontSize:44.0f];
-    [self.valueSpinner setFocusedFontColor:[UIColor whiteColor]];
-    [self.valueSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//    [self.valueSpinner setFocusedFontColor:[UIColor whiteColor]];
+//    [self.valueSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 //    [self.valueSpinner setFontName:@"HelveticaNeue-Bold"];
     [self addSubview:self.valueSpinner];
     
@@ -84,8 +84,8 @@
     [self.incrementSpinner setExtraSpacing:15.0f];
 //    [self.incrementSpinner setFocusedFontSize:38.0f];
 //    [self.incrementSpinner setUnfocusedFontSize:38.0f];
-    [self.incrementSpinner setFocusedFontColor:[UIColor whiteColor]];
-    [self.incrementSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//    [self.incrementSpinner setFocusedFontColor:[UIColor whiteColor]];
+//    [self.incrementSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 //    [self.incrementSpinner setFontName:@"HelveticaNeue-Bold"];
     [self addSubview:self.incrementSpinner];
     
@@ -96,8 +96,8 @@
     [self.daySpinner setExtraSpacing:0.0f];
 //    [self.daySpinner setFocusedFontSize:20.0f];
 //    [self.daySpinner setUnfocusedFontSize:20.0f];
-    [self.daySpinner setFocusedFontColor:[UIColor whiteColor]];
-    [self.daySpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//    [self.daySpinner setFocusedFontColor:[UIColor whiteColor]];
+//    [self.daySpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 //    [self.daySpinner setFontName:@"HelveticaNeue-Bold"];
     [self addSubview:self.daySpinner];
     
@@ -108,8 +108,8 @@
     [self.monthSpinner setExtraSpacing:0.0f];
 //    [self.monthSpinner setFocusedFontSize:18.0f];
 //    [self.monthSpinner setUnfocusedFontSize:18.0f];
-    [self.monthSpinner setFocusedFontColor:[UIColor whiteColor]];
-    [self.monthSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//    [self.monthSpinner setFocusedFontColor:[UIColor whiteColor]];
+//    [self.monthSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 //    [self.monthSpinner setFontName:@"HelveticaNeue-Bold"];
     [self addSubview:self.monthSpinner];
     
@@ -120,8 +120,8 @@
     [self.yearSpinner setExtraSpacing:0.0f];
 //    [self.yearSpinner setFocusedFontSize:18.0f];
 //    [self.yearSpinner setUnfocusedFontSize:18.0f];
-    [self.yearSpinner setFocusedFontColor:[UIColor whiteColor]];
-    [self.yearSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//    [self.yearSpinner setFocusedFontColor:[UIColor whiteColor]];
+//    [self.yearSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 //    [self.yearSpinner setFontName:@"HelveticaNeue-Bold"];
     [self addSubview:self.yearSpinner];
 }

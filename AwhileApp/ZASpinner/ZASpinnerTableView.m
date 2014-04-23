@@ -7,7 +7,7 @@
 //
 
 #import "ZASpinnerTableView.h"
-#import "ZASpinnerTableViewCell.h"
+#import "ZASpinnerCell.h"
 #import "ZASpinnerView.h"
 
 #define CIRCULAR_CORE_TEXT_ARC_VIEW_VERTICAL_PADDING 14.0f
@@ -26,21 +26,18 @@
 
 - (void)repositionCells {
     for (NSIndexPath *currIndexPath in [self indexPathsForVisibleRows]) {
-        ZASpinnerTableViewCell *currCell = (ZASpinnerTableViewCell*)[self cellForRowAtIndexPath:currIndexPath];
+        ZASpinnerCell *currCell = (ZASpinnerCell*)[self cellForRowAtIndexPath:currIndexPath];
         CGRect rawCurrRect = [self rectForRowAtIndexPath:currIndexPath];
         CGRect currRect = CGRectOffset(rawCurrRect, -self.contentOffset.x, -self.contentOffset.y);
         CGFloat x = currRect.origin.y+currRect.size.height/2;
         CGFloat arcHeight = [self arcHeightFromX:x];
         currCell.frame = CGRectMake(arcHeight+[self parent].verticalShift, currCell.frame.origin.y, currCell.bounds.size.width, currCell.bounds.size.height);
         CGFloat halfwayThroughTable = self.frame.size.width/2;
-        currCell.circularArcText.radius = self.radius;
-        currCell.circularArcText.arcSize = [self parent].arcMultiplier*currCell.circularArcText.text.length;
-        currCell.circularArcText.shiftV = -0.534f*self.radius-0.8573f;
         CGFloat rotateAngle = [self angleFromX:x];
         CGFloat l = self.frame.size.width/2;//(self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
         if (x < l)
             rotateAngle *= -1;
-        currCell.circularArcText.transform = CGAffineTransformMakeRotation(rotateAngle+M_PI_2);
+        currCell.contentView.transform = CGAffineTransformMakeRotation(rotateAngle+M_PI_2);
         if (roundf(x) == halfwayThroughTable) {
             [self styleFocusedCell:currCell];
         }
@@ -51,16 +48,12 @@
     }
 }
 
-- (void)styleUnfocusedCell:(ZASpinnerTableViewCell*)cell {
-    cell.circularArcText.color = [self parent].unfocusedFontColor;
-    cell.circularArcText.font = [[self parent] unfocusedFont];
-    [cell.circularArcText setNeedsDisplay];
+- (void)styleUnfocusedCell:(ZASpinnerCell*)cell {
+    [[self parent].spinnerDelegate spinner:[self parent] styleForCell:cell whileFocused:NO];
 }
 
-- (void)styleFocusedCell:(ZASpinnerTableViewCell*)cell {
-    cell.circularArcText.color = [self parent].focusedFontColor;
-    cell.circularArcText.font = [[self parent] focusedFont];
-    [cell.circularArcText setNeedsDisplay];
+- (void)styleFocusedCell:(ZASpinnerCell*)cell {
+    [[self parent].spinnerDelegate spinner:[self parent] styleForCell:cell whileFocused:YES];
 }
 
 - (CGFloat)arcHeightFromX:(CGFloat)x {

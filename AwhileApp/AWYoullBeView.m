@@ -8,6 +8,7 @@
 
 #import "AWYoullBeView.h"
 #import "CoreTextArcView.h"
+#import "AWArcTextSpinnerCell.h"
 
 #define NUMBER_OF_CIRCLES 8
 
@@ -241,6 +242,20 @@ typedef NS_ENUM(NSInteger, CircleType) {
 	}
 }
 
+- (void)spinner:(ZASpinnerView *)spinner styleForCell:(ZASpinnerCell *)cell whileFocused:(BOOL)isFocused
+{
+    AWArcTextSpinnerCell *arcTextCell = (AWArcTextSpinnerCell*)cell;
+    if (isFocused) {
+        arcTextCell.circularArcText.color = [UIColor whiteColor];
+        arcTextCell.circularArcText.font = [self circleFont];
+    }
+    else {
+        arcTextCell.circularArcText.color = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f];
+        arcTextCell.circularArcText.font = [self unfocusedCircleFont];
+    }
+    [arcTextCell.circularArcText setNeedsDisplay];
+}
+
 - (NSArray*)incrementSpinnerContents
 {
     NSMutableArray *contents = [[NSMutableArray alloc] init];
@@ -288,11 +303,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_totalTimeSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_totalTimeSpinner.spinnerDelegate = self;
 		[_totalTimeSpinner setIsInfinite:YES];
-		[_totalTimeSpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_totalTimeSpinner setFocusedFont:[self circleFont]];
+//		[_totalTimeSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_totalTimeSpinner setFocusedFont:[self circleFont]];
         [_totalTimeSpinner setExtraSpacing:-5.0f];
-		[_totalTimeSpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_totalTimeSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_totalTimeSpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_totalTimeSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _totalTimeSpinner;
@@ -304,11 +319,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_incrementSpinner.spinnerDelegate = self;
 		[_incrementSpinner setContents:[self incrementSpinnerContents]];
-		[_incrementSpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_incrementSpinner setFocusedFont:[self circleFont]];
+//		[_incrementSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_incrementSpinner setFocusedFont:[self circleFont]];
         [_incrementSpinner setExtraSpacing:0.0f];
-		[_incrementSpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_incrementSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_incrementSpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_incrementSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _incrementSpinner;
@@ -320,11 +335,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_monthSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_monthSpinner.spinnerDelegate = self;
 		[_monthSpinner setContents:[self monthSpinnerContents]];
-		[_monthSpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_monthSpinner setFocusedFont:[self circleFont]];
+//		[_monthSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_monthSpinner setFocusedFont:[self circleFont]];
         [_monthSpinner setExtraSpacing:-5.0f];
-		[_monthSpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_monthSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_monthSpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_monthSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _monthSpinner;
@@ -336,11 +351,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_daySpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_daySpinner.spinnerDelegate = self;
 		[_daySpinner setContents:[self daySpinnerContents]];
-		[_daySpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_daySpinner setFocusedFont:[self circleFont]];
+//		[_daySpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_daySpinner setFocusedFont:[self circleFont]];
         [_daySpinner setExtraSpacing:-5.0f];
-		[_daySpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_daySpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_daySpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_daySpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _daySpinner;
@@ -353,11 +368,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_yearSpinner.spinnerDelegate = self;
         [_yearSpinner setIsInfinite:YES];
         [_yearSpinner setStartIndex:2014];
-        [_yearSpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_yearSpinner setFocusedFont:[self circleFont]];
+//        [_yearSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_yearSpinner setFocusedFont:[self circleFont]];
         [_yearSpinner setExtraSpacing:-5.0f];
-		[_yearSpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_yearSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_yearSpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_yearSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _yearSpinner;
