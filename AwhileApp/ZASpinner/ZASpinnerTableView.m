@@ -35,13 +35,14 @@
         CGFloat halfwayThroughTable = self.frame.size.width/2;
         CGFloat rotateAngle = [self angleFromX:x];
         CGFloat l = self.frame.size.width/2;//(self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
+        if ([[NSString stringWithFormat:@"%.8f",rotateAngle] isEqualToString:@"1.57079637"])
+            rotateAngle = 0;
         if (x < l)
             rotateAngle *= -1;
         currCell.contentView.transform = CGAffineTransformMakeRotation(rotateAngle+M_PI_2);
-        if (roundf(x) == halfwayThroughTable) {
+        if (x == halfwayThroughTable) {
             [self styleFocusedCell:currCell];
         }
-		
         else {
             [self styleUnfocusedCell:currCell];
         }

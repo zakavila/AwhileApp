@@ -19,6 +19,7 @@
 	
     if (self) {
         self.backgroundColor = [UIColor clearColor];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 										 
     return self;

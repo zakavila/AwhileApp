@@ -44,7 +44,7 @@
     self.tableView = [[ZASpinnerTableView alloc] init];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.showsVerticalScrollIndicator = NO;
-    self.tableView.allowsSelection = NO;
+    self.tableView.allowsSelection = YES;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.radius = self.radius;
     self.tableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
@@ -72,12 +72,19 @@
         [self moveToIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0] withAnimation:animate];
     }
     else {
-        NSInteger targetOffset = [self offsetForInfiniteArraysFromValue:rowIndex];
+        NSInteger targetOffset = 0;
+        if (rowIndex > 175)
+            targetOffset = [self offsetForInfiniteArraysFromValue:rowIndex];
         if (((NSNumber*)[[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:0]).integerValue != targetOffset)
-            [self createInfiniteArraysForValue:targetOffset];
+            [self createInfiniteArraysForValue:rowIndex];
         NSInteger adjustedRowIndex = rowIndex-targetOffset;
         [self moveToIndexPath:[NSIndexPath indexPathForRow:adjustedRowIndex inSection:0] withAnimation:animate];
     }
+}
+
+- (NSString*)contentValueForIndexPath:(NSIndexPath*)indexPath
+{
+    return [self stringAtIndexPath:indexPath];
 }
 
 
@@ -126,16 +133,21 @@
         return [self.tableView dequeueReusableCellWithIdentifier:SpinnerTableViewCellIdentifier];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.spinnerDelegate spinner:self didSelectRowAtIndexPath:indexPath];
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!self.hasLoaded && indexPath.row == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row) {
         self.hasLoaded = YES;
         [self.tableView reloadData];
         if (!self.isInfinite || self.startIndex < 175)
-            [self goToRow:self.startIndex withAnimation:NO];
-        else {
-            NSInteger targetRowIndex = self.startIndex - [self offsetForInfiniteArraysFromValue:self.startIndex];
-            [self goToRow:targetRowIndex withAnimation:NO];
+            [self moveToIndexPath:[NSIndexPath indexPathForRow:self.startIndex inSection:0] withAnimation:NO];
+        else if (self.isInfinite) {
+            NSInteger targetOffset = [self offsetForInfiniteArraysFromValue:self.startIndex];
+            [self moveToIndexPath:[NSIndexPath indexPathForRow:(self.startIndex-targetOffset) inSection:0] withAnimation:NO];
         }
     }
 }
@@ -146,11 +158,12 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     CGFloat newYOffset = [self getOffsetToCenterCells];
     if (scrollView.contentOffset.y != newYOffset) {
-        [self.spinnerDelegate spinner:self didChangeTo:[self stringAtIndexPath:[self getClosestIndexPathToCenter]]];
         [UIView animateWithDuration:.3f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, newYOffset);
             [scrollView layoutSubviews];
-        }completion:nil];
+        }completion:^(BOOL finished){
+            [self.spinnerDelegate spinner:self didChangeTo:[self stringAtIndexPath:[self getClosestIndexPathToCenter]]];
+        }];
     }
 }
 
@@ -295,7 +308,7 @@
     [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
 }
 
-- (NSInteger)offsetForInfiniteArraysFromValue:(NSInteger)value
+- (NSUInteger)offsetForInfiniteArraysFromValue:(NSInteger)value
 {
     return ceil((value-175)/75.0f)*75;
 }

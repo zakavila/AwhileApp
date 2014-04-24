@@ -29,7 +29,6 @@
 {
     [super layoutSubviews];
     self.circularArcText.frame = CGRectMake(0.0f, 0.0f, self.frame.size.width, self.frame.size.height);
-    self.circularArcText.bounds = CGRectMake(0.0f, 0.0f, self.bounds.size.width, self.bounds.size.height);
 }
 
 @end

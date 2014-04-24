@@ -17,9 +17,8 @@
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         
-        self.icon = [[UIImageView alloc] initWithFrame:self.frame];
+        self.icon = [[UIImageView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:self.icon];
-        [self.contentView bringSubviewToFront:self.icon];
     }
     
     return self;
@@ -28,11 +27,9 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.icon.frame = CGRectMake(0.0f, 0.0f, self.frame.size.width, self.frame.size.height);
-    if (self.icon.backgroundColor == [UIColor redColor])
-        self.icon.bounds = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
-    else
-        self.icon.bounds = CGRectMake(0.0f, 0.0f, 25.0f, 25.0f);
+    self.icon.frame = CGRectMake(0.0f, 0.0f, self.icon.image.size.width, self.icon.image.size.height);
+    self.icon.layer.anchorPoint = CGPointMake(0.5f, 1.0f);
+    self.icon.center = self.contentView.center;
 }
 
 @end

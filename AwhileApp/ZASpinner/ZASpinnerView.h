@@ -15,6 +15,7 @@
 
 @protocol ZASpinnerViewDelegate <NSObject>
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
+- (void)spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath;
 - (void)spinner:(ZASpinnerView*)spinner styleForCell:(ZASpinnerCell*)cell whileFocused:(BOOL)isFocused;
 
 @required
@@ -48,7 +49,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *spinnerName;
 
 - (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate;
-//- (NSIndexPath*)getClosestIndexPathToCenter;
+- (NSString*)contentValueForIndexPath:(NSIndexPath*)indexPath;
 - (void)registerClass:(Class)cellClass forCellReuseIdentifier:(NSString*)identifier;
 - (id)dequeueReusableCellWithIdentifier:(NSString*)identifier;
 

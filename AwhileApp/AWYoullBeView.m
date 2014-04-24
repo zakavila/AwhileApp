@@ -40,7 +40,7 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
 typedef NS_ENUM(NSInteger, CircleType) {
-	CircleTypeHome = 0,
+	CircleTypeMenu = 0,
 	CircleTypeYear = 1,
 	CircleTypeDay = 2,
 	CircleTypeMonth = 3,
@@ -100,7 +100,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		UIColor *backgroundColor;
 		
-		if (i == CircleTypeHome) {
+		if (i == CircleTypeMenu) {
 			_homeButton = [[UIButton alloc] initWithFrame:CGRectZero];
 			[_homeButton addTarget:self action:@selector(homeButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -414,7 +414,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		[circleView setCenter:CGPointMake(kScreenWidth/2, kScreenHeight)];
 		
-		if (index == CircleTypeHome) {
+		if (index == CircleTypeMenu) {
 			[_homeButton setFrame:circleView.bounds];
 		}
 		

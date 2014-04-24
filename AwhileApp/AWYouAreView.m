@@ -35,7 +35,7 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
 typedef NS_ENUM(NSInteger, CircleType) {
-	CircleTypeHome = 0,
+	CircleTypeMenu = 0,
 	CircleTypeOld = 1,
 	CircleTypeUnits = 2,
 	CircleTypeTotalTime = 3,
@@ -86,7 +86,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		UIColor *backgroundColor;
 		
-		if (i == CircleTypeHome) {
+		if (i == CircleTypeMenu) {
 			[circleView setClipsToBounds:YES];
 			
 			_homeButton = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -284,7 +284,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		[circleView setCenter:CGPointMake(kScreenWidth/2, kScreenHeight)];
 		
-		if (index == CircleTypeHome) {
+		if (index == CircleTypeMenu) {
 			[_homeButton setFrame:circleView.bounds];
 		}
 		

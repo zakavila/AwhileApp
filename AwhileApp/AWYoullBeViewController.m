@@ -184,11 +184,6 @@
         
         [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];
     }
-    NSLog([self.value stringValue]);
-    NSLog(self.units);
-    NSLog([self.day stringValue]);
-    NSLog([self.month stringValue]);
-    NSLog([self.year stringValue]);
 }
 
 - (void)spinToTimeInUnitWithSpinner:(ZASpinnerView*)spinner
