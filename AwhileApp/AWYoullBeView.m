@@ -8,6 +8,7 @@
 
 #import "AWYoullBeView.h"
 #import "CoreTextArcView.h"
+#import "AWArcTextSpinnerCell.h"
 
 #define NUMBER_OF_CIRCLES 8
 
@@ -39,7 +40,7 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
 typedef NS_ENUM(NSInteger, CircleType) {
-	CircleTypeHome = 0,
+	CircleTypeMenu = 0,
 	CircleTypeYear = 1,
 	CircleTypeDay = 2,
 	CircleTypeMonth = 3,
@@ -55,14 +56,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
 @property CoreTextArcView *oldOnCircleTextView;
 @property CoreTextArcView *youllBeCircleTextView;
 
-@end
-
-@interface AWYoullBeView()
-@property (nonatomic, strong) NSNumber* value;
-@property (nonatomic, strong) NSString* units;
-@property (nonatomic, strong) NSNumber* day;
-@property (nonatomic, strong) NSNumber* month;
-@property (nonatomic, strong) NSNumber* year;
 @end
 
 @implementation AWYoullBeView
@@ -107,7 +100,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		UIColor *backgroundColor;
 		
-		if (i == CircleTypeHome) {
+		if (i == CircleTypeMenu) {
 			_homeButton = [[UIButton alloc] initWithFrame:CGRectZero];
 			[_homeButton addTarget:self action:@selector(homeButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -119,6 +112,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeYear) {
 			
 			[circleView addSubview:self.yearSpinner];
+            _yearSpinner.spinnerName = @"yearSpinner";
 			
 			backgroundColor = [UIColor colorWithRed:207.0/255.0 green:0 blue:16.0/255.0 alpha:1.0];
 		}
@@ -126,6 +120,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeDay) {
 			
 			[circleView addSubview:self.daySpinner];
+            _daySpinner.spinnerName = @"daySpinner";
 			
 			backgroundColor = [UIColor colorWithRed:251.0/255.0 green:24.0/255.0 blue:18.0/255.0 alpha:1.0];
 		}
@@ -133,6 +128,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeMonth) {
 			
 			[circleView addSubview:self.monthSpinner];
+            _monthSpinner.spinnerName = @"monthSpinner";
 			
 			backgroundColor = [UIColor colorWithRed:225.0/255.0 green:70.0/255.0 blue:22.0/255.0 alpha:1.0];
 		}
@@ -152,6 +148,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeUnits) {
 			
 			[circleView addSubview:self.incrementSpinner];
+            _incrementSpinner.spinnerName = @"incrementSpinner";
 			
 			backgroundColor = [UIColor colorWithRed:245.0/255.0 green:163.0/255.0 blue:40.0/255.0 alpha:1.0];
 		}
@@ -159,6 +156,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		else if (i == CircleTypeTotalTime) {
 			
 			[circleView addSubview:self.totalTimeSpinner];
+            _totalTimeSpinner.spinnerName = @"totalTimeSpinner";
 			
 			backgroundColor = [UIColor colorWithRed:238.0/255.0 green:222.0/255.0 blue:23.0/255.0 alpha:1.0];
 		}
@@ -239,7 +237,23 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 - (void)spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value
 {
-    
+    if ([self.delegate respondsToSelector:@selector(youllBeView:spinner:didChangeTo:)]) {
+		[self.delegate youllBeView:self spinner:spinner didChangeTo:value];
+	}
+}
+
+- (void)spinner:(ZASpinnerView *)spinner styleForCell:(ZASpinnerCell *)cell whileFocused:(BOOL)isFocused
+{
+    AWArcTextSpinnerCell *arcTextCell = (AWArcTextSpinnerCell*)cell;
+    if (isFocused) {
+        arcTextCell.circularArcText.color = [UIColor whiteColor];
+        arcTextCell.circularArcText.font = [self circleFont];
+    }
+    else {
+        arcTextCell.circularArcText.color = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f];
+        arcTextCell.circularArcText.font = [self unfocusedCircleFont];
+    }
+    [arcTextCell.circularArcText setNeedsDisplay];
 }
 
 - (NSArray*)incrementSpinnerContents
@@ -289,117 +303,14 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_totalTimeSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_totalTimeSpinner.spinnerDelegate = self;
 		[_totalTimeSpinner setIsInfinite:YES];
-		[_totalTimeSpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_totalTimeSpinner setFocusedFont:[self circleFont]];
+//		[_totalTimeSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_totalTimeSpinner setFocusedFont:[self circleFont]];
         [_totalTimeSpinner setExtraSpacing:-5.0f];
-		[_totalTimeSpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_totalTimeSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_totalTimeSpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_totalTimeSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _totalTimeSpinner;
-    if ([spinner.spinnerName isEqualToString:@"valueSpinner"])
-    {
-        self.value = @([value intValue]);
-        NSDate *newDate;
-        if ([self.units isEqualToString:@"Seconds"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:[self.value floatValue]];
-        }
-        else if ([self.units isEqualToString:@"Minutes"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60)];
-        }
-        else if ([self.units isEqualToString:@"Hours"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60)];
-        }
-        else if ([self.units isEqualToString:@"Days"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24)];
-        }
-        else if ([self.units isEqualToString:@"Weeks"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24*7)];
-        }
-        else if ([self.units isEqualToString:@"Months"])
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24*30)];
-        }
-        else
-        {
-            newDate = [self.dataModel.birthTime dateByAddingTimeInterval:([self.value floatValue] *60*60*24*365)];
-        }
-        
-        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:newDate];
-        
-        self.day = [NSNumber numberWithInt:[components day]];
-        self.month = [NSNumber numberWithInt:[components month]];
-        self.year = [NSNumber numberWithInt:[components year]];
-    }
-    else if ([spinner.spinnerName isEqualToString:@"incrementSpinner"])
-    {
-        //value is the new unit that has been selected, self.units is the old unit type
-        if ([value isEqualToString:@"Seconds"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Minutes"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Hours"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Days"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Weeks"])
-        {
-            
-        }
-        else if ([value isEqualToString:@"Months"])
-        {
-            
-        }
-        else
-        {
-            
-        }
-        self.units = value;
-    }
-    else if ([spinner.spinnerName isEqualToString:@"daySpinner"])
-    {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*(-[value integerValue] + [self.day integerValue])))];
-        NSArray* visibleCells = spinner.tableView.visibleCells;
-        for (ZASpinnerTableViewCell *visCell in visibleCells)
-        {
-            BOOL isPointInsideView = [visCell pointInside:CGPointMake([UIScreen mainScreen].bounds.size.width/2, visCell.frame.origin.y) withEvent:nil];
-            if (isPointInsideView)
-            {
-                NSIndexPath* path = [spinner.tableView indexPathForCell:visCell];
-                NSIndexPath* newPath = [NSIndexPath indexPathForRow:path.row + [self.value integerValue] inSection:path.section];
-                [spinner.tableView scrollToRowAtIndexPath:newPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-            }
-        }
-        self.day = @([value intValue]);
-    }
-    else if ([spinner.spinnerName isEqualToString:@"monthSpinner"])
-    {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*30*([value integerValue] - [self.month integerValue])))];
-        self.month = @([value intValue]);
-    }
-    else
-    {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*365*([value integerValue] - [self.year integerValue])))];
-        self.year = @([value intValue] + 2000);
-    }
-    //NSLog([self.value stringValue]);
-    //NSLog(self.units);
-    //NSLog([self.day stringValue]);
-    //NSLog([self.month stringValue]);
-    //NSLog([self.year stringValue]);
 }
 
 - (ZASpinnerView*)incrementSpinner
@@ -408,11 +319,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_incrementSpinner.spinnerDelegate = self;
 		[_incrementSpinner setContents:[self incrementSpinnerContents]];
-		[_incrementSpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_incrementSpinner setFocusedFont:[self circleFont]];
+//		[_incrementSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_incrementSpinner setFocusedFont:[self circleFont]];
         [_incrementSpinner setExtraSpacing:0.0f];
-		[_incrementSpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_incrementSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_incrementSpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_incrementSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _incrementSpinner;
@@ -424,11 +335,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_monthSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_monthSpinner.spinnerDelegate = self;
 		[_monthSpinner setContents:[self monthSpinnerContents]];
-		[_monthSpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_monthSpinner setFocusedFont:[self circleFont]];
+//		[_monthSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_monthSpinner setFocusedFont:[self circleFont]];
         [_monthSpinner setExtraSpacing:-5.0f];
-		[_monthSpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_monthSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_monthSpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_monthSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _monthSpinner;
@@ -440,11 +351,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_daySpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_daySpinner.spinnerDelegate = self;
 		[_daySpinner setContents:[self daySpinnerContents]];
-		[_daySpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_daySpinner setFocusedFont:[self circleFont]];
+//		[_daySpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_daySpinner setFocusedFont:[self circleFont]];
         [_daySpinner setExtraSpacing:-5.0f];
-		[_daySpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_daySpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_daySpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_daySpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _daySpinner;
@@ -457,11 +368,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		_yearSpinner.spinnerDelegate = self;
         [_yearSpinner setIsInfinite:YES];
         [_yearSpinner setStartIndex:2014];
-        [_yearSpinner setUnfocusedFont:[self unfocusedCircleFont]];
-		[_yearSpinner setFocusedFont:[self circleFont]];
+//        [_yearSpinner setUnfocusedFont:[self unfocusedCircleFont]];
+//		[_yearSpinner setFocusedFont:[self circleFont]];
         [_yearSpinner setExtraSpacing:-5.0f];
-		[_yearSpinner setFocusedFontColor:[UIColor whiteColor]];
-		[_yearSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+//		[_yearSpinner setFocusedFontColor:[UIColor whiteColor]];
+//		[_yearSpinner setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _yearSpinner;
@@ -503,7 +414,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		[circleView setCenter:CGPointMake(kScreenWidth/2, kScreenHeight)];
 		
-		if (index == CircleTypeHome) {
+		if (index == CircleTypeMenu) {
 			[_homeButton setFrame:circleView.bounds];
 		}
 		

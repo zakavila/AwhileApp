@@ -1,22 +1,19 @@
 //
-//  ZACircularTableViewCell.m
-//  ZACircularTableView
+//  AWSArcTextSpinnerCell.m
+//  AwhileApp
 //
-//  Created by Zak Avila on 4/9/14.
-//  Copyright (c) 2014 Zak Avila. All rights reserved.
+//  Created by Zak Avila on 4/22/14.
+//  Copyright (c) 2014 AwhileApp. All rights reserved.
 //
 
-#import "ZASpinnerTableViewCell.h"
+#import "AWArcTextSpinnerCell.h"
 
-@interface ZASpinnerTableViewCell ()
+@implementation AWArcTextSpinnerCell
 
-@end
-
-@implementation ZASpinnerTableViewCell
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-	
+    
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         
@@ -24,7 +21,7 @@
         self.circularArcText.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.circularArcText];
     }
-										 
+    
     return self;
 }
 
@@ -32,7 +29,6 @@
 {
     [super layoutSubviews];
     self.circularArcText.frame = CGRectMake(0.0f, 0.0f, self.frame.size.width, self.frame.size.height);
-    self.circularArcText.bounds = CGRectMake(0.0f, 0.0f, self.bounds.size.width, self.bounds.size.height);
 }
 
 @end

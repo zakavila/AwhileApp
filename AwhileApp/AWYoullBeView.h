@@ -16,10 +16,11 @@
 @protocol AWYoullBeViewDelegate <NSObject>
 
 - (void)awYoullBeView:(AWYoullBeView *)awYoullBeView homeButtonTouched:(UIButton *)homeButton;
+- (void)youllBeView:(AWYoullBeView *)youllBeView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
 
 @end
 
-@interface AWYoullBeView : TCAwhileView
+@interface AWYoullBeView : TCAwhileView <ZASpinnerViewDelegate>
 
 @property (weak) id <AWYoullBeViewDelegate> delegate;
 

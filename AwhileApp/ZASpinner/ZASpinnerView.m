@@ -7,7 +7,7 @@
 //
 
 #import "ZASpinnerView.h"
-#import "ZASpinnerTableViewCell.h"
+#import "ZASpinnerCell.h"
 
 #define SpinnerTableViewCellIdentifier @"Spinner Table View Cell Identifier"
 
@@ -44,16 +44,26 @@
     self.tableView = [[ZASpinnerTableView alloc] init];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.showsVerticalScrollIndicator = NO;
-    self.tableView.allowsSelection = NO;
+    self.tableView.allowsSelection = YES;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.radius = self.radius;
     self.tableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 	
-	[self.tableView registerClass:[ZASpinnerTableViewCell class] forCellReuseIdentifier:SpinnerTableViewCellIdentifier];
+	[self.tableView registerClass:[ZASpinnerCell class] forCellReuseIdentifier:SpinnerTableViewCellIdentifier];
 	
     [self addSubview:self.tableView];
+}
+
+- (void)registerClass:(Class)cellClass forCellReuseIdentifier:(NSString *)identifier
+{
+    [self.tableView registerClass:cellClass forCellReuseIdentifier:identifier];
+}
+
+- (id)dequeueReusableCellWithIdentifier:(NSString *)identifier
+{
+    return [self.tableView dequeueReusableCellWithIdentifier:identifier];
 }
 
 - (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate
@@ -62,30 +72,21 @@
         [self moveToIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0] withAnimation:animate];
     }
     else {
-        NSInteger adjustedRowIndex = 0;
+        NSInteger targetOffset = 0;
+        if (rowIndex > 175)
+            targetOffset = [self offsetForInfiniteArraysFromValue:rowIndex];
+        if (((NSNumber*)[[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:0]).integerValue != targetOffset)
+            [self createInfiniteArraysForValue:rowIndex];
+        NSInteger adjustedRowIndex = rowIndex-targetOffset;
         [self moveToIndexPath:[NSIndexPath indexPathForRow:adjustedRowIndex inSection:0] withAnimation:animate];
     }
 }
 
-- (void)setUnfocusedFont:(UIFont *)unfocusedFont {
-	_unfocusedFont = unfocusedFont;
-	self.tableView.unfocusedFont = unfocusedFont;
+- (NSString*)contentValueForIndexPath:(NSIndexPath*)indexPath
+{
+    return [self stringAtIndexPath:indexPath];
 }
 
-- (void)setFocusedFont:(UIFont *)focusedFont {
-	_focusedFont = focusedFont;
-	self.tableView.focusedFont = focusedFont;
-}
-
-- (void)setUnfocusedFontColor:(UIColor *)unfocusedFontColor {
-	_unfocusedFontColor = unfocusedFontColor;
-	self.tableView.unfocusedFontColor = unfocusedFontColor;
-}
-
-- (void)setFocusedFontColor:(UIColor *)focusedFontColor {
-	_focusedFontColor = focusedFontColor;
-	self.tableView.focusedFontColor = focusedFontColor;
-}
 
 #pragma mark TableView methods
 
@@ -118,15 +119,23 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	CGRect dummyRect = CGRectIntegral([[self stringAtIndexPath:indexPath] boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.focusedFont} context:nil]);
+    if ([self.spinnerDelegate respondsToSelector:@selector(spinner:heightForRowAtIndexPath:withContentValue:)])
+        return [self.spinnerDelegate spinner:self heightForRowAtIndexPath:indexPath withContentValue:[self stringAtIndexPath:indexPath]];
+	CGRect dummyRect = CGRectIntegral([[self stringAtIndexPath:indexPath] boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:48.0f]} context:nil]);
     return dummyRect.size.width + 10.0f + self.extraSpacing;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZASpinnerTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:SpinnerTableViewCellIdentifier forIndexPath:indexPath];
-    cell.circularArcText.text = [self stringAtIndexPath:indexPath];
-    return cell;
+    if ([self.spinnerDelegate respondsToSelector:@selector(spinner:cellForRowAtIndexPath:withContentValue:)])
+        return [self.spinnerDelegate spinner:self cellForRowAtIndexPath:indexPath withContentValue:[self stringAtIndexPath:indexPath]];
+    else
+        return [self.tableView dequeueReusableCellWithIdentifier:SpinnerTableViewCellIdentifier];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.spinnerDelegate spinner:self didSelectRowAtIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -135,10 +144,10 @@
         self.hasLoaded = YES;
         [self.tableView reloadData];
         if (!self.isInfinite || self.startIndex < 175)
-            [self goToRow:self.startIndex withAnimation:NO];
-        else {
-            NSInteger targetRowIndex = self.startIndex - [self offsetForInfiniteArrays];
-            [self goToRow:targetRowIndex withAnimation:NO];
+            [self moveToIndexPath:[NSIndexPath indexPathForRow:self.startIndex inSection:0] withAnimation:NO];
+        else if (self.isInfinite) {
+            NSInteger targetOffset = [self offsetForInfiniteArraysFromValue:self.startIndex];
+            [self moveToIndexPath:[NSIndexPath indexPathForRow:(self.startIndex-targetOffset) inSection:0] withAnimation:NO];
         }
     }
 }
@@ -149,11 +158,12 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     CGFloat newYOffset = [self getOffsetToCenterCells];
     if (scrollView.contentOffset.y != newYOffset) {
-        [self.spinnerDelegate spinner:self didChangeTo:[self stringAtIndexPath:[self getClosestIndexPathToCenter]]];
-        [UIView animateWithDuration:.5f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [UIView animateWithDuration:.3f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, newYOffset);
             [scrollView layoutSubviews];
-        }completion:nil];
+        }completion:^(BOOL finished){
+            [self.spinnerDelegate spinner:self didChangeTo:[self stringAtIndexPath:[self getClosestIndexPathToCenter]]];
+        }];
     }
 }
 
@@ -177,8 +187,6 @@
             scrollView.contentOffset = CGPointMake(offset.x, scrollView.contentSize.height*0.5f);
         }
     }
-	
-	[self setNeedsLayout];
 }
 
 
@@ -300,19 +308,20 @@
     [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
 }
 
-- (NSInteger)offsetForInfiniteArrays
+- (NSUInteger)offsetForInfiniteArraysFromValue:(NSInteger)value
 {
-    return ceil((self.startIndex-175)/75.0f)*75;
+    return ceil((value-175)/75.0f)*75;
 }
 
-- (void)createInfiniteArraysForStartIndex
+- (void)createInfiniteArraysForValue:(NSInteger)value
 {
+    _infiniteArrays = nil;
     self.currInfiniteArrayIndex = 1;
     _infiniteArrays = [[NSMutableArray alloc] init];
     NSMutableArray *firstArray = [[NSMutableArray alloc] init];
     NSMutableArray *secondArray = [[NSMutableArray alloc] init];
     NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
-    NSInteger offset =  [self offsetForInfiniteArrays];//Need to create offset to account for section of arrays
+    NSInteger offset =  [self offsetForInfiniteArraysFromValue:value];//Need to create offset to account for section of arrays
     for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
         [firstArray addObject:[NSNumber numberWithInteger:currIndex-75+offset]];
         [secondArray addObject:[NSNumber numberWithInteger:currIndex+offset]];
@@ -360,7 +369,7 @@
         if (self.startIndex < 175)
             [self createInfiniteArraysForBeginning];
         else
-            [self createInfiniteArraysForStartIndex];
+            [self createInfiniteArraysForValue:self.startIndex];
     }
     return _infiniteArrays;
 }

@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CoreTextArcView.h"
 
-@interface ZASpinnerTableViewCell : UITableViewCell
-
-@property (nonatomic, strong) CoreTextArcView *circularArcText;
+@interface ZASpinnerCell : UITableViewCell
 
 @end

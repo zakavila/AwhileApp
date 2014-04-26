@@ -7,8 +7,7 @@
 //
 
 #import "AWAppDelegate.h"
-#import "AWBirthViewController.h"
-#import "AWHomeViewController.h"
+#import "AWMainViewController.h"
 
 @implementation AWAppDelegate
 
@@ -18,9 +17,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-	AWHomeViewController *homeViewController = [[AWHomeViewController alloc] init];
-	
-    [self.window setRootViewController:homeViewController];
+    self.window.rootViewController = [[AWMainViewController alloc] init];
     return YES;
 }
 

@@ -7,6 +7,8 @@
 //
 
 #import "AWYouAreView.h"
+#import "AWArcTextSpinnerCell.h"
+#import "AWIconSpinnerCell.h"
 
 #define NUMBER_OF_CIRCLES 5
 
@@ -33,7 +35,7 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
 typedef NS_ENUM(NSInteger, CircleType) {
-	CircleTypeHome = 0,
+	CircleTypeMenu = 0,
 	CircleTypeOld = 1,
 	CircleTypeUnits = 2,
 	CircleTypeTotalTime = 3,
@@ -84,7 +86,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		UIColor *backgroundColor;
 		
-		if (i == CircleTypeHome) {
+		if (i == CircleTypeMenu) {
 			[circleView setClipsToBounds:YES];
 			
 			_homeButton = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -178,11 +180,46 @@ typedef NS_ENUM(NSInteger, CircleType) {
     return [UIFont fontWithName:@"HelveticaNeue-Thin" size:36.0f];
 }
 
+- (CGFloat)spinner:(ZASpinnerView *)spinner heightForRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString*)contentValue
+{
+//    CGRect dummyRect = CGRectIntegral([contentValue boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:48.0f]} context:nil]);
+//    return dummyRect.size.width + 10.0f;
+    return 100.0f+20.0f;
+}
+
+- (ZASpinnerCell *)spinner:(ZASpinnerView *)spinner cellForRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString*)contentValue
+{
+    AWIconSpinnerCell *cell = (AWIconSpinnerCell*)[spinner dequeueReusableCellWithIdentifier:@"ZASpinnerTableViewCellIdentifier"];
+//    cell.circularArcText.text = contentValue;
+//    cell.circularArcText.radius = spinner.radius;
+//    cell.circularArcText.arcSize = spinner.arcMultiplier*contentValue.length;
+//    cell.circularArcText.shiftV = -0.534f*spinner.radius-0.8573f;
+    cell.icon.backgroundColor = [UIColor blackColor];
+    return cell;
+}
 
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {
 	if ([self.delegate respondsToSelector:@selector(youAreView:spinner:didChangeTo:)]) {
 		[self.delegate youAreView:self spinner:spinner didChangeTo:value];
 	}
+}
+
+- (void)spinner:(ZASpinnerView*)spinner styleForCell:(ZASpinnerCell*)cell whileFocused:(BOOL)isFocused
+{
+    AWIconSpinnerCell *arcTextCell = (AWIconSpinnerCell*)cell;
+    if (isFocused) {
+//        arcTextCell.circularArcText.color = [UIColor whiteColor];
+//        arcTextCell.circularArcText.font = [self circleFont];
+        arcTextCell.icon.backgroundColor = [UIColor redColor];
+        arcTextCell.icon.bounds = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
+    }
+    else {
+//        arcTextCell.circularArcText.color = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f];
+//        arcTextCell.circularArcText.font = [self unfocusedCircleFont];
+        arcTextCell.icon.backgroundColor = [UIColor blackColor];
+        arcTextCell.icon.bounds = CGRectMake(0.0f, 0.0f, 25.0f, 25.0f);
+    }
+//    [arcTextCell.circularArcText setNeedsDisplay];
 }
 
 - (NSArray*)incrementSpinnerContents {
@@ -204,12 +241,9 @@ typedef NS_ENUM(NSInteger, CircleType) {
 	if (!_incrementSpinnerView) {
 		_incrementSpinnerView = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
 		_incrementSpinnerView.spinnerDelegate = self;
+        [_incrementSpinnerView registerClass:[AWIconSpinnerCell class] forCellReuseIdentifier:@"ZASpinnerTableViewCellIdentifier"];
 		[_incrementSpinnerView setContents:[self incrementSpinnerContents]];
-		[_incrementSpinnerView setUnfocusedFont:[self unfocusedCircleFont]];
-		[_incrementSpinnerView setFocusedFont:[self circleFont]];
         [_incrementSpinnerView setExtraSpacing:-5.0f];
-		[_incrementSpinnerView setFocusedFontColor:[UIColor whiteColor]];
-		[_incrementSpinnerView setUnfocusedFontColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
 	}
 	
 	return _incrementSpinnerView;
@@ -250,7 +284,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 		
 		[circleView setCenter:CGPointMake(kScreenWidth/2, kScreenHeight)];
 		
-		if (index == CircleTypeHome) {
+		if (index == CircleTypeMenu) {
 			[_homeButton setFrame:circleView.bounds];
 		}
 		
