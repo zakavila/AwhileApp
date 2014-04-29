@@ -216,7 +216,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     ZASpinnerCell *cell;
     if (spinner == self.menuSpinner) {
         AWIconSpinnerCell *iconCell = [spinner dequeueReusableCellWithIdentifier:ICON_SPINNER_CELL_IDENTIFIER];
-        iconCell.icon.image = [UIImage imageNamed:contentValue];
+        iconCell.icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_Circle_Black", contentValue]];
         cell = iconCell;
     }
     else {
@@ -296,13 +296,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
             [controller dismissViewControllerAnimated:YES completion:nil];
             //[self dismissViewControllerAnimated:YES completion:nil];
 }
-    
 
-- (void)spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath
-{
-    if (spinner == self.menuSpinner)
-        [self.delegate mainView:self spinner:spinner didSelectRowAtIndexPath:indexPath];
-}
 
 
 #pragma mark Spinner Helper

@@ -182,13 +182,6 @@
     //    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)mainView:(AWMainView *)mainView spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath
-{
-    NSString *selectedString = [spinner contentValueForIndexPath:indexPath];
-    NSLog(selectedString);
-    [spinner goToRow:indexPath.row withAnimation:YES];
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
