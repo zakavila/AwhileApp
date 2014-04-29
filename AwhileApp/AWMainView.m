@@ -162,7 +162,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
             self.daySpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.daySpinner.radius = previousFullRadius;
             self.daySpinner.verticalShift = -55.0f;
-            self.daySpinner.value = @"0";
+            self.daySpinner.value = @"1";
         }
         else if (circleIndex == CircleTypeMonth) {
             self.onLabel.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/6, 0.0f, [self normalBandWidth]/3, [self normalBandWidth]/3);
@@ -254,12 +254,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     NSString * val = [_valueSpinner value];
     NSString * you = [_youSpinner value];
 
-    if ([value isEqualToString: @"Share"]) {
-        ShareViewController *shareViewController = [[ShareViewController alloc] init];
-        [FBLoginView class];
-        // Set loginUIViewController as root view controller
-        [[self window] setRootViewController:shareViewController];
-    }
+
     
     if ([value isEqualToString: @"Alarm"]) {
         EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
@@ -287,6 +282,13 @@ typedef NS_ENUM(NSInteger, CircleType) {
             vc.editViewDelegate = self;
             [self.window.rootViewController presentViewController:vc animated:YES completion:nil];
         }];
+        
+        if ([value isEqualToString: @"Share"]) {
+            ShareViewController *shareViewController = [[ShareViewController alloc] init];
+            [FBLoginView class];
+            // Set loginUIViewController as root view controller
+            [[self window] setRootViewController:shareViewController];
+        }
         
          
          
@@ -460,7 +462,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 - (NSArray*)daySpinnerContents
 {
     NSMutableArray *returnArray = [NSMutableArray array];
-    for (NSUInteger currDay = 0; currDay < 32; currDay++)
+    for (NSUInteger currDay = 1; currDay < 32; currDay++)
         [returnArray addObject:[NSString stringWithFormat:@"%d", currDay]];
     return returnArray;
 }
