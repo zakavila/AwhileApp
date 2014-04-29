@@ -254,8 +254,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
     NSString * val = [_valueSpinner value];
     NSString * you = [_youSpinner value];
 
-
-    
     if ([value isEqualToString: @"Alarm"]) {
         EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
         EKEventStore* eventStore = [[EKEventStore alloc] init];
@@ -282,19 +280,16 @@ typedef NS_ENUM(NSInteger, CircleType) {
             vc.editViewDelegate = self;
             [self.window.rootViewController presentViewController:vc animated:YES completion:nil];
         }];
-        
-        if ([value isEqualToString: @"Share"]) {
-            ShareViewController *shareViewController = [[ShareViewController alloc] init];
-            [FBLoginView class];
-            // Set loginUIViewController as root view controller
-            [[self window] setRootViewController:shareViewController];
-        }
-        
-         
-         
+    }
+    
+    if ([value isEqualToString: @"Share"]) {
+        ShareViewController *shareViewController = [[ShareViewController alloc] init];
+        [FBLoginView class];
+        // Set loginUIViewController as root view controller
+        [[self window] setRootViewController:shareViewController];
     }
 }
-         
+
 - (void)eventEditViewController:(EKEventEditViewController*)controller
                         didCompleteWithAction:(EKEventEditViewAction)action
 {
