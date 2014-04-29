@@ -22,6 +22,13 @@
 
 @property id <AWMainViewDelegate> delegate;
 
+@property (nonatomic, strong) ZASpinnerView *menuSpinner;
+@property (nonatomic, strong) ZASpinnerView *yearSpinner;
+@property (nonatomic, strong) ZASpinnerView *daySpinner;
+@property (nonatomic, strong) ZASpinnerView *monthSpinner;
+@property (nonatomic, strong) ZASpinnerView *incrementSpinner;
+@property (nonatomic, strong) ZASpinnerView *valueSpinner;
+@property (nonatomic, strong) ZASpinnerView *youSpinner;
 - (NSArray*)menuSpinnerContents;
 
 @end
