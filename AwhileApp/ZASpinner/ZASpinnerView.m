@@ -133,11 +133,6 @@
         return [self.tableView dequeueReusableCellWithIdentifier:SpinnerTableViewCellIdentifier];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self.spinnerDelegate spinner:self didSelectRowAtIndexPath:indexPath];
-}
-
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!self.hasLoaded && indexPath.row == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row) {
@@ -156,7 +151,10 @@
 #pragma mark ScrollView methods
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    CGFloat newYOffset = [self getOffsetToCenterCells];
+    NSIndexPath *bestIndexPath = [self getClosestIndexPathToCenter];
+    _centeredIndex = bestIndexPath.row;
+    _centeredValue = [self stringAtIndexPath:bestIndexPath];
+    CGFloat newYOffset = [self getOffsetToShowIndex:bestIndexPath];
     if (scrollView.contentOffset.y != newYOffset) {
         [UIView animateWithDuration:.3f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, newYOffset);
@@ -172,6 +170,12 @@
     if (!decelerate) {
         [self scrollViewDidEndDecelerating:scrollView];
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    _centeredIndex = -1;
+    _centeredValue = @"";
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -202,10 +206,9 @@
     }completion:nil];
 }
 
-- (CGFloat)getOffsetToCenterCells
+- (CGFloat)getOffsetToShowIndex:(NSIndexPath*)indexPath
 {
-    NSIndexPath *bestIndexPath = [self getClosestIndexPathToCenter];
-    return self.tableView.contentOffset.y + [self getIndexPath:bestIndexPath distanceFromCenterOf:self.tableView];
+    return self.tableView.contentOffset.y + [self getIndexPath:indexPath distanceFromCenterOf:self.tableView];
 }
 
 - (NSIndexPath*)getClosestIndexPathToCenter
@@ -349,9 +352,24 @@
     }
 }
 
-- (void) setValue:(NSString *)value
+@synthesize centeredIndex = _centeredIndex;
+- (NSInteger)centeredIndex
 {
-    _value = value;
+    return _centeredIndex;
+}
+- (void)setCenteredIndex:(NSInteger)centeredIndex
+{
+    _centeredIndex = centeredIndex;
+}
+
+@synthesize centeredValue = _centeredValue;
+- (NSString *)centeredValue
+{
+    return _centeredValue;
+}
+- (void)setCenteredValue:(NSString *)centeredValue
+{
+    _centeredValue = centeredValue;
 }
 
 - (CGFloat)extraSpacing

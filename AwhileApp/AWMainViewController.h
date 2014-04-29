@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "AWMainView.h"
+#import <EventKit/EventKit.h>
+#import <EventKitUI/EventKitUI.h>
 
-@interface AWMainViewController : UIViewController <AWMainViewDelegate>
+@interface AWMainViewController : UIViewController <AWMainViewDelegate, EKEventEditViewDelegate>
 
 @end
