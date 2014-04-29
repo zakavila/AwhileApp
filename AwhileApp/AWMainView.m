@@ -11,6 +11,9 @@
 #import "AWIconSpinnerCell.h"
 #import <EventKit/EventKit.h>
 #import <EventKitUI/EventKitUI.h>
+#import <FacebookSDK/FacebookSDK.h>
+
+
 
 #pragma mark Constants
 
@@ -249,6 +252,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
     NSString * increment = [_incrementSpinner value];
     NSString * val = [_valueSpinner value];
     NSString * you = [_youSpinner value];
+
+    if ([value isEqualToString: @"Share"]) {
+        
+    }
+    
     if ([value isEqualToString: @"Alarm"]) {
         EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
         EKEventStore* eventStore = [[EKEventStore alloc] init];
