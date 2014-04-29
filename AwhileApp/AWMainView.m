@@ -12,6 +12,7 @@
 #import <EventKit/EventKit.h>
 #import <EventKitUI/EventKitUI.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "ShareViewController.h"
 
 
 
@@ -254,7 +255,10 @@ typedef NS_ENUM(NSInteger, CircleType) {
     NSString * you = [_youSpinner value];
 
     if ([value isEqualToString: @"Share"]) {
-        
+        ShareViewController *shareViewController = [[ShareViewController alloc] init];
+        [FBLoginView class];
+        // Set loginUIViewController as root view controller
+        [[self window] setRootViewController:shareViewController];
     }
     
     if ([value isEqualToString: @"Alarm"]) {
