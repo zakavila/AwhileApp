@@ -27,7 +27,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.icon.frame = CGRectMake(0.0f, 0.0f, self.icon.image.size.width, self.icon.image.size.height);
+    self.icon.frame = CGRectMake(0.0f, 0.0f, self.icon.bounds.size.width, self.icon.bounds.size.height);
     self.icon.layer.anchorPoint = CGPointMake(0.5f, 1.0f);
     self.icon.center = self.contentView.center;
 }
