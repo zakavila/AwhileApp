@@ -9,6 +9,8 @@
 #import "AWMainView.h"
 #import "AWArcTextSpinnerCell.h"
 #import "AWIconSpinnerCell.h"
+#import <EventKit/EventKit.h>
+#import <EventKitUI/EventKitUI.h>
 
 #pragma mark Constants
 
@@ -146,15 +148,17 @@ typedef NS_ENUM(NSInteger, CircleType) {
             self.menuSpinner.radius = 0.0f;
         }
         else if (circleIndex == CircleTypeYear) {
-            #warning Fix spinner to work with more full circles
+#warning Fix spinner to work with more full circles
             self.yearSpinner.frame = CGRectMake(spinnerOriginX+30, 0.0f, kScreenWidth-60, fullRadius);
             self.yearSpinner.radius = previousFullRadius;
             self.yearSpinner.verticalShift = -65.0f;
+            self.yearSpinner.value = @"2014";
         }
         else if (circleIndex == CircleTypeDay) {
             self.daySpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.daySpinner.radius = previousFullRadius;
             self.daySpinner.verticalShift = -55.0f;
+            self.daySpinner.value = @"0";
         }
         else if (circleIndex == CircleTypeMonth) {
             self.onLabel.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/6, 0.0f, [self normalBandWidth]/3, [self normalBandWidth]/3);
@@ -163,21 +167,25 @@ typedef NS_ENUM(NSInteger, CircleType) {
             self.monthSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.monthSpinner.radius = previousFullRadius;
             self.monthSpinner.verticalShift = -40.0f;
+            self.monthSpinner.value = @"Jan";
         }
         else if (circleIndex == CircleTypeIncrement) {
             self.incrementSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.incrementSpinner.radius = previousFullRadius;
             self.incrementSpinner.verticalShift = -30.0f;
+            self.incrementSpinner.value = @"Seconds";
         }
         else if (circleIndex == CircleTypeValue) {
             self.valueSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.valueSpinner.radius = previousFullRadius;
             self.valueSpinner.verticalShift = -25.0f;
+            self.valueSpinner.value = @"0";
         }
         else if (circleIndex == CircleTypeYou) {
             self.youSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.youSpinner.radius = previousFullRadius;
             self.youSpinner.verticalShift = -20.0f;
+            self.youSpinner.value = @"You were";
         }
         previousFullRadius = fullRadius;
         fullRadius = previousFullRadius + [self normalBandWidth];
@@ -234,7 +242,52 @@ typedef NS_ENUM(NSInteger, CircleType) {
 - (void)spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value
 {
     [self.delegate mainView:self spinner:spinner didChangeTo:value];
+    [spinner setValue:(value)];
+    NSString * day = [_daySpinner value];
+    NSString * month = [_monthSpinner value];
+    NSString * year = [_yearSpinner value];
+    NSString * increment = [_incrementSpinner value];
+    NSString * val = [_valueSpinner value];
+    NSString * you = [_youSpinner value];
+    if ([value isEqualToString: @"Alarm"]) {
+        EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
+        EKEventStore* eventStore = [[EKEventStore alloc] init];
+        [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {            vc.eventStore = eventStore;
+            EKEvent* event = [EKEvent eventWithEventStore:eventStore];
+            // Prepopulate all kinds of useful information with you event.
+            event.title = [NSString stringWithFormat:@"%@ %@ %@ on", you, val, increment];
+            NSString *dateString = [NSString stringWithFormat:@"%@-%@-%@", day, month, year];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"d-MMM-yy";
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            event.startDate = date;
+            event.endDate = date;
+            event.URL = [NSURL URLWithString:@"awhile.appspot.com"];
+            //event.notes = @"This event will be awesome!";
+            NSMutableArray *myAlarmsArray = [[NSMutableArray alloc] init];
+            EKAlarm *arrAlarm = [EKAlarm alarmWithAbsoluteDate:date];
+            [myAlarmsArray addObject:arrAlarm];
+            
+            event.alarms = myAlarmsArray;
+            event.allDay = YES;
+            vc.event = event;
+            
+            vc.editViewDelegate = self;
+            [self.window.rootViewController presentViewController:vc animated:YES completion:nil];
+        }];
+        
+         
+         
+    }
 }
+         
+- (void)eventEditViewController:(EKEventEditViewController*)controller
+                        didCompleteWithAction:(EKEventEditViewAction)action
+{
+            [controller dismissViewControllerAnimated:YES completion:nil];
+            //[self dismissViewControllerAnimated:YES completion:nil];
+}
+    
 
 - (void)spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath
 {
@@ -396,7 +449,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 {
     NSMutableArray *returnArray = [NSMutableArray array];
     for (NSUInteger currDay = 0; currDay < 32; currDay++)
-         [returnArray addObject:[NSString stringWithFormat:@"%d", currDay]];
+        [returnArray addObject:[NSString stringWithFormat:@"%d", currDay]];
     return returnArray;
 }
 
