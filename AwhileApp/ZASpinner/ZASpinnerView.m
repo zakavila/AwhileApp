@@ -349,6 +349,11 @@
     }
 }
 
+- (void) setValue:(NSString *)value
+{
+    _value = value;
+}
+
 - (CGFloat)extraSpacing
 {
     if (_extraSpacing == -1)

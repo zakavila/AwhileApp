@@ -9,6 +9,8 @@
 #import "AWMainViewController.h"
 #import "ZASpinnerView.h"
 #import "AWIconSpinnerCell.h"
+#import <EventKit/EventKit.h>
+#import <EventKitUI/EventKitUI.h>
 
 @interface AWMainViewController ()
 @property (nonatomic, strong) AWMainView *mainView;
@@ -38,7 +40,13 @@
 }
 
 - (void)mainView:(AWMainView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {
-    
+ 
+}
+- (void)eventEditViewController:(EKEventEditViewController*)controller
+          didCompleteWithAction:(EKEventEditViewAction)action
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    //    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)mainView:(AWMainView *)mainView spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath

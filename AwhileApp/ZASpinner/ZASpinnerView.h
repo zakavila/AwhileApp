@@ -45,7 +45,7 @@ typedef enum {
 @property (nonatomic, strong) NSArray *contents;
 @property (nonatomic) NSInteger startIndex;
 @property BOOL isInfinite;
-
+@property (nonatomic) NSString* value;
 @property (nonatomic, strong) NSString *spinnerName;
 
 - (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate;
