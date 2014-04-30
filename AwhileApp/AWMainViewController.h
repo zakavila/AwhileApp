@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "AWMainView.h"
+#import "AWDataModel.h"
 
 @interface AWMainViewController : UIViewController <AWMainViewDelegate>
+
+- (id)initWithData:(AWDataModel*)dateModel;
 
 @end

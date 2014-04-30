@@ -8,6 +8,7 @@
 
 #import "AWAppDelegate.h"
 #import "AWMainViewController.h"
+#import "AWBirthDateViewController.h"
 
 @implementation AWAppDelegate
 
@@ -17,7 +18,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    self.window.rootViewController = [[AWMainViewController alloc] init];
+    self.window.rootViewController = [[AWBirthDateViewController alloc] init];
     return YES;
 }
 

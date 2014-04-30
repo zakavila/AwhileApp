@@ -10,7 +10,11 @@
 		05918F3318FF8A3100A0F579 /* TCAwhileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05918F3218FF8A3100A0F579 /* TCAwhileView.m */; };
 		05918F3A18FF947300A0F579 /* awhileBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3918FF947300A0F579 /* awhileBar@2x.png */; };
 		05918F3D18FFA42300A0F579 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3C18FFA42300A0F579 /* home@2x.png */; };
+		15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A82F691910342600A01D4C /* AWBirthTimeView.m */; };
+		15A82F6D1910BC5E00A01D4C /* AWBirthTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A82F6C1910BC5E00A01D4C /* AWBirthTimeViewController.m */; };
 		15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F6D3E318FEFED800A176DC /* AWDataModel.m */; };
+		15FDE071190B4C1B00DFE036 /* AWBirthDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */; };
+		15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */; };
 		B24FD087190700C8009FD1C8 /* AWIconSpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */; };
 		B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3A18F728DB00497CDD /* Foundation.framework */; };
 		B295DE3D18F728DB00497CDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3C18F728DB00497CDD /* CoreGraphics.framework */; };
@@ -54,8 +58,16 @@
 		05918F3218FF8A3100A0F579 /* TCAwhileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCAwhileView.m; sourceTree = "<group>"; };
 		05918F3918FF947300A0F579 /* awhileBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "awhileBar@2x.png"; sourceTree = "<group>"; };
 		05918F3C18FFA42300A0F579 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
+		15A82F681910342600A01D4C /* AWBirthTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthTimeView.h; sourceTree = "<group>"; };
+		15A82F691910342600A01D4C /* AWBirthTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthTimeView.m; sourceTree = "<group>"; };
+		15A82F6B1910BC5D00A01D4C /* AWBirthTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthTimeViewController.h; sourceTree = "<group>"; };
+		15A82F6C1910BC5E00A01D4C /* AWBirthTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthTimeViewController.m; sourceTree = "<group>"; };
 		15F6D3E218FEFED800A176DC /* AWDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWDataModel.h; sourceTree = "<group>"; };
 		15F6D3E318FEFED800A176DC /* AWDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWDataModel.m; sourceTree = "<group>"; };
+		15FDE06F190B4C1B00DFE036 /* AWBirthDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthDateViewController.h; sourceTree = "<group>"; };
+		15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthDateViewController.m; sourceTree = "<group>"; };
+		15FDE072190B4D1C00DFE036 /* AWBirthDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthDateView.h; sourceTree = "<group>"; };
+		15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthDateView.m; sourceTree = "<group>"; };
 		B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWIconSpinnerCell.h; sourceTree = "<group>"; };
 		B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWIconSpinnerCell.m; sourceTree = "<group>"; };
 		B295DE3718F728DB00497CDD /* AwhileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwhileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -329,6 +341,14 @@
 				B2CF54021908A0E4009C15C6 /* AWArcTextSpinnerCell.m */,
 				B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */,
 				B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */,
+				15FDE06F190B4C1B00DFE036 /* AWBirthDateViewController.h */,
+				15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */,
+				15FDE072190B4D1C00DFE036 /* AWBirthDateView.h */,
+				15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */,
+				15A82F6B1910BC5D00A01D4C /* AWBirthTimeViewController.h */,
+				15A82F6C1910BC5E00A01D4C /* AWBirthTimeViewController.m */,
+				15A82F681910342600A01D4C /* AWBirthTimeView.h */,
+				15A82F691910342600A01D4C /* AWBirthTimeView.m */,
 			);
 			name = Final;
 			sourceTree = "<group>";
@@ -436,7 +456,10 @@
 			files = (
 				B295DE7118F76E4A00497CDD /* CoreTextArcView.m in Sources */,
 				B295DE8718F7854000497CDD /* AWYoullBeView.m in Sources */,
+				15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */,
 				B295DE8018F77DFC00497CDD /* ZASpinnerCell.m in Sources */,
+				15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */,
+				15A82F6D1910BC5E00A01D4C /* AWBirthTimeViewController.m in Sources */,
 				B295DE9318F7A58600497CDD /* AWBirthView.m in Sources */,
 				B295DE8418F7852500497CDD /* AWYoullBeViewController.m in Sources */,
 				B2AE2BC519077F52003C446B /* AWMainView.m in Sources */,
@@ -447,6 +470,7 @@
 				05918F3318FF8A3100A0F579 /* TCAwhileView.m in Sources */,
 				B295DE7F18F77DFC00497CDD /* ZASpinnerTableView.m in Sources */,
 				B295DE9018F7A56300497CDD /* AWBirthViewController.m in Sources */,
+				15FDE071190B4C1B00DFE036 /* AWBirthDateViewController.m in Sources */,
 				B295DE7418F775A800497CDD /* AWYouAreViewController.m in Sources */,
 				15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */,
 				B295DE7718F775CE00497CDD /* AWYouAreView.m in Sources */,

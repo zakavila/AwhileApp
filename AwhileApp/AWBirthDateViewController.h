@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AWBirthDateView.h"
+#import "AWDataModel.h"
 
-@interface AWBirthDateViewController : UIViewController
+@interface AWBirthDateViewController : UIViewController <AWBirthDateViewDelegate>
 
 @end
