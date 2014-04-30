@@ -16,6 +16,7 @@
 
 @protocol AWMainViewDelegate <NSObject>
 - (void)mainView:(AWMainView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
+- (void)mainView:(AWMainView*)mainView spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath withContentValue:(NSString*)contentValue;
 @end
 
 @interface AWMainView : UIView <ZASpinnerViewDelegate>

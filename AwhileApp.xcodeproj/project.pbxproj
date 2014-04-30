@@ -41,7 +41,6 @@
 		B2AE2BC219077F41003C446B /* AWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2AE2BC119077F41003C446B /* AWMainViewController.m */; };
 		B2AE2BC519077F52003C446B /* AWMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2AE2BC419077F52003C446B /* AWMainView.m */; };
 		B2CF54031908A0E4009C15C6 /* AWArcTextSpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CF54021908A0E4009C15C6 /* AWArcTextSpinnerCell.m */; };
-		B2CF5409190F73A4009C15C6 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2CF5408190F73A4009C15C6 /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,7 +120,6 @@
 		B2AE2BC419077F52003C446B /* AWMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWMainView.m; sourceTree = "<group>"; };
 		B2CF54011908A0E4009C15C6 /* AWArcTextSpinnerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWArcTextSpinnerCell.h; sourceTree = "<group>"; };
 		B2CF54021908A0E4009C15C6 /* AWArcTextSpinnerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWArcTextSpinnerCell.m; sourceTree = "<group>"; };
-		B2CF5408190F73A4009C15C6 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +127,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2CF5409190F73A4009C15C6 /* FacebookSDK.framework in Frameworks */,
 				B295DE3D18F728DB00497CDD /* CoreGraphics.framework in Frameworks */,
 				B295DE3F18F728DB00497CDD /* UIKit.framework in Frameworks */,
 				B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */,
@@ -250,7 +247,6 @@
 		B295DE3918F728DB00497CDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B2CF5408190F73A4009C15C6 /* FacebookSDK.framework */,
 				B295DE3A18F728DB00497CDD /* Foundation.framework */,
 				B295DE3C18F728DB00497CDD /* CoreGraphics.framework */,
 				B295DE3E18F728DB00497CDD /* UIKit.framework */,
