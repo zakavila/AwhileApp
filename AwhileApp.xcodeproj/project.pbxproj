@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05918F3318FF8A3100A0F579 /* TCAwhileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05918F3218FF8A3100A0F579 /* TCAwhileView.m */; };
 		05918F3A18FF947300A0F579 /* awhileBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3918FF947300A0F579 /* awhileBar@2x.png */; };
 		05918F3D18FFA42300A0F579 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3C18FFA42300A0F579 /* home@2x.png */; };
 		15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A82F691910342600A01D4C /* AWBirthTimeView.m */; };
@@ -29,15 +28,9 @@
 		B295DE5E18F728DB00497CDD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B295DE5C18F728DB00497CDD /* InfoPlist.strings */; };
 		B295DE6018F728DB00497CDD /* AwhileAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE5F18F728DB00497CDD /* AwhileAppTests.m */; };
 		B295DE7118F76E4A00497CDD /* CoreTextArcView.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE7018F76E4A00497CDD /* CoreTextArcView.m */; };
-		B295DE7418F775A800497CDD /* AWYouAreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE7318F775A800497CDD /* AWYouAreViewController.m */; };
-		B295DE7718F775CE00497CDD /* AWYouAreView.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE7618F775CE00497CDD /* AWYouAreView.m */; };
 		B295DE7F18F77DFC00497CDD /* ZASpinnerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE7A18F77DFC00497CDD /* ZASpinnerTableView.m */; };
 		B295DE8018F77DFC00497CDD /* ZASpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE7C18F77DFC00497CDD /* ZASpinnerCell.m */; };
 		B295DE8118F77DFC00497CDD /* ZASpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE7E18F77DFC00497CDD /* ZASpinnerView.m */; };
-		B295DE8418F7852500497CDD /* AWYoullBeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE8318F7852500497CDD /* AWYoullBeViewController.m */; };
-		B295DE8718F7854000497CDD /* AWYoullBeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE8618F7854000497CDD /* AWYoullBeView.m */; };
-		B295DE9018F7A56300497CDD /* AWBirthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE8F18F7A56300497CDD /* AWBirthViewController.m */; };
-		B295DE9318F7A58600497CDD /* AWBirthView.m in Sources */ = {isa = PBXBuildFile; fileRef = B295DE9218F7A58600497CDD /* AWBirthView.m */; };
 		B2AE2BC219077F41003C446B /* AWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2AE2BC119077F41003C446B /* AWMainViewController.m */; };
 		B2AE2BC519077F52003C446B /* AWMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2AE2BC419077F52003C446B /* AWMainView.m */; };
 		B2CF54031908A0E4009C15C6 /* AWArcTextSpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CF54021908A0E4009C15C6 /* AWArcTextSpinnerCell.m */; };
@@ -54,8 +47,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		05918F3118FF8A3100A0F579 /* TCAwhileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCAwhileView.h; sourceTree = "<group>"; };
-		05918F3218FF8A3100A0F579 /* TCAwhileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCAwhileView.m; sourceTree = "<group>"; };
 		05918F3918FF947300A0F579 /* awhileBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "awhileBar@2x.png"; sourceTree = "<group>"; };
 		05918F3C18FFA42300A0F579 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
 		15A82F681910342600A01D4C /* AWBirthTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthTimeView.h; sourceTree = "<group>"; };
@@ -86,34 +77,26 @@
 		B295DE5B18F728DB00497CDD /* AwhileAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AwhileAppTests-Info.plist"; sourceTree = "<group>"; };
 		B295DE5D18F728DB00497CDD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B295DE5F18F728DB00497CDD /* AwhileAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwhileAppTests.m; sourceTree = "<group>"; };
-		B295DE6918F729E700497CDD /* AWHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWHomeViewController.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWHomeViewController.h; sourceTree = "<absolute>"; };
-		B295DE6A18F729E700497CDD /* AWHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWHomeViewController.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWHomeViewController.m; sourceTree = "<absolute>"; };
-		B295DE6C18F72A0700497CDD /* AWHomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWHomeView.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWHomeView.h; sourceTree = "<absolute>"; };
-		B295DE6D18F72A0700497CDD /* AWHomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWHomeView.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWHomeView.m; sourceTree = "<absolute>"; };
 		B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreTextArcView.h; sourceTree = "<group>"; };
 		B295DE7018F76E4A00497CDD /* CoreTextArcView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreTextArcView.m; sourceTree = "<group>"; };
-		B295DE7218F775A800497CDD /* AWYouAreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWYouAreViewController.h; sourceTree = "<group>"; };
-		B295DE7318F775A800497CDD /* AWYouAreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWYouAreViewController.m; sourceTree = "<group>"; };
-		B295DE7518F775CE00497CDD /* AWYouAreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWYouAreView.h; sourceTree = "<group>"; };
-		B295DE7618F775CE00497CDD /* AWYouAreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWYouAreView.m; sourceTree = "<group>"; };
+		B295DE7218F775A800497CDD /* AWYouAreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWYouAreViewController.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreViewController.h; sourceTree = "<absolute>"; };
+		B295DE7318F775A800497CDD /* AWYouAreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWYouAreViewController.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreViewController.m; sourceTree = "<absolute>"; };
+		B295DE7518F775CE00497CDD /* AWYouAreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWYouAreView.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreView.h; sourceTree = "<absolute>"; };
+		B295DE7618F775CE00497CDD /* AWYouAreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWYouAreView.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreView.m; sourceTree = "<absolute>"; };
 		B295DE7918F77DFC00497CDD /* ZASpinnerTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZASpinnerTableView.h; sourceTree = "<group>"; };
 		B295DE7A18F77DFC00497CDD /* ZASpinnerTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZASpinnerTableView.m; sourceTree = "<group>"; };
 		B295DE7B18F77DFC00497CDD /* ZASpinnerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZASpinnerCell.h; sourceTree = "<group>"; };
 		B295DE7C18F77DFC00497CDD /* ZASpinnerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZASpinnerCell.m; sourceTree = "<group>"; };
 		B295DE7D18F77DFC00497CDD /* ZASpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZASpinnerView.h; sourceTree = "<group>"; };
 		B295DE7E18F77DFC00497CDD /* ZASpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZASpinnerView.m; sourceTree = "<group>"; };
-		B295DE8218F7852500497CDD /* AWYoullBeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWYoullBeViewController.h; sourceTree = "<group>"; };
-		B295DE8318F7852500497CDD /* AWYoullBeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWYoullBeViewController.m; sourceTree = "<group>"; };
-		B295DE8518F7854000497CDD /* AWYoullBeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWYoullBeView.h; sourceTree = "<group>"; };
-		B295DE8618F7854000497CDD /* AWYoullBeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWYoullBeView.m; sourceTree = "<group>"; };
-		B295DE8818F7A08D00497CDD /* AWMilestonesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWMilestonesViewController.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWMilestonesViewController.h; sourceTree = "<absolute>"; };
-		B295DE8918F7A08D00497CDD /* AWMilestonesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWMilestonesViewController.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWMilestonesViewController.m; sourceTree = "<absolute>"; };
-		B295DE8B18F7A09F00497CDD /* AWMilestoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWMilestoneView.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWMilestoneView.h; sourceTree = "<absolute>"; };
-		B295DE8C18F7A0A000497CDD /* AWMilestoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWMilestoneView.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWMilestoneView.m; sourceTree = "<absolute>"; };
-		B295DE8E18F7A56300497CDD /* AWBirthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthViewController.h; sourceTree = "<group>"; };
-		B295DE8F18F7A56300497CDD /* AWBirthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthViewController.m; sourceTree = "<group>"; };
-		B295DE9118F7A58600497CDD /* AWBirthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthView.h; sourceTree = "<group>"; };
-		B295DE9218F7A58600497CDD /* AWBirthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthView.m; sourceTree = "<group>"; };
+		B295DE8218F7852500497CDD /* AWYoullBeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWYoullBeViewController.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYoullBeViewController.h; sourceTree = "<absolute>"; };
+		B295DE8318F7852500497CDD /* AWYoullBeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWYoullBeViewController.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYoullBeViewController.m; sourceTree = "<absolute>"; };
+		B295DE8518F7854000497CDD /* AWYoullBeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWYoullBeView.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYoullBeView.h; sourceTree = "<absolute>"; };
+		B295DE8618F7854000497CDD /* AWYoullBeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWYoullBeView.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYoullBeView.m; sourceTree = "<absolute>"; };
+		B295DE8E18F7A56300497CDD /* AWBirthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWBirthViewController.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWBirthViewController.h; sourceTree = "<absolute>"; };
+		B295DE8F18F7A56300497CDD /* AWBirthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWBirthViewController.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWBirthViewController.m; sourceTree = "<absolute>"; };
+		B295DE9118F7A58600497CDD /* AWBirthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWBirthView.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWBirthView.h; sourceTree = "<absolute>"; };
+		B295DE9218F7A58600497CDD /* AWBirthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWBirthView.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWBirthView.m; sourceTree = "<absolute>"; };
 		B2AE2BC019077F41003C446B /* AWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWMainViewController.h; sourceTree = "<group>"; };
 		B2AE2BC119077F41003C446B /* AWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWMainViewController.m; sourceTree = "<group>"; };
 		B2AE2BC319077F52003C446B /* AWMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWMainView.h; sourceTree = "<group>"; };
@@ -149,6 +132,8 @@
 		057EFC2B18FE0BE80067C9DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				15F6D3E218FEFED800A176DC /* AWDataModel.h */,
+				15F6D3E318FEFED800A176DC /* AWDataModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -156,18 +141,26 @@
 		057EFC2C18FE0BED0067C9DF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				05918F3418FF8A3900A0F579 /* Awhile View */,
 				B295DE7818F77DFC00497CDD /* ZASpinner */,
-				B295DE8B18F7A09F00497CDD /* AWMilestoneView.h */,
-				B295DE8C18F7A0A000497CDD /* AWMilestoneView.m */,
+				B295DE7818F77DFC00497CDD /* ZASpinner */,
+				B2AE2BC319077F52003C446B /* AWMainView.h */,
+				B2AE2BC419077F52003C446B /* AWMainView.m */,
+				B2CF54011908A0E4009C15C6 /* AWArcTextSpinnerCell.h */,
+				B2CF54021908A0E4009C15C6 /* AWArcTextSpinnerCell.m */,
+				B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */,
+				B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */,
+				15FDE072190B4D1C00DFE036 /* AWBirthDateView.h */,
+				15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */,
+				15A82F681910342600A01D4C /* AWBirthTimeView.h */,
+				15A82F691910342600A01D4C /* AWBirthTimeView.m */,
 				B295DE8518F7854000497CDD /* AWYoullBeView.h */,
 				B295DE8618F7854000497CDD /* AWYoullBeView.m */,
 				B295DE7518F775CE00497CDD /* AWYouAreView.h */,
 				B295DE7618F775CE00497CDD /* AWYouAreView.m */,
 				B295DE9118F7A58600497CDD /* AWBirthView.h */,
 				B295DE9218F7A58600497CDD /* AWBirthView.m */,
-				B295DE6C18F72A0700497CDD /* AWHomeView.h */,
-				B295DE6D18F72A0700497CDD /* AWHomeView.m */,
+				B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */,
+				B295DE7018F76E4A00497CDD /* CoreTextArcView.m */,
 				B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */,
 				B295DE7018F76E4A00497CDD /* CoreTextArcView.m */,
 			);
@@ -177,27 +170,20 @@
 		057EFC2D18FE0BF10067C9DF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B2AE2BC019077F41003C446B /* AWMainViewController.h */,
+				B2AE2BC119077F41003C446B /* AWMainViewController.m */,
+				15FDE06F190B4C1B00DFE036 /* AWBirthDateViewController.h */,
+				15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */,
+				15A82F6B1910BC5D00A01D4C /* AWBirthTimeViewController.h */,
+				15A82F6C1910BC5E00A01D4C /* AWBirthTimeViewController.m */,
 				B295DE8E18F7A56300497CDD /* AWBirthViewController.h */,
 				B295DE8F18F7A56300497CDD /* AWBirthViewController.m */,
-				B295DE6918F729E700497CDD /* AWHomeViewController.h */,
-				B295DE6A18F729E700497CDD /* AWHomeViewController.m */,
 				B295DE7218F775A800497CDD /* AWYouAreViewController.h */,
 				B295DE7318F775A800497CDD /* AWYouAreViewController.m */,
 				B295DE8218F7852500497CDD /* AWYoullBeViewController.h */,
 				B295DE8318F7852500497CDD /* AWYoullBeViewController.m */,
-				B295DE8818F7A08D00497CDD /* AWMilestonesViewController.h */,
-				B295DE8918F7A08D00497CDD /* AWMilestonesViewController.m */,
 			);
 			name = Controller;
-			sourceTree = "<group>";
-		};
-		05918F3418FF8A3900A0F579 /* Awhile View */ = {
-			isa = PBXGroup;
-			children = (
-				05918F3118FF8A3100A0F579 /* TCAwhileView.h */,
-				05918F3218FF8A3100A0F579 /* TCAwhileView.m */,
-			);
-			name = "Awhile View";
 			sourceTree = "<group>";
 		};
 		05918F3718FF8B9000A0F579 /* Icons */ = {
@@ -258,31 +244,13 @@
 		B295DE4018F728DB00497CDD /* AwhileApp */ = {
 			isa = PBXGroup;
 			children = (
+				B295DE4918F728DB00497CDD /* AWAppDelegate.h */,
+				B295DE4A18F728DB00497CDD /* AWAppDelegate.m */,
 				057EFC2D18FE0BF10067C9DF /* Controller */,
 				057EFC2C18FE0BED0067C9DF /* View */,
 				057EFC2B18FE0BE80067C9DF /* Model */,
-				B295DE4918F728DB00497CDD /* AWAppDelegate.h */,
-				B295DE4A18F728DB00497CDD /* AWAppDelegate.m */,
 				B295DE4C18F728DB00497CDD /* Images.xcassets */,
 				B295DE4118F728DB00497CDD /* Supporting Files */,
-				B295DE8E18F7A56300497CDD /* AWBirthViewController.h */,
-				B295DE8F18F7A56300497CDD /* AWBirthViewController.m */,
-				B295DE9118F7A58600497CDD /* AWBirthView.h */,
-				B295DE9218F7A58600497CDD /* AWBirthView.m */,
-				15F6D3E218FEFED800A176DC /* AWDataModel.h */,
-				15F6D3E318FEFED800A176DC /* AWDataModel.m */,
-				B295DE7218F775A800497CDD /* AWYouAreViewController.h */,
-				B295DE7318F775A800497CDD /* AWYouAreViewController.m */,
-				B295DE7518F775CE00497CDD /* AWYouAreView.h */,
-				B295DE7618F775CE00497CDD /* AWYouAreView.m */,
-				B295DE8218F7852500497CDD /* AWYoullBeViewController.h */,
-				B295DE8318F7852500497CDD /* AWYoullBeViewController.m */,
-				B295DE8518F7854000497CDD /* AWYoullBeView.h */,
-				B295DE8618F7854000497CDD /* AWYoullBeView.m */,
-				B2AE2BBF19077F2B003C446B /* Final */,
-				B295DE7818F77DFC00497CDD /* ZASpinner */,
-				B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */,
-				B295DE7018F76E4A00497CDD /* CoreTextArcView.m */,
 			);
 			path = AwhileApp;
 			sourceTree = "<group>";
@@ -328,29 +296,6 @@
 				B295DE7E18F77DFC00497CDD /* ZASpinnerView.m */,
 			);
 			path = ZASpinner;
-			sourceTree = "<group>";
-		};
-		B2AE2BBF19077F2B003C446B /* Final */ = {
-			isa = PBXGroup;
-			children = (
-				B2AE2BC019077F41003C446B /* AWMainViewController.h */,
-				B2AE2BC119077F41003C446B /* AWMainViewController.m */,
-				B2AE2BC319077F52003C446B /* AWMainView.h */,
-				B2AE2BC419077F52003C446B /* AWMainView.m */,
-				B2CF54011908A0E4009C15C6 /* AWArcTextSpinnerCell.h */,
-				B2CF54021908A0E4009C15C6 /* AWArcTextSpinnerCell.m */,
-				B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */,
-				B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */,
-				15FDE06F190B4C1B00DFE036 /* AWBirthDateViewController.h */,
-				15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */,
-				15FDE072190B4D1C00DFE036 /* AWBirthDateView.h */,
-				15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */,
-				15A82F6B1910BC5D00A01D4C /* AWBirthTimeViewController.h */,
-				15A82F6C1910BC5E00A01D4C /* AWBirthTimeViewController.m */,
-				15A82F681910342600A01D4C /* AWBirthTimeView.h */,
-				15A82F691910342600A01D4C /* AWBirthTimeView.m */,
-			);
-			name = Final;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -455,25 +400,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				B295DE7118F76E4A00497CDD /* CoreTextArcView.m in Sources */,
-				B295DE8718F7854000497CDD /* AWYoullBeView.m in Sources */,
 				15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */,
 				B295DE8018F77DFC00497CDD /* ZASpinnerCell.m in Sources */,
 				15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */,
 				15A82F6D1910BC5E00A01D4C /* AWBirthTimeViewController.m in Sources */,
-				B295DE9318F7A58600497CDD /* AWBirthView.m in Sources */,
-				B295DE8418F7852500497CDD /* AWYoullBeViewController.m in Sources */,
 				B2AE2BC519077F52003C446B /* AWMainView.m in Sources */,
 				B295DE4B18F728DB00497CDD /* AWAppDelegate.m in Sources */,
 				B295DE4718F728DB00497CDD /* main.m in Sources */,
 				B2AE2BC219077F41003C446B /* AWMainViewController.m in Sources */,
 				B2CF54031908A0E4009C15C6 /* AWArcTextSpinnerCell.m in Sources */,
-				05918F3318FF8A3100A0F579 /* TCAwhileView.m in Sources */,
 				B295DE7F18F77DFC00497CDD /* ZASpinnerTableView.m in Sources */,
-				B295DE9018F7A56300497CDD /* AWBirthViewController.m in Sources */,
 				15FDE071190B4C1B00DFE036 /* AWBirthDateViewController.m in Sources */,
-				B295DE7418F775A800497CDD /* AWYouAreViewController.m in Sources */,
 				15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */,
-				B295DE7718F775CE00497CDD /* AWYouAreView.m in Sources */,
 				B24FD087190700C8009FD1C8 /* AWIconSpinnerCell.m in Sources */,
 				B295DE8118F77DFC00497CDD /* ZASpinnerView.m in Sources */,
 			);
