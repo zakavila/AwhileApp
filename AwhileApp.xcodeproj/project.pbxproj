@@ -79,8 +79,6 @@
 		B295DE5F18F728DB00497CDD /* AwhileAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwhileAppTests.m; sourceTree = "<group>"; };
 		B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreTextArcView.h; sourceTree = "<group>"; };
 		B295DE7018F76E4A00497CDD /* CoreTextArcView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreTextArcView.m; sourceTree = "<group>"; };
-		B295DE7218F775A800497CDD /* AWYouAreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWYouAreViewController.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreViewController.h; sourceTree = "<absolute>"; };
-		B295DE7318F775A800497CDD /* AWYouAreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWYouAreViewController.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreViewController.m; sourceTree = "<absolute>"; };
 		B295DE7518F775CE00497CDD /* AWYouAreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWYouAreView.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreView.h; sourceTree = "<absolute>"; };
 		B295DE7618F775CE00497CDD /* AWYouAreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWYouAreView.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreView.m; sourceTree = "<absolute>"; };
 		B295DE7918F77DFC00497CDD /* ZASpinnerTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZASpinnerTableView.h; sourceTree = "<group>"; };
@@ -89,14 +87,6 @@
 		B295DE7C18F77DFC00497CDD /* ZASpinnerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZASpinnerCell.m; sourceTree = "<group>"; };
 		B295DE7D18F77DFC00497CDD /* ZASpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZASpinnerView.h; sourceTree = "<group>"; };
 		B295DE7E18F77DFC00497CDD /* ZASpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZASpinnerView.m; sourceTree = "<group>"; };
-		B295DE8218F7852500497CDD /* AWYoullBeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWYoullBeViewController.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYoullBeViewController.h; sourceTree = "<absolute>"; };
-		B295DE8318F7852500497CDD /* AWYoullBeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWYoullBeViewController.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYoullBeViewController.m; sourceTree = "<absolute>"; };
-		B295DE8518F7854000497CDD /* AWYoullBeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWYoullBeView.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYoullBeView.h; sourceTree = "<absolute>"; };
-		B295DE8618F7854000497CDD /* AWYoullBeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWYoullBeView.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYoullBeView.m; sourceTree = "<absolute>"; };
-		B295DE8E18F7A56300497CDD /* AWBirthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWBirthViewController.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWBirthViewController.h; sourceTree = "<absolute>"; };
-		B295DE8F18F7A56300497CDD /* AWBirthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWBirthViewController.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWBirthViewController.m; sourceTree = "<absolute>"; };
-		B295DE9118F7A58600497CDD /* AWBirthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWBirthView.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWBirthView.h; sourceTree = "<absolute>"; };
-		B295DE9218F7A58600497CDD /* AWBirthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWBirthView.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWBirthView.m; sourceTree = "<absolute>"; };
 		B2AE2BC019077F41003C446B /* AWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWMainViewController.h; sourceTree = "<group>"; };
 		B2AE2BC119077F41003C446B /* AWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWMainViewController.m; sourceTree = "<group>"; };
 		B2AE2BC319077F52003C446B /* AWMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWMainView.h; sourceTree = "<group>"; };
@@ -142,7 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				B295DE7818F77DFC00497CDD /* ZASpinner */,
-				B295DE7818F77DFC00497CDD /* ZASpinner */,
 				B2AE2BC319077F52003C446B /* AWMainView.h */,
 				B2AE2BC419077F52003C446B /* AWMainView.m */,
 				B2CF54011908A0E4009C15C6 /* AWArcTextSpinnerCell.h */,
@@ -153,14 +142,6 @@
 				15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */,
 				15A82F681910342600A01D4C /* AWBirthTimeView.h */,
 				15A82F691910342600A01D4C /* AWBirthTimeView.m */,
-				B295DE8518F7854000497CDD /* AWYoullBeView.h */,
-				B295DE8618F7854000497CDD /* AWYoullBeView.m */,
-				B295DE7518F775CE00497CDD /* AWYouAreView.h */,
-				B295DE7618F775CE00497CDD /* AWYouAreView.m */,
-				B295DE9118F7A58600497CDD /* AWBirthView.h */,
-				B295DE9218F7A58600497CDD /* AWBirthView.m */,
-				B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */,
-				B295DE7018F76E4A00497CDD /* CoreTextArcView.m */,
 				B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */,
 				B295DE7018F76E4A00497CDD /* CoreTextArcView.m */,
 			);
@@ -176,12 +157,6 @@
 				15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */,
 				15A82F6B1910BC5D00A01D4C /* AWBirthTimeViewController.h */,
 				15A82F6C1910BC5E00A01D4C /* AWBirthTimeViewController.m */,
-				B295DE8E18F7A56300497CDD /* AWBirthViewController.h */,
-				B295DE8F18F7A56300497CDD /* AWBirthViewController.m */,
-				B295DE7218F775A800497CDD /* AWYouAreViewController.h */,
-				B295DE7318F775A800497CDD /* AWYouAreViewController.m */,
-				B295DE8218F7852500497CDD /* AWYoullBeViewController.h */,
-				B295DE8318F7852500497CDD /* AWYoullBeViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
