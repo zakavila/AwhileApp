@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "AWMainView.h"
+#import "AWDataModel.h"
 #import <EventKit/EventKit.h>
 #import <EventKitUI/EventKitUI.h>
 
 @interface AWMainViewController : UIViewController <AWMainViewDelegate, EKEventEditViewDelegate>
+
+- (id)initWithData:(AWDataModel*)dateModel;
 
 @end
