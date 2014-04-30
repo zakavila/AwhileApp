@@ -12,6 +12,7 @@
 		05918F3D18FFA42300A0F579 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3C18FFA42300A0F579 /* home@2x.png */; };
 		15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A82F691910342600A01D4C /* AWBirthTimeView.m */; };
 		15A82F6D1910BC5E00A01D4C /* AWBirthTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A82F6C1910BC5E00A01D4C /* AWBirthTimeViewController.m */; };
+		15A82F7719117AC100A01D4C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A82F7619117AC100A01D4C /* FacebookSDK.framework */; };
 		15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F6D3E318FEFED800A176DC /* AWDataModel.m */; };
 		15FDE071190B4C1B00DFE036 /* AWBirthDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */; };
 		15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */; };
@@ -41,7 +42,6 @@
 		B2AE2BC219077F41003C446B /* AWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2AE2BC119077F41003C446B /* AWMainViewController.m */; };
 		B2AE2BC519077F52003C446B /* AWMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2AE2BC419077F52003C446B /* AWMainView.m */; };
 		B2CF54031908A0E4009C15C6 /* AWArcTextSpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CF54021908A0E4009C15C6 /* AWArcTextSpinnerCell.m */; };
-		B2CF5409190F73A4009C15C6 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2CF5408190F73A4009C15C6 /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +63,7 @@
 		15A82F691910342600A01D4C /* AWBirthTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthTimeView.m; sourceTree = "<group>"; };
 		15A82F6B1910BC5D00A01D4C /* AWBirthTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthTimeViewController.h; sourceTree = "<group>"; };
 		15A82F6C1910BC5E00A01D4C /* AWBirthTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthTimeViewController.m; sourceTree = "<group>"; };
+		15A82F7619117AC100A01D4C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		15F6D3E218FEFED800A176DC /* AWDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWDataModel.h; sourceTree = "<group>"; };
 		15F6D3E318FEFED800A176DC /* AWDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWDataModel.m; sourceTree = "<group>"; };
 		15FDE06F190B4C1B00DFE036 /* AWBirthDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthDateViewController.h; sourceTree = "<group>"; };
@@ -129,7 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2CF5409190F73A4009C15C6 /* FacebookSDK.framework in Frameworks */,
+				15A82F7719117AC100A01D4C /* FacebookSDK.framework in Frameworks */,
 				B295DE3D18F728DB00497CDD /* CoreGraphics.framework in Frameworks */,
 				B295DE3F18F728DB00497CDD /* UIKit.framework in Frameworks */,
 				B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */,
@@ -250,6 +251,7 @@
 		B295DE3918F728DB00497CDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15A82F7619117AC100A01D4C /* FacebookSDK.framework */,
 				B2CF5408190F73A4009C15C6 /* FacebookSDK.framework */,
 				B295DE3A18F728DB00497CDD /* Foundation.framework */,
 				B295DE3C18F728DB00497CDD /* CoreGraphics.framework */,
@@ -599,7 +601,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/zakavila/Code/FacebookSDK,
+					/Users/deren/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AwhileApp/AwhileApp-Prefix.pch";
@@ -617,7 +619,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/zakavila/Code/FacebookSDK,
+					/Users/deren/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AwhileApp/AwhileApp-Prefix.pch";
