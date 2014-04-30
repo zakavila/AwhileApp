@@ -9,7 +9,7 @@
 #import "AWMainView.h"
 #import "AWArcTextSpinnerCell.h"
 #import "AWIconSpinnerCell.h"
-
+#import "AWSpinnerContents.h"
 
 #pragma mark Constants
 
@@ -59,6 +59,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 @property (nonatomic, strong) NSMutableArray *circleViews;
 @property (nonatomic, strong) UIImageView *awhileLogo;
 @property (nonatomic, strong) UIImageView *menuShadow;
+@property (nonatomic, strong) UIView *onView;
 @property (nonatomic, strong) UILabel *onLabel;
 @end
 
@@ -82,6 +83,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         UIView *circleView = [[UIView alloc] init];
         UIColor *backgroundColor;
         if (i == CircleTypeMenu) {
+            [circleView addSubview:self.awhileLogo];
             [circleView addSubview:self.menuSpinner];
             [circleView addSubview:self.menuShadow];
             backgroundColor = [UIColor colorWithRed:HOME_CIRCLE_R/255.0f green:HOME_CIRCLE_G/255.0f blue:HOME_CIRCLE_B/255.0f alpha:1.0f];
@@ -95,7 +97,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
             backgroundColor = [UIColor colorWithRed:DAY_CIRCLE_R/255.0f green:DAY_CIRCLE_G/255.0f blue:DAY_CIRCLE_B/255.0f alpha:1.0f];
         }
         else if (i == CircleTypeMonth) {
-            [circleView addSubview:self.onLabel];
+            [circleView addSubview:self.onView];
             [circleView addSubview:self.monthSpinner];
             backgroundColor = [UIColor colorWithRed:MONTH_CIRCLE_R/255.0f green:MONTH_CIRCLE_G/255.0f blue:MONTH_CIRCLE_B/255.0f alpha:1.0f];
         }
@@ -136,6 +138,8 @@ typedef NS_ENUM(NSInteger, CircleType) {
         CGFloat spinnerOriginX = -circleView.frame.origin.x;
         CGFloat spinnerHeight = [self saggitaForRadius:previousFullRadius] + [self normalBandWidth];
         if (circleIndex == CircleTypeMenu) {
+            self.awhileLogo.frame = CGRectMake((kScreenWidth/3) - (154/12), 15.0f, 154/2, 42/2);
+            [circleView bringSubviewToFront:self.awhileLogo];
             self.menuSpinner.frame = CGRectMake(0.0f, [self unfocusedIconSize]*3/2, [self homeDiameter], [self shownHomeRadius]);
             self.menuSpinner.tableView.frame = CGRectMake(0.0f, [self unfocusedIconSize]*3/2, [self homeDiameter], [self shownHomeRadius]);
             self.menuSpinner.radius = 0.0f;
@@ -152,9 +156,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
             self.daySpinner.verticalShift = -55.0f;
         }
         else if (circleIndex == CircleTypeMonth) {
-            self.onLabel.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/6, 0.0f, [self normalBandWidth]/3, [self normalBandWidth]/3);
-            self.onLabel.layer.cornerRadius = [self normalBandWidth]/6;
-            self.onLabel.layer.masksToBounds = YES;
+            self.onView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7, 0.0f, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
+            self.onView.layer.cornerRadius = [self normalBandWidth]/7;
+            self.onView.layer.masksToBounds = YES;
+            self.onLabel.frame = self.onView.frame;
+            self.onLabel.backgroundColor = [UIColor redColor];
             self.monthSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.monthSpinner.radius = previousFullRadius;
             self.monthSpinner.verticalShift = -40.0f;
@@ -287,6 +293,16 @@ typedef NS_ENUM(NSInteger, CircleType) {
     return _awhileLogo;
 }
 
+- (UIView*)onView
+{
+    if (!_onView) {
+        _onView = [[UIView alloc] init];
+        _onView.backgroundColor = [UIColor whiteColor];
+        [_onView addSubview:self.onLabel];
+    }
+    return _onView;
+}
+
 - (UILabel*)onLabel
 {
     if (!_onLabel) {
@@ -295,7 +311,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _onLabel.textAlignment = NSTextAlignmentCenter;
         _onLabel.font = [UIFont fontWithName:FOCUSED_FONT_NAME size:16.0f];
         _onLabel.textColor = [UIColor colorWithRed:MONTH_CIRCLE_R/255.0f green:MONTH_CIRCLE_G/255.0f blue:MONTH_CIRCLE_B/255.0f alpha:1.0f];
-        _onLabel.backgroundColor = [UIColor whiteColor];
+        _onLabel.backgroundColor = [UIColor clearColor];
     }
     return _onLabel;
 }
@@ -305,7 +321,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_menuSpinner) {
         _menuSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _menuSpinner.spinnerDelegate = self;
-        _menuSpinner.contents = [self menuSpinnerContents];
+        _menuSpinner.contents = [AWSpinnerContents menuContents];
         _menuSpinner.startIndex = 2;
         [_menuSpinner registerClass:[AWIconSpinnerCell class] forCellReuseIdentifier:ICON_SPINNER_CELL_IDENTIFIER];
     }
@@ -329,7 +345,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_daySpinner) {
         _daySpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _daySpinner.spinnerDelegate = self;
-        _daySpinner.contents = [self daySpinnerContents];
+        _daySpinner.contents = [AWSpinnerContents dayContentsForMonthIndex:0];
         [_daySpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _daySpinner;
@@ -340,7 +356,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_monthSpinner) {
         _monthSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _monthSpinner.spinnerDelegate = self;
-        _monthSpinner.contents = [self monthSpinnerContents];
+        _monthSpinner.contents = [AWSpinnerContents monthContents];
         [_monthSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _monthSpinner;
@@ -351,7 +367,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_incrementSpinner) {
         _incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _incrementSpinner.spinnerDelegate = self;
-        _incrementSpinner.contents = [self incrementSpinnerContents];
+        _incrementSpinner.contents = [AWSpinnerContents incrementContents];
         [_incrementSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _incrementSpinner;
@@ -373,41 +389,10 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_youSpinner) {
         _youSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _youSpinner.spinnerDelegate = self;
-        _youSpinner.contents = [self youSpinnerContents];
+        _youSpinner.contents = [AWSpinnerContents youContents];
         [_youSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _youSpinner;
-}
-
-
-#pragma mark Spinner Contents
-
-- (NSArray*)menuSpinnerContents
-{
-    return @[@"Birthday", @"Time", @"Calculator", @"Alarm", @"Share"];
-}
-
-- (NSArray*)daySpinnerContents
-{
-    NSMutableArray *returnArray = [NSMutableArray array];
-    for (NSUInteger currDay = 1; currDay < 32; currDay++)
-        [returnArray addObject:[NSString stringWithFormat:@"%d", currDay]];
-    return returnArray;
-}
-
-- (NSArray*)monthSpinnerContents
-{
-    return @[@"Jan", @"Feb", @"Mar", @"Apr", @"May", @"Jun", @"Jul", @"Aug", @"Sep", @"Oct", @"Nov", @"Dec"];
-}
-
-- (NSArray*)incrementSpinnerContents
-{
-    return @[@"Seconds", @"Minutes", @"Hours", @"Days", @"Weeks", @"Months", @"Years", @"Decades"];
-}
-
-- (NSArray*)youSpinnerContents
-{
-    return @[@"You were", @"You are", @"You'll be"];
 }
 
 

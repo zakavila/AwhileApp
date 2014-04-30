@@ -8,6 +8,7 @@
 
 #import "AWBirthTimeView.h"
 #import "AWArcTextSpinnerCell.h"
+#import "AWSpinnerContents.h"
 
 #define NUMBER_OF_CIRCLES 8
 
@@ -60,11 +61,8 @@ typedef NS_ENUM(NSInteger, CircleType) {
 @property (nonatomic, strong) UIImageView *awhileLogo;
 @property (nonatomic, strong) UIImageView *woodRings;
 @property (nonatomic, strong) UIImageView *nextButtonView;
-@property (nonatomic, strong) ZASpinnerView *partSpinner;
 @property (nonatomic, strong) CoreTextArcView *partTextView;
-@property (nonatomic, strong) ZASpinnerView *minutesSpinner;
 @property (nonatomic, strong) CoreTextArcView *minutesTextView;
-@property (nonatomic, strong) ZASpinnerView *hourSpinner;
 @property (nonatomic, strong) CoreTextArcView *hourTextView;
 @property (nonatomic, strong) CoreTextArcView *yourBirthTimeTextView;
 @end
@@ -149,7 +147,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         
         if (circleIndex == CircleTypeNext) {
             self.awhileLogo.frame = CGRectMake((kScreenWidth/3) - (154/12), 15.0f, 154/2, 42/2);
-            self.nextButton.frame = CGRectMake((kScreenWidth/3) - (154/12), 30.0f, 100, 100);
+            self.nextButton.frame = CGRectMake((kScreenWidth/3) - (154/12) - 10.0f, 30.0f, 100, 100);
             previousFullRadius = fullRadius;
             fullRadius = previousFullRadius + [self normalBandWidth];
         }
@@ -247,7 +245,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_partSpinner) {
         _partSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _partSpinner.spinnerDelegate = self;
-        _partSpinner.contents = [self partSpinnerContents];
+        _partSpinner.contents = [AWSpinnerContents partContents];
         _partSpinner.startIndex = 0;
         _partSpinner.spinnerName = @"partSpinner";
         [_partSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
@@ -272,7 +270,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_minutesSpinner) {
         _minutesSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _minutesSpinner.spinnerDelegate = self;
-        _minutesSpinner.contents = [self minutesSpinnerContents];
+        _minutesSpinner.contents = [AWSpinnerContents minuteContents];
         _minutesSpinner.startIndex = 0;
         _minutesSpinner.spinnerName = @"minutesSpinner";
         [_minutesSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
@@ -297,7 +295,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_hourSpinner) {
         _hourSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _hourSpinner.spinnerDelegate = self;
-        _hourSpinner.contents = [self hourSpinnerContents];
+        _hourSpinner.contents = [AWSpinnerContents hourContents];
         _hourSpinner.startIndex = 0;
         _hourSpinner.spinnerName = @"hourSpinner";
         [_hourSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
@@ -434,25 +432,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _awhileLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"NextButton"]];
     }
     return _awhileLogo;
-}
-
-- (NSArray*)partSpinnerContents
-{
-    return @[@"IDK", @"am", @"pm"];
-}
-
-- (NSArray*)minutesSpinnerContents
-{
-    return @[@"00", @"01", @"02", @"03", @"04", @"05", @"06", @"07", @"08", @"09", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20", @"21", @"22", @"23", @"24", @"25", @"26", @"27", @"28", @"29", @"30", @"31", @"32", @"33", @"34", @"35", @"36", @"37", @"38", @"39", @"40", @"41", @"42", @"43", @"44", @"45", @"46", @"47", @"48", @"49", @"50", @"51", @"52", @"53", @"54", @"55", @"56", @"57", @"58", @"59"];
-}
-
-- (NSArray*)hourSpinnerContents
-{
-    NSMutableArray *returnArray = [NSMutableArray array];
-    [returnArray addObject:@"12"];
-    for (NSUInteger currHour = 1; currHour < 12; currHour++)
-        [returnArray addObject:[NSString stringWithFormat:@"%lu", (unsigned long)currHour]];
-    return returnArray;
 }
 
 - (CGFloat)unfocusedIconSize

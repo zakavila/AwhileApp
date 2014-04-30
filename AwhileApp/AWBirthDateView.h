@@ -20,10 +20,13 @@
 - (void)birthDateView:(AWBirthDateView *)birthDateView nextButtonTouched:(UIButton *)nextButton;
 @end
 
-@interface AWBirthDateView : UIView
+@interface AWBirthDateView : UIView <ZASpinnerViewDelegate>
 
 @property id <AWBirthDateViewDelegate> delegate;
 
 @property (nonatomic, strong) UIButton *nextButton;
+@property (nonatomic, strong) ZASpinnerView *daySpinner;
+@property (nonatomic, strong) ZASpinnerView *monthSpinner;
+@property (nonatomic, strong) ZASpinnerView *yearSpinner;
 
 @end

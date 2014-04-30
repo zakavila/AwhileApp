@@ -59,11 +59,11 @@
 
 - (void)birthDateView:(AWBirthDateView*)birthDateView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value
 {
-    if ([spinner.spinnerName isEqualToString:@"daySpinner"])
+    if (spinner == birthDateView.daySpinner)
     {
         self.day = value;
     }
-    else if ([spinner.spinnerName isEqualToString:@"monthSpinner"])
+    else if (spinner == birthDateView.monthSpinner)
     {
         if ([value isEqualToString:@"Jan"])
         {
@@ -114,7 +114,7 @@
             self.month = @"12";
         }
     }
-    else if ([spinner.spinnerName isEqualToString:@"yearSpinner"])
+    else if (spinner == birthDateView.yearSpinner)
     {
         self.year = value;
     }
@@ -136,16 +136,5 @@
         [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthTimeViewController alloc] initWithData:dataModel];
     }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

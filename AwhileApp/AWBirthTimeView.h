@@ -20,10 +20,13 @@
 - (void)birthTimeView:(AWBirthTimeView *)birthTimeView nextButtonTouched:(UIButton *)nextButton;
 @end
 
-@interface AWBirthTimeView : UIView
+@interface AWBirthTimeView : UIView <ZASpinnerViewDelegate>
 
 @property id <AWBirthTimeViewDelegate> delegate;
 
 @property (nonatomic, strong) UIButton *nextButton;
+@property (nonatomic, strong) ZASpinnerView *partSpinner;
+@property (nonatomic, strong) ZASpinnerView *minutesSpinner;
+@property (nonatomic, strong) ZASpinnerView *hourSpinner;
 
 @end
