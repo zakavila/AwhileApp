@@ -79,8 +79,6 @@
 		B295DE5F18F728DB00497CDD /* AwhileAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwhileAppTests.m; sourceTree = "<group>"; };
 		B295DE6F18F76E4A00497CDD /* CoreTextArcView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreTextArcView.h; sourceTree = "<group>"; };
 		B295DE7018F76E4A00497CDD /* CoreTextArcView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreTextArcView.m; sourceTree = "<group>"; };
-		B295DE7518F775CE00497CDD /* AWYouAreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWYouAreView.h; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreView.h; sourceTree = "<absolute>"; };
-		B295DE7618F775CE00497CDD /* AWYouAreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWYouAreView.m; path = /Users/zakavila/Code/AwhileApp/AwhileApp/AWYouAreView.m; sourceTree = "<absolute>"; };
 		B295DE7918F77DFC00497CDD /* ZASpinnerTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZASpinnerTableView.h; sourceTree = "<group>"; };
 		B295DE7A18F77DFC00497CDD /* ZASpinnerTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZASpinnerTableView.m; sourceTree = "<group>"; };
 		B295DE7B18F77DFC00497CDD /* ZASpinnerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZASpinnerCell.h; sourceTree = "<group>"; };
@@ -132,12 +130,9 @@
 			isa = PBXGroup;
 			children = (
 				B295DE7818F77DFC00497CDD /* ZASpinner */,
+				B2FD342019118E7700EAE1EF /* Spinner Cells */,
 				B2AE2BC319077F52003C446B /* AWMainView.h */,
 				B2AE2BC419077F52003C446B /* AWMainView.m */,
-				B2CF54011908A0E4009C15C6 /* AWArcTextSpinnerCell.h */,
-				B2CF54021908A0E4009C15C6 /* AWArcTextSpinnerCell.m */,
-				B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */,
-				B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */,
 				15FDE072190B4D1C00DFE036 /* AWBirthDateView.h */,
 				15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */,
 				15A82F681910342600A01D4C /* AWBirthTimeView.h */,
@@ -271,6 +266,17 @@
 				B295DE7E18F77DFC00497CDD /* ZASpinnerView.m */,
 			);
 			path = ZASpinner;
+			sourceTree = "<group>";
+		};
+		B2FD342019118E7700EAE1EF /* Spinner Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */,
+				B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */,
+				B2CF54011908A0E4009C15C6 /* AWArcTextSpinnerCell.h */,
+				B2CF54021908A0E4009C15C6 /* AWArcTextSpinnerCell.m */,
+			);
+			name = "Spinner Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
