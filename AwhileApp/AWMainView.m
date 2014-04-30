@@ -10,6 +10,7 @@
 #import "AWArcTextSpinnerCell.h"
 #import "AWIconSpinnerCell.h"
 
+
 #pragma mark Constants
 
 #define NUMBER_OF_CIRCLES 7
@@ -59,13 +60,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
 @property (nonatomic, strong) UIImageView *awhileLogo;
 @property (nonatomic, strong) UIImageView *menuShadow;
 @property (nonatomic, strong) UILabel *onLabel;
-@property (nonatomic, strong) ZASpinnerView *menuSpinner;
-@property (nonatomic, strong) ZASpinnerView *yearSpinner;
-@property (nonatomic, strong) ZASpinnerView *daySpinner;
-@property (nonatomic, strong) ZASpinnerView *monthSpinner;
-@property (nonatomic, strong) ZASpinnerView *incrementSpinner;
-@property (nonatomic, strong) ZASpinnerView *valueSpinner;
-@property (nonatomic, strong) ZASpinnerView *youSpinner;
 @end
 
 @implementation AWMainView
@@ -204,7 +198,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
     ZASpinnerCell *cell;
     if (spinner == self.menuSpinner) {
         AWIconSpinnerCell *iconCell = [spinner dequeueReusableCellWithIdentifier:ICON_SPINNER_CELL_IDENTIFIER];
-        iconCell.icon.image = [UIImage imageNamed:contentValue];
+        iconCell.icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_Circle_Black", contentValue]];
+        iconCell.icon.userInteractionEnabled = YES;
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuItemTapped:)];
+        [singleTap setNumberOfTapsRequired:1];
+        [iconCell.icon addGestureRecognizer:singleTap];
         cell = iconCell;
     }
     else {
@@ -234,12 +232,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
 - (void)spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value
 {
     [self.delegate mainView:self spinner:spinner didChangeTo:value];
-}
-
-- (void)spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath
-{
-    if (spinner == self.menuSpinner)
-        [self.delegate mainView:self spinner:spinner didSelectRowAtIndexPath:indexPath];
 }
 
 
@@ -395,8 +387,8 @@ typedef NS_ENUM(NSInteger, CircleType) {
 - (NSArray*)daySpinnerContents
 {
     NSMutableArray *returnArray = [NSMutableArray array];
-    for (NSUInteger currDay = 0; currDay < 32; currDay++)
-         [returnArray addObject:[NSString stringWithFormat:@"%d", currDay]];
+    for (NSUInteger currDay = 1; currDay < 32; currDay++)
+        [returnArray addObject:[NSString stringWithFormat:@"%d", currDay]];
     return returnArray;
 }
 

@@ -194,7 +194,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 //    cell.circularArcText.radius = spinner.radius;
 //    cell.circularArcText.arcSize = spinner.arcMultiplier*contentValue.length;
 //    cell.circularArcText.shiftV = -0.534f*spinner.radius-0.8573f;
-    cell.icon.backgroundColor = [UIColor blackColor];
+//    cell.icon.backgroundColor = [UIColor blackColor];
     return cell;
 }
 
@@ -210,14 +210,14 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (isFocused) {
 //        arcTextCell.circularArcText.color = [UIColor whiteColor];
 //        arcTextCell.circularArcText.font = [self circleFont];
-        arcTextCell.icon.backgroundColor = [UIColor redColor];
-        arcTextCell.icon.bounds = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
+//        arcTextCell.icon.backgroundColor = [UIColor redColor];
+//        arcTextCell.icon.bounds = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
     }
     else {
 //        arcTextCell.circularArcText.color = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f];
 //        arcTextCell.circularArcText.font = [self unfocusedCircleFont];
-        arcTextCell.icon.backgroundColor = [UIColor blackColor];
-        arcTextCell.icon.bounds = CGRectMake(0.0f, 0.0f, 25.0f, 25.0f);
+//        arcTextCell.icon.backgroundColor = [UIColor blackColor];
+//        arcTextCell.icon.bounds = CGRectMake(0.0f, 0.0f, 25.0f, 25.0f);
     }
 //    [arcTextCell.circularArcText setNeedsDisplay];
 }
