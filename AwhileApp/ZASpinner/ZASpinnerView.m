@@ -29,11 +29,11 @@
     if (self) {
         self.hasLoaded = NO;
         
+        self.spinnerType = DefaultSpinner;
         self.radius = -1;
         self.chordLength = -1;
         self.extraSpacing = -1;
         self.arcMultiplier = 1.0f;
-        self.isInfinite = NO;
                 
         [self setUpTableView];
     }
@@ -69,7 +69,7 @@
 
 - (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate
 {
-    if (![self isInfinite] || !self.hasLoaded) {
+    if (self.spinnerType == DefaultSpinner || !self.hasLoaded) {
         [self moveToIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0] withAnimation:animate];
     }
     else {
@@ -93,7 +93,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.isInfinite)
+    if (self.spinnerType == InfiniteCountSpinner)
         return 200;
     return [self.contents count];
 }
@@ -120,9 +120,9 @@
         self.hasLoaded = YES;
         [self.tableView reloadData];
         NSIndexPath *targetIndexPath;
-        if (!self.isInfinite || self.startIndex < 175)
+        if (self.spinnerType == DefaultSpinner || self.startIndex < 175)
             targetIndexPath = [NSIndexPath indexPathForRow:self.startIndex inSection:0];
-        else if (self.isInfinite) {
+        else if (self.spinnerType == InfiniteCountSpinner) {
             NSInteger targetOffset = [self offsetForInfiniteArraysFromValue:self.startIndex];
             targetIndexPath = [NSIndexPath indexPathForRow:(self.startIndex-targetOffset) inSection:0];
         }
@@ -130,6 +130,7 @@
         ZASpinnerCell *cell = (ZASpinnerCell*)[tableView cellForRowAtIndexPath:targetIndexPath];
         [self.spinnerDelegate spinner:self styleForCell:cell whileFocused:YES];
         [self.tableView layoutIfNeeded];
+        [self scrollViewDidEndDecelerating:tableView];
     }
 }
 
@@ -147,7 +148,7 @@
     _centeredValue = [self stringAtIndexPath:bestIndexPath];
     CGFloat newYOffset = [self getOffsetToShowIndex:bestIndexPath];
     if (scrollView.contentOffset.y != newYOffset) {
-        [UIView animateWithDuration:.3f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [UIView animateWithDuration:0.1f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, newYOffset);
             [scrollView layoutSubviews];
         }completion:^(BOOL finished){
@@ -171,7 +172,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (self.isInfinite) {
+    if (self.spinnerType == InfiniteCountSpinner) {
         CGPoint offset = scrollView.contentOffset;
         if (offset.y < scrollView.contentSize.height*0.125f && ![self isShowingBelow25]) {
             [self moveToPreviousInfiniteArray];
@@ -229,7 +230,7 @@
 
 - (NSString*)stringAtIndexPath:(NSIndexPath*)indexPath
 {
-    if (self.isInfinite)
+    if (self.spinnerType == InfiniteCountSpinner)
         return [self stringForInfiniteAtIndexPath:indexPath];
     NSString *cellString = @"";
     if ([[[self contents] objectAtIndex:indexPath.row] isKindOfClass:[NSString class]])
@@ -333,6 +334,17 @@
 {
     [super setFrame:frame];
     self.tableView.contentInset = UIEdgeInsetsMake(self.frame.size.width/2, 0.0f, self.frame.size.width/2, 0.0f);
+}
+
+- (void)setSpinnerType:(ZASpinnerType)spinnerType
+{
+    _spinnerType = spinnerType;
+    if (spinnerType == InfiniteCountSpinner) {
+        
+    }
+    else if (spinnerType == InfiniteLoopSpinner) {
+        
+    }
 }
 
 @synthesize radius = _radius;

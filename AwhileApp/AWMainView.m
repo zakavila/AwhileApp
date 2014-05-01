@@ -139,6 +139,8 @@ typedef NS_ENUM(NSInteger, CircleType) {
         CGFloat spinnerOriginX = -circleView.frame.origin.x;
         CGFloat spinnerHeight = [self saggitaForRadius:previousFullRadius] + [self normalBandWidth];
         if (circleIndex == CircleTypeMenu) {
+            circleView.layer.borderColor = [UIColor blackColor].CGColor;
+            circleView.layer.borderWidth = 1.0f;
             self.awhileLogo.frame = CGRectMake((kScreenWidth/3) - (154/12), 15.0f, 154/2, 42/2);
             [circleView bringSubviewToFront:self.awhileLogo];
             self.menuSpinner.frame = CGRectMake(0.0f, [self unfocusedIconSize]*3/2, [self homeDiameter], [self shownHomeRadius]);
@@ -146,7 +148,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
             self.menuSpinner.radius = 0.0f;
         }
         else if (circleIndex == CircleTypeYear) {
-            #warning Fix spinner to work with more full circles
             self.yearSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, fullRadius);
             self.yearSpinner.chordLength = [self homeDiameter];
             self.yearSpinner.radius = previousFullRadius + 5;
@@ -333,7 +334,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_yearSpinner) {
         _yearSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _yearSpinner.spinnerDelegate = self;
-        _yearSpinner.isInfinite = YES;
+        _yearSpinner.spinnerType = InfiniteCountSpinner;
         _yearSpinner.startIndex = 2014;
         [_yearSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
@@ -378,7 +379,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_valueSpinner) {
         _valueSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _valueSpinner.spinnerDelegate = self;
-        _valueSpinner.isInfinite = YES;
+        _valueSpinner.spinnerType = InfiniteCountSpinner;
         [_valueSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _valueSpinner;
