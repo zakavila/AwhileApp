@@ -7,8 +7,8 @@
 //
 
 #import "AWAppDelegate.h"
-#import "AWBirthViewController.h"
-#import "AWHomeViewController.h"
+#import "AWMainViewController.h"
+#import "AWBirthDateViewController.h"
 
 @implementation AWAppDelegate
 
@@ -18,9 +18,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[AWHomeViewController alloc] init]];
-    navController.navigationBarHidden = YES;
-    self.window.rootViewController = navController;
+    self.window.rootViewController = [[AWBirthDateViewController alloc] init];
     return YES;
 }
 
