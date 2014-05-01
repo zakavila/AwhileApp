@@ -9,10 +9,9 @@
 #import "AWMainViewController.h"
 #import "ZASpinnerView.h"
 #import "AWIconSpinnerCell.h"
-//#import <EventKit/EventKit.h>
-//#import <EventKitUI/EventKitUI.h>
-//#import <FacebookSDK/FacebookSDK.h>
-//#import "ShareViewController.h"
+
+#define AWHILE_APP_SHARE @"It's been Awhile. Check out my age."
+#define AWHILE_APP_URL @"http://awhileapp.com"
 
 @interface AWMainViewController ()
 @property (nonatomic, strong) AWMainView *mainView;
@@ -219,10 +218,20 @@
         }
         
         if ([contentValue isEqualToString: @"Share"]) {
-//            ShareViewController *shareViewController = [[ShareViewController alloc] init];
-//            [FBLoginView class];
-            // Set loginUIViewController as root view controller
-//            [self presentViewController:shareViewController animated:YES completion:nil];
+			NSLog(@"Should share");
+			
+			NSString *shareString = AWHILE_APP_SHARE;
+			NSString *shareURL = [NSURL URLWithString:AWHILE_APP_URL];
+			UIImage *shareImage;
+			
+			UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
+			[self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+			shareImage = UIGraphicsGetImageFromCurrentImageContext();
+			UIGraphicsEndImageContext();
+	
+			UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareString, shareURL, shareImage] applicationActivities:nil];
+			
+			[self presentViewController:activityViewController animated:YES completion:nil];
         }
     }
 }

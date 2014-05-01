@@ -333,7 +333,7 @@
 				ORGANIZATIONNAME = AwhileApp;
 				TargetAttributes = {
 					B295DE3618F728DB00497CDD = {
-						DevelopmentTeam = BG424EHT8K;
+						DevelopmentTeam = 94E25AA8V5;
 					};
 					B295DE5118F728DB00497CDD = {
 						TestTargetID = B295DE3618F728DB00497CDD;
