@@ -235,7 +235,10 @@
 				
 				UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareString, shareURL, shareImage] applicationActivities:nil];
 				
-				dispatch_after(0.1f, dispatch_get_main_queue(), ^{
+				CGFloat delayInSeconds = 0.4f;
+				dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds*NSEC_PER_SEC);
+				
+				dispatch_after(delay, dispatch_get_main_queue(), ^{
 					[TCProgressHUD dismiss];
 					
 					[self presentViewController:activityViewController animated:YES completion:nil];
