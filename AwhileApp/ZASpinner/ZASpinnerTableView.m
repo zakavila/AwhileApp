@@ -29,12 +29,19 @@
         ZASpinnerCell *currCell = (ZASpinnerCell*)[self cellForRowAtIndexPath:currIndexPath];
         CGRect rawCurrRect = [self rectForRowAtIndexPath:currIndexPath];
         CGRect currRect = CGRectOffset(rawCurrRect, -self.contentOffset.x, -self.contentOffset.y);
-        CGFloat x = currRect.origin.y+currRect.size.height/2;
+        CGFloat chordOffset = 0;
+        if ([self parent].chordLength != self.frame.size.width)
+            chordOffset = ((self.frame.size.width-[self parent].chordLength)/2);
+        CGFloat x = currRect.origin.y+currRect.size.height/2-chordOffset;
         CGFloat arcHeight = [self arcHeightFromX:x];
+//        if (x - currCell.bounds.size.height < chordOffset || x + currCell.bounds.size.height > self.frame.size.width - chordOffset)
+//            currCell.hidden = YES;
+//        else
+//            currCell.hidden = NO;
         currCell.frame = CGRectMake(arcHeight+[self parent].verticalShift, currCell.frame.origin.y, currCell.bounds.size.width, currCell.bounds.size.height);
-        CGFloat halfwayThroughTable = self.frame.size.width/2;
+        CGFloat halfwayThroughTable = [self parent].chordLength/2;
         CGFloat rotateAngle = [self angleFromX:x];
-        CGFloat l = self.frame.size.width/2;//(self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
+        CGFloat l = [self parent].chordLength/2;
         if ([[NSString stringWithFormat:@"%.8f",rotateAngle] isEqualToString:@"1.57079637"])
             rotateAngle = 0;
         if (x < l)
@@ -60,7 +67,7 @@
 - (CGFloat)arcHeightFromX:(CGFloat)x {
     //http://liutaiomottola.com/formulae/sag.htm
     CGFloat r = self.radius;
-    CGFloat l = self.frame.size.width/2;//(self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
+    CGFloat l = [self parent].chordLength/2;
     CGFloat dist_x = fabsf(x-l);
     CGFloat height = -sqrtf(powf(r,2)-powf(l,2))+sqrtf(powf(r,2)-powf(dist_x,2));
     if (isnan(height))
@@ -71,7 +78,7 @@
 - (CGFloat)angleFromX:(CGFloat)x
 {
     CGFloat r = self.radius;
-    CGFloat l = (self.frame.size.width/2 < self.radius) ? self.frame.size.width/2 : self.radius;
+    CGFloat l = [self parent].chordLength/2;
     CGFloat dist_x = fabsf(x-l);
     CGFloat angle = atan2f(dist_x,r);
     if (isnan(angle))

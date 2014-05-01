@@ -30,6 +30,7 @@
         self.hasLoaded = NO;
         
         self.radius = -1;
+        self.chordLength = -1;
         self.extraSpacing = -1;
         self.arcMultiplier = 1.0f;
         self.isInfinite = NO;
@@ -118,12 +119,17 @@
     if (!self.hasLoaded && indexPath.row == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row) {
         self.hasLoaded = YES;
         [self.tableView reloadData];
+        NSIndexPath *targetIndexPath;
         if (!self.isInfinite || self.startIndex < 175)
-            [self moveToIndexPath:[NSIndexPath indexPathForRow:self.startIndex inSection:0] withAnimation:NO];
+            targetIndexPath = [NSIndexPath indexPathForRow:self.startIndex inSection:0];
         else if (self.isInfinite) {
             NSInteger targetOffset = [self offsetForInfiniteArraysFromValue:self.startIndex];
-            [self moveToIndexPath:[NSIndexPath indexPathForRow:(self.startIndex-targetOffset) inSection:0] withAnimation:NO];
+            targetIndexPath = [NSIndexPath indexPathForRow:(self.startIndex-targetOffset) inSection:0];
         }
+        [self moveToIndexPath:targetIndexPath withAnimation:NO];
+        ZASpinnerCell *cell = (ZASpinnerCell*)[tableView cellForRowAtIndexPath:targetIndexPath];
+        [self.spinnerDelegate spinner:self styleForCell:cell whileFocused:YES];
+        [self.tableView layoutIfNeeded];
     }
 }
 
@@ -183,6 +189,8 @@
 
 - (void)moveToIndexPath:(NSIndexPath*)indexPath withAnimation:(BOOL)animate
 {
+    _centeredIndex = indexPath.row;
+    _centeredValue = [self stringAtIndexPath:indexPath];
     CGFloat newYOffset = self.tableView.contentOffset.y + [self getIndexPath:indexPath distanceFromCenterOf:self.tableView];
     CGFloat duration = animate ? 0.5f : 0.0f;
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -334,13 +342,19 @@
         return 260.0f;
     return _radius;
 }
-
 - (void)setRadius:(CGFloat)radius
 {
     _radius = radius;
     if (radius != -1) {
         self.tableView.radius = radius;
     }
+}
+
+- (CGFloat)chordLength
+{
+    if (_chordLength == -1)
+        return self.frame.size.width;
+    return _chordLength;
 }
 
 @synthesize centeredIndex = _centeredIndex;

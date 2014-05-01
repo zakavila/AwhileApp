@@ -98,6 +98,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         }
         else if (i == CircleTypeMonth) {
             [circleView addSubview:self.onView];
+            [self.onView addSubview:self.onLabel];
             [circleView addSubview:self.monthSpinner];
             backgroundColor = [UIColor colorWithRed:MONTH_CIRCLE_R/255.0f green:MONTH_CIRCLE_G/255.0f blue:MONTH_CIRCLE_B/255.0f alpha:1.0f];
         }
@@ -146,9 +147,10 @@ typedef NS_ENUM(NSInteger, CircleType) {
         }
         else if (circleIndex == CircleTypeYear) {
             #warning Fix spinner to work with more full circles
-            self.yearSpinner.frame = CGRectMake(spinnerOriginX+30, 0.0f, kScreenWidth-60, fullRadius);
+            self.yearSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, fullRadius);
+            self.yearSpinner.chordLength = [self homeDiameter];
             self.yearSpinner.radius = previousFullRadius;
-            self.yearSpinner.verticalShift = -65.0f;
+            self.yearSpinner.verticalShift = -85.0f;
         }
         else if (circleIndex == CircleTypeDay) {
             self.daySpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
@@ -159,8 +161,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
             self.onView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7, 0.0f, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
             self.onView.layer.cornerRadius = [self normalBandWidth]/7;
             self.onView.layer.masksToBounds = YES;
-            self.onLabel.frame = self.onView.frame;
-            self.onLabel.backgroundColor = [UIColor redColor];
+            self.onLabel.frame = CGRectMake(0.0f, -2.0f, self.onView.frame.size.width, self.onView.frame.size.height);
             self.monthSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.monthSpinner.radius = previousFullRadius;
             self.monthSpinner.verticalShift = -40.0f;
@@ -298,7 +299,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_onView) {
         _onView = [[UIView alloc] init];
         _onView.backgroundColor = [UIColor whiteColor];
-        [_onView addSubview:self.onLabel];
     }
     return _onView;
 }
@@ -309,7 +309,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _onLabel = [[UILabel alloc] init];
         _onLabel.text = @"on";
         _onLabel.textAlignment = NSTextAlignmentCenter;
-        _onLabel.font = [UIFont fontWithName:FOCUSED_FONT_NAME size:16.0f];
+        _onLabel.font = [UIFont fontWithName:FOCUSED_FONT_NAME size:14.0f];
         _onLabel.textColor = [UIColor colorWithRed:MONTH_CIRCLE_R/255.0f green:MONTH_CIRCLE_G/255.0f blue:MONTH_CIRCLE_B/255.0f alpha:1.0f];
         _onLabel.backgroundColor = [UIColor clearColor];
     }

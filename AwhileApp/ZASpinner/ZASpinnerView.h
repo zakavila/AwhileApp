@@ -39,6 +39,7 @@ typedef enum {
 @property (nonatomic, strong) ZASpinnerTableView *tableView;
 
 @property (nonatomic) CGFloat radius;
+@property (nonatomic) CGFloat chordLength;
 @property (nonatomic) CGFloat extraSpacing;
 @property (nonatomic) CGFloat verticalShift;
 @property (nonatomic) CGFloat arcMultiplier;
