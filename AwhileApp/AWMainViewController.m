@@ -11,7 +11,7 @@
 #import "AWIconSpinnerCell.h"
 #import "TCProgressHUD.h"
 
-#define AWHILE_APP_SHARE @"It's been Awhile. Check out my age."
+#define AWHILE_APP_SHARE @"It's been awhile. Check out my age."
 #define AWHILE_APP_URL @"http://awhileapp.com"
 
 @interface AWMainViewController ()
