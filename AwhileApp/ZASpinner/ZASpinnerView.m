@@ -173,6 +173,8 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (self.spinnerType == InfiniteCountSpinner) {
+        if (![self hasLoaded])
+            return;
         CGPoint offset = scrollView.contentOffset;
         if (offset.y < scrollView.contentSize.height*0.125f && ![self isShowingBelow25]) {
             [self moveToPreviousInfiniteArray];
