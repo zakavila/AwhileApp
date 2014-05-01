@@ -7,83 +7,89 @@
 //
 
 #import "ZASpinnerTableView.h"
-#import "ZASpinnerTableViewCell.h"
+#import "ZASpinnerCell.h"
 #import "ZASpinnerView.h"
+
+#define CIRCULAR_CORE_TEXT_ARC_VIEW_VERTICAL_PADDING 14.0f
 
 @implementation ZASpinnerTableView
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
+	
     if (self) {
         self.radius = 0;
-        
     }
+	
     return self;
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    [self repositionCells];
-}
-
-- (void)repositionCells
-{
+- (void)repositionCells {
     for (NSIndexPath *currIndexPath in [self indexPathsForVisibleRows]) {
-        UITableViewCell *currCell = [self cellForRowAtIndexPath:currIndexPath];
+        ZASpinnerCell *currCell = (ZASpinnerCell*)[self cellForRowAtIndexPath:currIndexPath];
         CGRect rawCurrRect = [self rectForRowAtIndexPath:currIndexPath];
         CGRect currRect = CGRectOffset(rawCurrRect, -self.contentOffset.x, -self.contentOffset.y);
-        CGFloat x = currRect.origin.y+currRect.size.height/2;
+        CGFloat chordOffset = 0;
+        if ([self parent].chordLength != self.frame.size.width)
+            chordOffset = ((self.frame.size.width-[self parent].chordLength)/2);
+        CGFloat x = currRect.origin.y+currRect.size.height/2-chordOffset;
         CGFloat arcHeight = [self arcHeightFromX:x];
-        currCell.frame = CGRectMake(-arcHeight, currCell.frame.origin.y, currCell.frame.size.width, currCell.frame.size.height);
-        CGFloat halfwayThroughTable = self.frame.size.width/2;
-        ZASpinnerTableViewCell *currCircularCell = (ZASpinnerTableViewCell*)currCell;
-        if (roundf(x) == halfwayThroughTable) {
-            [self styleFocusedCell:currCircularCell];
+        currCell.frame = CGRectMake(arcHeight+[self parent].verticalShift, currCell.frame.origin.y, currCell.bounds.size.width, currCell.bounds.size.height);
+        CGFloat halfwayThroughTable = [self parent].chordLength/2;
+        CGFloat rotateAngle = [self angleFromX:x];
+        if (self.radius == 0)
+            rotateAngle = M_PI_2;
+        if (rotateAngle == 0)
+            currCell.hidden = YES;
+        else
+            currCell.hidden = NO;
+        currCell.contentView.transform = CGAffineTransformMakeRotation(rotateAngle);
+        if (x == halfwayThroughTable) {
+            [self styleFocusedCell:currCell];
         }
         else {
-            [self styleUnfocusedCell:currCircularCell];
+            [self styleUnfocusedCell:currCell];
         }
     }
 }
 
-- (void)styleUnfocusedCell:(ZASpinnerTableViewCell*)cell
-{
-    cell.circularTextLabel.textColor = [self parent].unfocusedFontColor;
-    cell.circularTextLabel.font = [UIFont fontWithName:[self parent].fontName size:[self parent].unfocusedFontSize];
+- (void)styleUnfocusedCell:(ZASpinnerCell*)cell {
+    [[self parent].spinnerDelegate spinner:[self parent] styleForCell:cell whileFocused:NO];
 }
 
-- (void)styleFocusedCell:(ZASpinnerTableViewCell*)cell
-{
-    cell.circularTextLabel.textColor = [self parent].focusedFontColor;
-    cell.circularTextLabel.font = [UIFont fontWithName:[self parent].fontName size:[self parent].focusedFontSize];
+- (void)styleFocusedCell:(ZASpinnerCell*)cell {
+    [[self parent].spinnerDelegate spinner:[self parent] styleForCell:cell whileFocused:YES];
 }
 
-- (CGFloat)arcHeightFromX:(CGFloat)x
-{
-    CGFloat x0 = 0.0f;
-    CGFloat y0 = 0.0f;
-    CGFloat rSquared = 0.0f;
-    CGFloat chordLength = self.frame.size.width;
-    CGFloat saggitaRootPart = pow(self.radius, 2)-pow(chordLength, 2)/4;
-    if (saggitaRootPart > 0.0f) {
-        CGFloat saggita = self.radius - sqrt(saggitaRootPart);
-        x0 = chordLength/2;
-        y0 = (saggita - pow(x0, 2)/saggita) / 2;
-        rSquared = pow(x0, 2) + pow(y0, 2);
-    }
-    CGFloat arcHeight = 0.0f;
-    CGFloat arcHeightRootPart = rSquared - pow(x - x0, 2);
-    if (arcHeightRootPart > 0) {
-        arcHeight = y0 - sqrt(arcHeightRootPart)+[self parent].verticalShift;//400;
-    }
-    return arcHeight;
+- (CGFloat)arcHeightFromX:(CGFloat)x {
+    //http://liutaiomottola.com/formulae/sag.htm
+    CGFloat r = self.radius;
+    CGFloat l = [self parent].chordLength/2;
+    CGFloat dist_x = fabsf(x-l);
+    CGFloat height = -sqrtf(powf(r,2)-powf(l,2))+sqrtf(powf(r,2)-powf(dist_x,2));
+    if (isnan(height))
+        return 0;
+    return height;
 }
 
-- (ZASpinnerView*)parent
+- (CGFloat)angleFromX:(CGFloat)x
 {
-    return (ZASpinnerView*)self.delegate;;
+    CGFloat r = self.radius;
+    CGFloat l = [self parent].chordLength/2;
+    CGFloat dist_x = x-l;
+    CGFloat angle = M_PI-acosf(dist_x/r);//atan2f(dist_x,r);
+    if (isnan(angle))
+        return 0;
+    return angle;
+}
+
+- (ZASpinnerView*)parent {
+    return (ZASpinnerView*)self.delegate;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self repositionCells];
 }
 
 @end
