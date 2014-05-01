@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		050CB6A41911CFEB000198D6 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 050CB6A31911CFEB000198D6 /* SVProgressHUD.m */; };
+		050CB6A61911D162000198D6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 050CB6A51911D162000198D6 /* QuartzCore.framework */; };
+		0523D35F1911D382002DF401 /* TCProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0523D35E1911D382002DF401 /* TCProgressHUD.m */; };
 		05918F3A18FF947300A0F579 /* awhileBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3918FF947300A0F579 /* awhileBar@2x.png */; };
 		05918F3D18FFA42300A0F579 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3C18FFA42300A0F579 /* home@2x.png */; };
 		15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A82F691910342600A01D4C /* AWBirthTimeView.m */; };
@@ -48,6 +51,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		050CB6A21911CFEB000198D6 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		050CB6A31911CFEB000198D6 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		050CB6A51911D162000198D6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0523D35D1911D382002DF401 /* TCProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCProgressHUD.h; sourceTree = "<group>"; };
+		0523D35E1911D382002DF401 /* TCProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCProgressHUD.m; sourceTree = "<group>"; };
 		05918F3918FF947300A0F579 /* awhileBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "awhileBar@2x.png"; sourceTree = "<group>"; };
 		05918F3C18FFA42300A0F579 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
 		15A82F681910342600A01D4C /* AWBirthTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthTimeView.h; sourceTree = "<group>"; };
@@ -101,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				050CB6A61911D162000198D6 /* QuartzCore.framework in Frameworks */,
 				B295DE3D18F728DB00497CDD /* CoreGraphics.framework in Frameworks */,
 				B295DE3F18F728DB00497CDD /* UIKit.framework in Frameworks */,
 				B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */,
@@ -120,6 +129,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		050CB6A11911CFDB000198D6 /* SVProgressHud */ = {
+			isa = PBXGroup;
+			children = (
+				050CB6A21911CFEB000198D6 /* SVProgressHUD.h */,
+				050CB6A31911CFEB000198D6 /* SVProgressHUD.m */,
+			);
+			name = SVProgressHud;
+			sourceTree = "<group>";
+		};
+		0523D35C1911D342002DF401 /* TCProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				0523D35D1911D382002DF401 /* TCProgressHUD.h */,
+				0523D35E1911D382002DF401 /* TCProgressHUD.m */,
+			);
+			name = TCProgressHUD;
+			sourceTree = "<group>";
+		};
 		057EFC2B18FE0BE80067C9DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +161,7 @@
 		057EFC2C18FE0BED0067C9DF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0523D35C1911D342002DF401 /* TCProgressHUD */,
 				B295DE7818F77DFC00497CDD /* ZASpinner */,
 				B2FD342019118E7700EAE1EF /* Spinner Cells */,
 				B2AE2BC319077F52003C446B /* AWMainView.h */,
@@ -208,6 +236,7 @@
 		B295DE3918F728DB00497CDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				050CB6A51911D162000198D6 /* QuartzCore.framework */,
 				B295DE3A18F728DB00497CDD /* Foundation.framework */,
 				B295DE3C18F728DB00497CDD /* CoreGraphics.framework */,
 				B295DE3E18F728DB00497CDD /* UIKit.framework */,
@@ -224,6 +253,7 @@
 				057EFC2D18FE0BF10067C9DF /* Controller */,
 				057EFC2C18FE0BED0067C9DF /* View */,
 				057EFC2B18FE0BE80067C9DF /* Model */,
+				050CB6A11911CFDB000198D6 /* SVProgressHud */,
 				B295DE4C18F728DB00497CDD /* Images.xcassets */,
 				B295DE4118F728DB00497CDD /* Supporting Files */,
 			);
@@ -390,6 +420,7 @@
 				B295DE8018F77DFC00497CDD /* ZASpinnerCell.m in Sources */,
 				B2111C6A1911B30B009F200C /* AWSpinnerContents.m in Sources */,
 				15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */,
+				050CB6A41911CFEB000198D6 /* SVProgressHUD.m in Sources */,
 				15A82F6D1910BC5E00A01D4C /* AWBirthTimeViewController.m in Sources */,
 				B2AE2BC519077F52003C446B /* AWMainView.m in Sources */,
 				B295DE4B18F728DB00497CDD /* AWAppDelegate.m in Sources */,
@@ -401,6 +432,7 @@
 				15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */,
 				B24FD087190700C8009FD1C8 /* AWIconSpinnerCell.m in Sources */,
 				B295DE8118F77DFC00497CDD /* ZASpinnerView.m in Sources */,
+				0523D35F1911D382002DF401 /* TCProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

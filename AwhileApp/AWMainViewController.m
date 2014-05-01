@@ -9,6 +9,7 @@
 #import "AWMainViewController.h"
 #import "ZASpinnerView.h"
 #import "AWIconSpinnerCell.h"
+#import "TCProgressHUD.h"
 
 #define AWHILE_APP_SHARE @"It's been Awhile. Check out my age."
 #define AWHILE_APP_URL @"http://awhileapp.com"
@@ -220,18 +221,26 @@
         if ([contentValue isEqualToString: @"Share"]) {
 			NSLog(@"Should share");
 			
-			NSString *shareString = AWHILE_APP_SHARE;
-			NSString *shareURL = [NSURL URLWithString:AWHILE_APP_URL];
-			UIImage *shareImage;
+			[TCProgressHUD showWithMaskType:TCProgressHUDMaskTypeBlack];
 			
-			UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
-			[self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
-			shareImage = UIGraphicsGetImageFromCurrentImageContext();
-			UIGraphicsEndImageContext();
-	
-			UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareString, shareURL, shareImage] applicationActivities:nil];
-			
-			[self presentViewController:activityViewController animated:YES completion:nil];
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+				NSString *shareString = AWHILE_APP_SHARE;
+				NSString *shareURL = [NSURL URLWithString:AWHILE_APP_URL];
+				UIImage *shareImage;
+				
+				UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
+				[self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+				shareImage = UIGraphicsGetImageFromCurrentImageContext();
+				UIGraphicsEndImageContext();
+				
+				UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareString, shareURL, shareImage] applicationActivities:nil];
+				
+				dispatch_after(0.1f, dispatch_get_main_queue(), ^{
+					[TCProgressHUD dismiss];
+					
+					[self presentViewController:activityViewController animated:YES completion:nil];
+				});
+			});
         }
     }
 }
