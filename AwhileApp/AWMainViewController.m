@@ -10,6 +10,7 @@
 #import "ZASpinnerView.h"
 #import "AWIconSpinnerCell.h"
 #import "TCProgressHUD.h"
+#import "AWBirthDateViewController.h"
 
 #define AWHILE_APP_SHARE @"It's been awhile. Check out my age."
 #define AWHILE_APP_URL @"http://awhileapp.com"
@@ -212,6 +213,10 @@
         NSString * increment = self.mainView.incrementSpinner.centeredValue;
         NSString * val = self.mainView.valueSpinner.centeredValue;
         NSString * you = self.mainView.youSpinner.centeredValue;
+        
+        if ([contentValue isEqualToString:@"Birthday"]) {
+            [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
+        }
         
         if ([contentValue isEqualToString: @"Alarm"]) {
             EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
