@@ -47,6 +47,15 @@
     return self;
 }
 
+- (id)initWithDate:(NSDate*)birthday
+{
+    self = [super init];
+    if (self) {
+        [self setBirthTime:birthday];
+    }
+    return self;
+}
+
 - (void)check
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];

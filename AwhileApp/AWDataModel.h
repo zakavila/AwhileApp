@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSDate *birthTime;
 
 - (id)initWithDay:(NSString*)day Month:(NSString*)month Year:(NSString*)year;
+- (id)initWithDate:(NSDate*)birthday;
 - (void)check;
 - (NSNumber*)youAreUnit:(NSString*)unit;
 

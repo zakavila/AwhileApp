@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define USER_BIRTHDAY_KEY @"UserBirthdayKey"
+
 @interface AWAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

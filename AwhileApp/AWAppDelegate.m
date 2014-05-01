@@ -9,6 +9,7 @@
 #import "AWAppDelegate.h"
 #import "AWMainViewController.h"
 #import "AWBirthDateViewController.h"
+#import "AWDataModel.h"
 
 @implementation AWAppDelegate
 
@@ -18,7 +19,14 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    self.window.rootViewController = [[AWBirthDateViewController alloc] init];
+    UIViewController *startVC;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDate *userBirthday = [userDefaults objectForKey:USER_BIRTHDAY_KEY];
+    if (!userBirthday)
+        startVC = [[AWBirthDateViewController alloc] init];
+    else
+        startVC = [[AWMainViewController alloc] initWithData:[[AWDataModel alloc] initWithDate:userBirthday]];
+    self.window.rootViewController = startVC;
     return YES;
 }
 

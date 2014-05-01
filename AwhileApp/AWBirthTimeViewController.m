@@ -10,6 +10,7 @@
 #import "AWDataModel.h"
 #import "AWMainViewController.h"
 #import "ZASpinnerView.h"
+#import "AWAppDelegate.h"
 
 @interface AWBirthTimeViewController ()
 @property (nonatomic, strong) AWBirthTimeView *birthTimeView;
@@ -116,9 +117,9 @@
 
 - (void)birthTimeView:(AWBirthTimeView *)birthTimeView nextButtonTouched:(UIButton *)nextButton
 {
+    int addSeconds = 0;
     if (![self.part isEqualToString:@"IDK"])
     {
-        int addSeconds = 0;
         if ([self.part isEqualToString:@"pm"])
         {
             addSeconds += 12 * 60 * 60;
@@ -133,7 +134,14 @@
         
         self.dataModel.birthTime = [self.dataModel.birthTime dateByAddingTimeInterval:addSeconds];
     }
+    else if ([self.part isEqualToString:@"IDK"]) {
+        //Set default to 10pm
+        addSeconds += 22 * 60 * 60;
+        self.dataModel.birthTime = [self.dataModel.birthTime dateByAddingTimeInterval:addSeconds];
+    }
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:self.dataModel.birthTime forKey:USER_BIRTHDAY_KEY];
     [UIApplication sharedApplication].keyWindow.rootViewController = [[AWMainViewController alloc] initWithData:_dataModel];
 }
 
