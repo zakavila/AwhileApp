@@ -34,19 +34,16 @@
             chordOffset = ((self.frame.size.width-[self parent].chordLength)/2);
         CGFloat x = currRect.origin.y+currRect.size.height/2-chordOffset;
         CGFloat arcHeight = [self arcHeightFromX:x];
-//        if (x - currCell.bounds.size.height < chordOffset || x + currCell.bounds.size.height > self.frame.size.width - chordOffset)
-//            currCell.hidden = YES;
-//        else
-//            currCell.hidden = NO;
         currCell.frame = CGRectMake(arcHeight+[self parent].verticalShift, currCell.frame.origin.y, currCell.bounds.size.width, currCell.bounds.size.height);
         CGFloat halfwayThroughTable = [self parent].chordLength/2;
         CGFloat rotateAngle = [self angleFromX:x];
-        CGFloat l = [self parent].chordLength/2;
-        if ([[NSString stringWithFormat:@"%.8f",rotateAngle] isEqualToString:@"1.57079637"])
-            rotateAngle = 0;
-        if (x < l)
-            rotateAngle *= -1;
-        currCell.contentView.transform = CGAffineTransformMakeRotation(rotateAngle+M_PI_2);
+        if (self.radius == 0)
+            rotateAngle = M_PI_2;
+        if (rotateAngle == 0)
+            currCell.hidden = YES;
+        else
+            currCell.hidden = NO;
+        currCell.contentView.transform = CGAffineTransformMakeRotation(rotateAngle);
         if (x == halfwayThroughTable) {
             [self styleFocusedCell:currCell];
         }
@@ -79,8 +76,8 @@
 {
     CGFloat r = self.radius;
     CGFloat l = [self parent].chordLength/2;
-    CGFloat dist_x = fabsf(x-l);
-    CGFloat angle = atan2f(dist_x,r);
+    CGFloat dist_x = x-l;
+    CGFloat angle = M_PI-acosf(dist_x/r);//atan2f(dist_x,r);
     if (isnan(angle))
         return 0;
     return angle;

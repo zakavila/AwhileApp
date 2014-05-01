@@ -149,8 +149,8 @@ typedef NS_ENUM(NSInteger, CircleType) {
             #warning Fix spinner to work with more full circles
             self.yearSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, fullRadius);
             self.yearSpinner.chordLength = [self homeDiameter];
-            self.yearSpinner.radius = previousFullRadius;
-            self.yearSpinner.verticalShift = -85.0f;
+            self.yearSpinner.radius = previousFullRadius + 5;
+            self.yearSpinner.verticalShift = -55.0f;
         }
         else if (circleIndex == CircleTypeDay) {
             self.daySpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
