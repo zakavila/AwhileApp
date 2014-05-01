@@ -28,5 +28,6 @@
 @property (nonatomic, strong) ZASpinnerView *partSpinner;
 @property (nonatomic, strong) ZASpinnerView *minutesSpinner;
 @property (nonatomic, strong) ZASpinnerView *hourSpinner;
+@property (nonatomic, strong, readonly) NSMutableArray *circleViews;
 
 @end

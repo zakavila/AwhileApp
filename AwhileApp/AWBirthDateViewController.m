@@ -9,8 +9,9 @@
 #import "AWBirthDateViewController.h"
 #import "AWBirthTimeViewController.h"
 #import "ZASpinnerView.h"
+#import "TCTransitionAnimator.h"
 
-@interface AWBirthDateViewController ()
+@interface AWBirthDateViewController () <UIViewControllerTransitioningDelegate>
 @property (nonatomic, strong) AWBirthDateView *birthDateView;
 @property (nonatomic, strong) NSString* day;
 @property (nonatomic, strong) NSString* month;
@@ -41,6 +42,24 @@
     self.month = [NSString stringWithFormat:@"%ld",(long)[components month]];
     self.year = [NSString stringWithFormat:@"%ld",(long)[components year]];
 }
+
+#pragma mark - UIViewControllerTransitioningDelegate methods
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+	TCTransitionAnimator *transitionAnimator = [TCTransitionAnimator new];
+	[transitionAnimator setPresenting:YES];
+	
+	return transitionAnimator;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+	TCTransitionAnimator *transitionAnimator = [TCTransitionAnimator new];
+	[transitionAnimator setPresenting:NO];
+	
+	return transitionAnimator;
+}
+
+#pragma mark - Birth date view
 
 - (AWBirthDateView*)birthDateView
 {
@@ -131,9 +150,12 @@
 {
     if ([self.month isEqualToString:@"1"] || [self.month isEqualToString:@"3"] || [self.month isEqualToString:@"5"] || [self.month isEqualToString:@"7"] || [self.month isEqualToString:@"8"] || [self.month isEqualToString:@"10"] || [self.month isEqualToString:@"12"] || (([self.month isEqualToString:@"4"] || [self.month isEqualToString:@"6"] || [self.month isEqualToString:@"9"] || [self.month isEqualToString:@"11"]) && [self.day intValue] < 31) || ([self.month isEqualToString:@"2"] && [self.day intValue] < 29) || ([self.month isEqualToString:@"2"] && [self.day intValue] < 30 && [self.year intValue] % 4 == 0))
     {
-        AWDataModel* dataModel = [[AWDataModel alloc] initWithDay:self.day Month:self.month Year:self.year];
+        AWDataModel* data = [[AWDataModel alloc] initWithDay:self.day Month:self.month Year:self.year];
         
-        [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthTimeViewController alloc] initWithData:dataModel];
+		AWBirthTimeViewController *birthTimeViewController = [[AWBirthTimeViewController alloc] initWithData:data];
+		[birthTimeViewController setTransitioningDelegate:self];
+		[birthTimeViewController setModalPresentationStyle:UIModalPresentationCustom];
+		[self presentViewController:birthTimeViewController animated:YES completion:nil];
     }
 }
 

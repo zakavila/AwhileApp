@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		050CB6A61911D162000198D6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 050CB6A51911D162000198D6 /* QuartzCore.framework */; };
 		0523D35F1911D382002DF401 /* TCProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0523D35E1911D382002DF401 /* TCProgressHUD.m */; };
+		0523D362191218EB002DF401 /* TCTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0523D361191218EB002DF401 /* TCTransitionAnimator.m */; };
 		05918F3A18FF947300A0F579 /* awhileBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3918FF947300A0F579 /* awhileBar@2x.png */; };
 		05918F3D18FFA42300A0F579 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3C18FFA42300A0F579 /* home@2x.png */; };
 		15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A82F691910342600A01D4C /* AWBirthTimeView.m */; };
@@ -53,6 +54,8 @@
 		050CB6A51911D162000198D6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0523D35D1911D382002DF401 /* TCProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCProgressHUD.h; sourceTree = "<group>"; };
 		0523D35E1911D382002DF401 /* TCProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCProgressHUD.m; sourceTree = "<group>"; };
+		0523D360191218EB002DF401 /* TCTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTransitionAnimator.h; sourceTree = "<group>"; };
+		0523D361191218EB002DF401 /* TCTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTransitionAnimator.m; sourceTree = "<group>"; };
 		05918F3918FF947300A0F579 /* awhileBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "awhileBar@2x.png"; sourceTree = "<group>"; };
 		05918F3C18FFA42300A0F579 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
 		15A82F681910342600A01D4C /* AWBirthTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthTimeView.h; sourceTree = "<group>"; };
@@ -142,6 +145,8 @@
 				15F6D3E318FEFED800A176DC /* AWDataModel.m */,
 				B2111C681911B30B009F200C /* AWSpinnerContents.h */,
 				B2111C691911B30B009F200C /* AWSpinnerContents.m */,
+				0523D360191218EB002DF401 /* TCTransitionAnimator.h */,
+				0523D361191218EB002DF401 /* TCTransitionAnimator.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -412,6 +417,7 @@
 				B295DE4B18F728DB00497CDD /* AWAppDelegate.m in Sources */,
 				B295DE4718F728DB00497CDD /* main.m in Sources */,
 				B2AE2BC219077F41003C446B /* AWMainViewController.m in Sources */,
+				0523D362191218EB002DF401 /* TCTransitionAnimator.m in Sources */,
 				B2CF54031908A0E4009C15C6 /* AWArcTextSpinnerCell.m in Sources */,
 				B295DE7F18F77DFC00497CDD /* ZASpinnerTableView.m in Sources */,
 				15FDE071190B4C1B00DFE036 /* AWBirthDateViewController.m in Sources */,
