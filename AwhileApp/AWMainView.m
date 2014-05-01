@@ -323,6 +323,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _menuSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _menuSpinner.spinnerDelegate = self;
         _menuSpinner.contents = [AWSpinnerContents menuContents];
+        _menuSpinner.spinnerType = InfiniteLoopSpinner;
         _menuSpinner.startIndex = 2;
         [_menuSpinner registerClass:[AWIconSpinnerCell class] forCellReuseIdentifier:ICON_SPINNER_CELL_IDENTIFIER];
     }
