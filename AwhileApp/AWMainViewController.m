@@ -33,10 +33,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.view.bounds = CGRectMake(self.view.bounds.origin.x, statusBarHeight-20.0f, self.view.bounds.size.width, self.view.bounds.size.height);
 	
 	[self setUpStatusBar];
 	
     [self.view addSubview:self.mainView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameDidChange:) name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setUpStatusBar {
@@ -50,6 +65,15 @@
         _mainView.delegate = self;
     }
     return _mainView;
+}
+
+- (void)statusBarFrameDidChange:(NSNotification*)notification
+{
+    NSValue* newFrameValue = [[notification userInfo] objectForKey:UIApplicationStatusBarFrameUserInfoKey];
+    CGRect newFrameRect;
+    [newFrameValue getValue:&newFrameRect];
+    self.view.bounds = CGRectMake(self.view.bounds.origin.x, newFrameRect.size.height-20.0f, self.view.bounds.size.width, self.view.bounds.size.height);
+    [self.view layoutIfNeeded];
 }
 
 - (void)mainView:(AWMainView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {
