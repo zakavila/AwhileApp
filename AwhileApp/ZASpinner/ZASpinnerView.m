@@ -84,7 +84,7 @@
         targetIndex = adjustedRowIndex;
     }
     else if (self.spinnerType == InfiniteLoopSpinner) {
-        targetIndex = self.centeredIndex + rowIndex - (self.centeredIndex%self.contents.count);
+        targetIndex = rowIndex;
     }
     [self moveToIndexPath:[NSIndexPath indexPathForRow:targetIndex inSection:0] withAnimation:animate];
 }
@@ -183,6 +183,8 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (self.spinnerType == InfiniteCountSpinner) {
+        if (![self hasLoaded])
+            return;
         CGPoint offset = scrollView.contentOffset;
         if (offset.y < scrollView.contentSize.height*0.125f && ![self isShowingBelow25]) {
             [self moveToPreviousInfiniteArray];
