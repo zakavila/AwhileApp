@@ -47,6 +47,7 @@
 #define UNFOCUSED_FONT_NAME @"HelveticaNeue-UltraLight"
 #define FOCUSED_FONT_SIZE 48.0f
 #define UNFOCUSED_FONT_SIZE 32.0f
+#define DATE_FONT_SIZE 25.0f
 
 typedef NS_ENUM(NSInteger, CircleType) {
     CircleTypeMenu = 0,
@@ -61,10 +62,14 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 @interface AWTimeView ()
 @property (nonatomic, strong) NSMutableArray *circleViews;
+@property (nonatomic, strong) UIImageView *woodRings;
 @property (nonatomic, strong) UIImageView *awhileLogo;
 @property (nonatomic, strong) UIImageView *menuShadow;
 @property (nonatomic, strong) UIView *onView;
 @property (nonatomic, strong) UILabel *onLabel;
+@property (nonatomic, strong) UIView *atView;
+@property (nonatomic, strong) UILabel *atLabel;
+@property (nonatomic, strong) CoreTextArcView *dateTextView;
 @end
 
 @implementation AWTimeView
@@ -87,6 +92,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         UIView *circleView = [[UIView alloc] init];
         UIColor *backgroundColor;
         if (i == CircleTypeMenu) {
+            [circleView addSubview:self.woodRings];
             [circleView addSubview:self.awhileLogo];
             [circleView addSubview:self.menuSpinner];
             [circleView addSubview:self.menuShadow];
@@ -101,8 +107,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
             backgroundColor = [UIColor colorWithRed:MINUTE_CIRCLE_R/255.0f green:MINUTE_CIRCLE_G/255.0f blue:MINUTE_CIRCLE_B/255.0f alpha:1.0f];
         }
         else if (i == CircleTypeHour) {
-            [circleView addSubview:self.onView];
-            [self.onView addSubview:self.onLabel];
             [circleView addSubview:self.hourSpinner];
             backgroundColor = [UIColor colorWithRed:HOUR_CIRCLE_R/255.0f green:HOUR_CIRCLE_G/255.0f blue:HOUR_CIRCLE_B/255.0f alpha:1.0f];
         }
@@ -119,7 +123,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
             backgroundColor = [UIColor colorWithRed:YOU_CIRCLE_R/255.0f green:YOU_CIRCLE_G/255.0f blue:YOU_CIRCLE_B/255.0f alpha:1.0f];
         }
         else if (i == CircleTypeDate) {
-            [circleView addSubview:self.youSpinner];
+            [circleView addSubview:self.onView];
+            [self.onView addSubview:self.onLabel];
+            [circleView addSubview:self.atView];
+            [self.atView addSubview:self.atLabel];
+            [circleView addSubview:self.dateTextView];
             backgroundColor = [UIColor colorWithRed:DATE_CIRCLE_R/255.0f green:DATE_CIRCLE_G/255.0f blue:DATE_CIRCLE_B/255.0f alpha:1.0f];
         }
         circleView.backgroundColor = backgroundColor;
@@ -154,49 +162,78 @@ typedef NS_ENUM(NSInteger, CircleType) {
             self.menuSpinner.frame = CGRectMake(0.0f, [self unfocusedIconSize]*3/2, [self homeDiameter], [self shownHomeRadius]);
             self.menuSpinner.tableView.frame = CGRectMake(0.0f, [self unfocusedIconSize]*3/2, [self homeDiameter], [self shownHomeRadius]);
             self.menuSpinner.radius = 0.0f;
+            previousFullRadius = fullRadius;
+            fullRadius = previousFullRadius + [self tertiaryBandWidth];
         }
         else if (circleIndex == CircleTypeAmPm) {
             self.amPmSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, fullRadius);
             self.amPmSpinner.chordLength = [self homeDiameter];
-            self.amPmSpinner.radius = previousFullRadius + 5;
+            self.amPmSpinner.radius = previousFullRadius + 2;
             self.amPmSpinner.verticalShift = -55.0f;
+            previousFullRadius = fullRadius;
+            fullRadius = previousFullRadius + [self tertiaryBandWidth];
         }
         else if (circleIndex == CircleTypeMinute) {
             self.minuteSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.minuteSpinner.radius = previousFullRadius;
             self.minuteSpinner.verticalShift = -55.0f;
+            previousFullRadius = fullRadius;
+            fullRadius = previousFullRadius + [self tertiaryBandWidth];
         }
         else if (circleIndex == CircleTypeHour) {
-            self.onView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7, 0.0f, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
-            self.onView.layer.cornerRadius = [self normalBandWidth]/7;
-            self.onView.layer.masksToBounds = YES;
-            self.onLabel.frame = CGRectMake(0.0f, -2.0f, self.onView.frame.size.width, self.onView.frame.size.height);
             self.hourSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.hourSpinner.radius = previousFullRadius;
             self.hourSpinner.verticalShift = -40.0f;
+            previousFullRadius = fullRadius;
+            fullRadius = previousFullRadius + [self weirdBandWidth];
         }
         else if (circleIndex == CircleTypeIncrement) {
             self.incrementSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.incrementSpinner.radius = previousFullRadius;
             self.incrementSpinner.verticalShift = -30.0f;
+            previousFullRadius = fullRadius;
+            fullRadius = previousFullRadius + [self normalBandWidth];
         }
         else if (circleIndex == CircleTypeValue) {
             self.valueSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.valueSpinner.radius = previousFullRadius;
             self.valueSpinner.verticalShift = -25.0f;
+            previousFullRadius = fullRadius;
+            fullRadius = previousFullRadius + [self normalBandWidth];
         }
         else if (circleIndex == CircleTypeYou) {
             self.youSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
             self.youSpinner.radius = previousFullRadius;
             self.youSpinner.verticalShift = -20.0f;
+            previousFullRadius = fullRadius;
+            fullRadius = previousFullRadius + [self normalBandWidth];
         }
         else if (circleIndex == CircleTypeDate) {
-            self.dateSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
-            self.dateSpinner.radius = previousFullRadius;
-            self.dateSpinner.verticalShift = -35.0f;
+            self.onView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7-65, 0.0f+10, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
+            self.onView.layer.cornerRadius = [self normalBandWidth]/7;
+            self.onView.layer.masksToBounds = YES;
+            self.onLabel.frame = CGRectMake(0.0f, -2.0f, self.onView.frame.size.width, self.onView.frame.size.height);
+            
+            self.atView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7+65, 0.0f+10, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
+            self.atView.layer.cornerRadius = [self normalBandWidth]/7;
+            self.atView.layer.masksToBounds = YES;
+            self.atLabel.frame = CGRectMake(0.0f, -2.0f, self.atView.frame.size.width, self.atView.frame.size.height);
+            
+            CGFloat bottomRadiusPadding = fullRadius - floorf((fullRadius*sinf(acosf((kScreenWidth/2)/fullRadius))));
+			CGFloat oldCirleTextArcViewHeight = fullRadius;
+			
+			if (!isnan(bottomRadiusPadding)) {
+				oldCirleTextArcViewHeight += bottomRadiusPadding;
+			}
+			
+			[_dateTextView setFrame:CGRectMake(0.0, 0.0f, circleView.bounds.size.width, oldCirleTextArcViewHeight)];
+			[_dateTextView setRadius:previousFullRadius];
+			[_dateTextView setArcSize:20];
+			[_dateTextView setShiftV:12.0f];
+            previousFullRadius = fullRadius;
+            fullRadius = previousFullRadius + [self normalBandWidth];
         }
-        previousFullRadius = fullRadius;
-        fullRadius = previousFullRadius + [self normalBandWidth];
+
     }
 }
 
@@ -300,6 +337,14 @@ typedef NS_ENUM(NSInteger, CircleType) {
     return _menuShadow;
 }
 
+- (UIImageView*)woodRings
+{
+    if (!_woodRings) {
+        _woodRings = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WoodRings"]];
+    }
+    return _woodRings;
+}
+
 - (UIImageView*)awhileLogo
 {
     if (!_awhileLogo) {
@@ -324,10 +369,32 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _onLabel.text = @"on";
         _onLabel.textAlignment = NSTextAlignmentCenter;
         _onLabel.font = [UIFont fontWithName:FOCUSED_FONT_NAME size:14.0f];
-        _onLabel.textColor = [UIColor colorWithRed:HOUR_CIRCLE_R/255.0f green:HOUR_CIRCLE_G/255.0f blue:HOUR_CIRCLE_B/255.0f alpha:1.0f];
+        _onLabel.textColor = [UIColor colorWithRed:DATE_CIRCLE_R/255.0f green:DATE_CIRCLE_G/255.0f blue:DATE_CIRCLE_B/255.0f alpha:1.0f];
         _onLabel.backgroundColor = [UIColor clearColor];
     }
     return _onLabel;
+}
+
+- (UIView*)atView
+{
+    if (!_atView) {
+        _atView = [[UIView alloc] init];
+        _atView.backgroundColor = [UIColor whiteColor];
+    }
+    return _atView;
+}
+
+- (UILabel*)atLabel
+{
+    if (!_atLabel) {
+        _atLabel = [[UILabel alloc] init];
+        _atLabel.text = @"@";
+        _atLabel.textAlignment = NSTextAlignmentCenter;
+        _atLabel.font = [UIFont fontWithName:FOCUSED_FONT_NAME size:17.0f];
+        _atLabel.textColor = [UIColor colorWithRed:DATE_CIRCLE_R/255.0f green:DATE_CIRCLE_G/255.0f blue:DATE_CIRCLE_B/255.0f alpha:1.0f];
+        _atLabel.backgroundColor = [UIColor clearColor];
+    }
+    return _atLabel;
 }
 
 - (ZASpinnerView*)menuSpinner
@@ -359,7 +426,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_minuteSpinner) {
         _minuteSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _minuteSpinner.spinnerDelegate = self;
-        _minuteSpinner.contents = [AWSpinnerContents minuteContents];
+        _minuteSpinner.contents = [AWSpinnerContents colonMinuteContents];
         [_minuteSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _minuteSpinner;
@@ -409,15 +476,16 @@ typedef NS_ENUM(NSInteger, CircleType) {
     return _youSpinner;
 }
 
-- (ZASpinnerView*)dateSpinner
+- (CoreTextArcView*)dateTextView
 {
-    if (!_dateSpinner) {
-        _dateSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
-        _dateSpinner.spinnerDelegate = self;
-        _dateSpinner.contents = [AWSpinnerContents dateContents];
-        [_dateSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
+    if (!_dateTextView) {
+        _dateTextView = [[CoreTextArcView alloc] initWithFrame:CGRectZero];
+        [_dateTextView setText:@"12/13/14"];
+        [_dateTextView setFont:[UIFont fontWithName:FOCUSED_FONT_NAME size:DATE_FONT_SIZE]];
+        [_dateTextView setColor:[UIColor whiteColor]];
+        [_dateTextView setBackgroundColor:[UIColor clearColor]];
     }
-    return _dateSpinner;
+    return _dateTextView;
 }
 
 
@@ -456,6 +524,14 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 - (CGFloat)normalBandWidth {
     return floorf((1/(7+5/8.0f))*kScreenHeight);
+}
+
+- (CGFloat)weirdBandWidth {
+    return floorf(((1/(6+4/8.0f))/3)*kScreenHeight);
+}
+
+- (CGFloat)tertiaryBandWidth {
+    return ([self normalBandWidth]*3-[self weirdBandWidth])/3;
 }
 
 - (CGFloat)saggitaForRadius:(CGFloat)radius

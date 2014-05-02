@@ -17,7 +17,7 @@
 + (NSArray*)dayContentsForMonthIndex:(NSInteger)monthIndex;
 + (NSArray*)partContents;
 + (NSArray*)amPmContents;
-+ (NSArray*)dateContents;
++ (NSArray*)colonMinuteContents;
 + (NSArray*)minuteContents;
 + (NSArray*)hourContents;
 

@@ -29,8 +29,6 @@
 @property (nonatomic, strong) ZASpinnerView *incrementSpinner;
 @property (nonatomic, strong) ZASpinnerView *valueSpinner;
 
-@property (nonatomic, strong) ZASpinnerView *dateSpinner;
-
 @property (nonatomic, strong) ZASpinnerView *hourSpinner;
 @property (nonatomic, strong) ZASpinnerView *minuteSpinner;
 @property (nonatomic, strong) ZASpinnerView *amPmSpinner;
