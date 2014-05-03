@@ -90,26 +90,6 @@
 
 #pragma mark TableView methods
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return self.frame.size.width/2 - 22.0f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return self.frame.size.width/2 - 22.0f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return [[UIView alloc] init];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    return [[UIView alloc] init];
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (self.isInfinite)
@@ -145,6 +125,11 @@
             [self moveToIndexPath:[NSIndexPath indexPathForRow:(self.startIndex-targetOffset) inSection:0] withAnimation:NO];
         }
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.spinnerDelegate spinner:self didSelectRowAtIndexPath:indexPath withContentValue:[self stringAtIndexPath:indexPath]];
 }
 
 
@@ -335,6 +320,12 @@
 
 
 #pragma mark Getters/setters
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    self.tableView.contentInset = UIEdgeInsetsMake(self.frame.size.width/2, 0.0f, self.frame.size.width/2, 0.0f);
+}
 
 @synthesize radius = _radius;
 - (CGFloat)radius

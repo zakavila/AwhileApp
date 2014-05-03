@@ -16,6 +16,7 @@
 @protocol ZASpinnerViewDelegate <NSObject>
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
 - (void)spinner:(ZASpinnerView*)spinner styleForCell:(ZASpinnerCell*)cell whileFocused:(BOOL)isFocused;
+- (void)spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)index withContentValue:(NSString*)contentValue;
 
 @required
 - (ZASpinnerCell*)spinner:(ZASpinnerView*)spinner cellForRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString*)contentValue;

@@ -137,6 +137,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         CGFloat spinnerHeight = [self saggitaForRadius:previousFullRadius] + [self normalBandWidth];
         if (circleIndex == CircleTypeMenu) {
             self.menuSpinner.frame = CGRectMake(0.0f, [self unfocusedIconSize]*3/2, [self homeDiameter], [self shownHomeRadius]);
+            self.menuSpinner.tableView.frame = CGRectMake(0.0f, [self unfocusedIconSize]*3/2, [self homeDiameter], [self shownHomeRadius]);
             self.menuSpinner.radius = 0.0f;
         }
         else if (circleIndex == CircleTypeYear) {
@@ -200,9 +201,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
         AWIconSpinnerCell *iconCell = [spinner dequeueReusableCellWithIdentifier:ICON_SPINNER_CELL_IDENTIFIER];
         iconCell.icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_Circle_Black", contentValue]];
         iconCell.icon.userInteractionEnabled = YES;
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuItemTapped:)];
-        [singleTap setNumberOfTapsRequired:1];
-        [iconCell.icon addGestureRecognizer:singleTap];
         cell = iconCell;
     }
     else {
@@ -232,6 +230,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 - (void)spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value
 {
     [self.delegate mainView:self spinner:spinner didChangeTo:value];
+}
+
+- (void)spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)index withContentValue:(NSString *)contentValue
+{
+    [self.delegate mainView:self spinner:spinner didSelectRowAtIndexPath:index withContentValue:contentValue];
 }
 
 
@@ -315,7 +318,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _yearSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _yearSpinner.spinnerDelegate = self;
         _yearSpinner.isInfinite = YES;
-        _yearSpinner.startIndex = 2014;
+        _yearSpinner.startIndex = 2014 + 75;
         [_yearSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _yearSpinner;
@@ -371,6 +374,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _youSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _youSpinner.spinnerDelegate = self;
         _youSpinner.contents = [self youSpinnerContents];
+        _youSpinner.startIndex = 1;
         [_youSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _youSpinner;
