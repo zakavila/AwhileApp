@@ -16,5 +16,6 @@
 - (id)initWithDate:(NSDate*)birthday;
 - (void)check;
 - (NSNumber*)youAreUnit:(NSString*)unit;
+- (NSNumber*)seconds:(NSTimeInterval)time withUnit:(NSString*)unit;
 
 @end

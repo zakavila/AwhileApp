@@ -22,11 +22,11 @@
 
 @implementation AWBirthTimeViewController
 
-- (id)initWithData:(AWDataModel *)dateModel {
+- (id)initWithDay:(NSString*)day Month:(NSString *)month Year:(NSString *)year {
     self = [super init];
 	
     if (self) {
-		self.dataModel = dateModel;
+		self.dataModel = [[AWDataModel alloc] initWithDay:day Month:month Year:year];
     }
 	
     return self;
@@ -118,6 +118,10 @@
 - (void)birthTimeView:(AWBirthTimeView *)birthTimeView nextButtonTouched:(UIButton *)nextButton
 {
     int addSeconds = 0;
+    if (self.dataModel.birthTime == nil)
+    {
+        NSLog(@"Shit");
+    }
     if (![self.part isEqualToString:@"IDK"])
     {
         if ([self.part isEqualToString:@"pm"])
