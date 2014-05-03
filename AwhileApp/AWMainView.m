@@ -392,6 +392,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _youSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _youSpinner.spinnerDelegate = self;
         _youSpinner.contents = [AWSpinnerContents youContents];
+        _youSpinner.startIndex = 1;
         [_youSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _youSpinner;

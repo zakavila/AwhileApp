@@ -18,6 +18,10 @@
 @interface AWMainViewController ()
 @property (nonatomic, strong) AWMainView *mainView;
 @property (nonatomic, strong) AWDataModel* dataModel;
+@property (nonatomic, strong) NSDate* calculatedDate;
+@property (nonatomic) NSInteger year;
+@property (nonatomic) NSInteger month;
+@property (nonatomic) NSInteger day;
 @end
 
 @implementation AWMainViewController
@@ -78,128 +82,234 @@
 }
 
 - (void)mainView:(AWMainView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {
-    /*if ([spinner.spinnerName isEqualToString:@"totalTimeSpinner"])
+    
+    if (spinner == mainView.youSpinner)
     {
-        NSDate *newDate;
-        if ([self.units isEqualToString:@"Seconds"])
+        if ([value isEqualToString:@"You were"])
         {
-            self.value = @([value intValue]);
+            self.calculatedDate = self.dataModel.birthTime;
+            NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
+            
+            [mainView.daySpinner goToRow:[components day]-1 withAnimation:YES];
+            self.day = [components day];
+            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:YES];
+            self.month = [components month];
+            [mainView.yearSpinner goToRow:[components year] withAnimation:YES];
+            self.year = [components year];
+            [mainView.valueSpinner goToRow:0 withAnimation:YES];
         }
-        else if ([self.units isEqualToString:@"Minutes"])
+        else if ([value isEqualToString:@"You are"])
         {
-            self.value = @([value intValue]*60);
+            self.calculatedDate = [NSDate date];
+            NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
+            
+            [mainView.daySpinner goToRow:[components day]-1 withAnimation:YES];
+            self.day = [components day];
+            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:YES];
+            self.month = [components month];
+            [mainView.yearSpinner goToRow:[components year] withAnimation:YES];
+            self.year = [components year];
+            [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
         }
-        else if ([self.units isEqualToString:@"Hours"])
+        else if ([value isEqualToString:@"You'll be"])
         {
-            self.value = @([value intValue]*60*60);
+            self.calculatedDate = [NSDate date];
+            self.calculatedDate = [self.calculatedDate dateByAddingTimeInterval:(24*60*60)];
+            NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
+            
+            [mainView.daySpinner goToRow:[components day]-1 withAnimation:YES];
+            self.day = [components day];
+            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:YES];
+            self.month = [components month];
+            [mainView.yearSpinner goToRow:[components year] withAnimation:YES];
+            self.year = [components year];
+            [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
         }
-        else if ([self.units isEqualToString:@"Days"])
-        {
-            self.value = @([value intValue]*60*60*24);
-        }
-        else if ([self.units isEqualToString:@"Weeks"])
-        {
-            self.value = @([value intValue]*60*60*24*7);
-        }
-        else if ([self.units isEqualToString:@"Months"])
-        {
-            self.value = @([value intValue]*60*60*24*31);
-        }
-        else if ([self.units isEqualToString:@"Years"])
-        {
-            self.value = @([value intValue]*60*60*24*365.25);
-        }
-        else if ([self.units isEqualToString:@"Decades"])
-        {
-            self.value = @([value intValue]*60*60*24*365.25*10);
-        }
-        newDate = [self.dataModel.birthTime dateByAddingTimeInterval:[self.value floatValue]];
-        
-        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:newDate];
-        
-        self.day = [NSNumber numberWithInt:[components day]];
-        [youllBeView.daySpinner goToRow:([self.day intValue] - 1) withAnimation:YES];
-        self.month = [NSNumber numberWithInt:[components month]];
-        [youllBeView.monthSpinner goToRow:([self.month intValue] - 1) withAnimation:YES];
-        self.year = [NSNumber numberWithInt:[components year]];
-        [youllBeView.yearSpinner goToRow:[self.year intValue] withAnimation:YES];
     }
-    else if ([spinner.spinnerName isEqualToString:@"incrementSpinner"])
+    else if (spinner == mainView.yearSpinner)
     {
-        self.units = value;
-        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];
-    }
-    else if ([spinner.spinnerName isEqualToString:@"daySpinner"])
-    {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*(-[value integerValue] + [self.day integerValue])))];
-        self.day = @([value intValue]);
+        NSInteger difference = [value integerValue] - self.year;
+        NSDateComponents* comps = [[NSDateComponents alloc] init];
+        [comps setYear:difference];
+        self.calculatedDate = [[NSCalendar currentCalendar] dateByAddingComponents:comps toDate:self.calculatedDate options:0];
         
-        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];
+        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:self.calculatedDate];
+        
+        self.year = [components year];
+        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
     }
-    else if ([spinner.spinnerName isEqualToString:@"monthSpinner"])
+    else if (spinner == mainView.monthSpinner)
     {
-        int newMonth;
+        NSInteger monthNumber;
         if ([value isEqualToString:@"Jan"])
         {
-            newMonth = 1;
+            monthNumber = 1;
         }
         else if ([value isEqualToString:@"Feb"])
         {
-            newMonth = 2;
+            monthNumber = 2;
         }
         else if ([value isEqualToString:@"Mar"])
         {
-            newMonth = 3;
+            monthNumber = 3;
         }
         else if ([value isEqualToString:@"Apr"])
         {
-            newMonth = 4;
+            monthNumber = 4;
         }
         else if ([value isEqualToString:@"May"])
         {
-            newMonth = 5;
+            monthNumber = 5;
         }
         else if ([value isEqualToString:@"Jun"])
         {
-            newMonth = 6;
+            monthNumber = 6;
         }
         else if ([value isEqualToString:@"Jul"])
         {
-            newMonth = 7;
+            monthNumber = 7;
         }
         else if ([value isEqualToString:@"Aug"])
         {
-            newMonth = 8;
+            monthNumber = 8;
         }
         else if ([value isEqualToString:@"Sep"])
         {
-            newMonth = 9;
+            monthNumber = 9;
         }
         else if ([value isEqualToString:@"Oct"])
         {
-            newMonth = 10;
+            monthNumber = 10;
         }
         else if ([value isEqualToString:@"Nov"])
         {
-            newMonth = 11;
+            monthNumber = 11;
         }
         else if ([value isEqualToString:@"Dec"])
         {
-            newMonth = 12;
+            monthNumber = 12;
+        }
+            
+        NSInteger difference = monthNumber - self.month;
+        NSDateComponents* comps = [[NSDateComponents alloc] init];
+        [comps setMonth:difference];
+        self.calculatedDate = [[NSCalendar currentCalendar] dateByAddingComponents:comps toDate:self.calculatedDate options:0];
+        
+        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:self.calculatedDate];
+        self.month = [components month];
+        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
+    }
+    else if (spinner == mainView.daySpinner)
+    {
+        NSInteger difference = [value integerValue] - self.day;
+        NSDateComponents* comps = [[NSDateComponents alloc] init];
+        [comps setDay:difference];
+        self.calculatedDate = [[NSCalendar currentCalendar] dateByAddingComponents:comps toDate:self.calculatedDate options:0];
+        
+        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:self.calculatedDate];
+        
+        self.day = [components day];
+        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
+        
+    }
+    else if (spinner == mainView.incrementSpinner)
+    {
+        NSTimeInterval t = [self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime];
+        NSLog([NSString stringWithFormat:@"%f", t]);
+        int u = [[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue];
+        NSLog([NSString stringWithFormat:@"%d", u]);
+        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
+        t = [self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime];
+        NSLog([NSString stringWithFormat:@"%f", t]);
+        u = [[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue];
+        NSLog([NSString stringWithFormat:@"%d", u]);
+    }
+    else if (spinner == mainView.valueSpinner)
+    {
+        NSInteger difference = [value integerValue];
+        NSDateComponents* comps = [[NSDateComponents alloc] init];
+        
+        if ([self.mainView.incrementSpinner.centeredValue isEqualToString:@"Seconds"])
+        {
+            [comps setSecond:difference];
+        }
+        else if ([self.mainView.incrementSpinner.centeredValue isEqualToString:@"Minutes"])
+        {
+            [comps setMinute:difference];
+        }
+        else if ([self.mainView.incrementSpinner.centeredValue isEqualToString:@"Hours"])
+        {
+            [comps setHour:difference];
+        }
+        else if ([self.mainView.incrementSpinner.centeredValue isEqualToString:@"Days"])
+        {
+            [comps setDay:difference];
+        }
+        else if ([self.mainView.incrementSpinner.centeredValue isEqualToString:@"Weeks"])
+        {
+            [comps setWeek:difference];
+        }
+        else if ([self.mainView.incrementSpinner.centeredValue isEqualToString:@"Months"])
+        {
+            [comps setMonth:difference];
+        }
+        else if ([self.mainView.incrementSpinner.centeredValue isEqualToString:@"Years"])
+        {
+            [comps setYear:difference];
+        }
+        else if ([self.mainView.incrementSpinner.centeredValue isEqualToString:@"Decades"])
+        {
+            [comps setYear:(10*difference)];
         }
         
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*30*(newMonth - [self.month integerValue])))];
-        self.month = [NSNumber numberWithInt:newMonth];
+        self.calculatedDate = [[NSCalendar currentCalendar] dateByAddingComponents:comps toDate:self.dataModel.birthTime options:0];
         
-        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];
+        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
+        
+        [mainView.daySpinner goToRow:[components day]-1 withAnimation:YES];
+        self.day = [components day];
+        [mainView.monthSpinner goToRow:[components month]-1 withAnimation:YES];
+        self.month = [components month];
+        [mainView.yearSpinner goToRow:[components year] withAnimation:YES];
+        self.year = [components year];
     }
-    else
+}
+
+- (NSInteger)getResult:(NSInteger)result inSecondsFromUnit:(NSString*)unit
+{
+    if ([unit isEqualToString:@"Seconds"])
     {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*365*([value integerValue] - [self.year integerValue])))];
-        self.year = @([value intValue]);
-        
-        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];
-    }*/
+        return result;
+    }
+    else if ([unit isEqualToString:@"Minutes"])
+    {
+        return result*60;
+    }
+    else if ([unit isEqualToString:@"Hours"])
+    {
+        return result*60*60;
+    }
+    else if ([unit isEqualToString:@"Days"])
+    {
+        return result*60*60*24;
+    }
+    else if ([unit isEqualToString:@"Weeks"])
+    {
+        return result*60*60*24*7;
+    }
+    else if ([unit isEqualToString:@"Months"])
+    {
+        return result*60*60*24*365.25/12;
+    }
+    else if ([unit isEqualToString:@"Years"])
+    {
+        return result*60*60*24*365.25;
+    }
+    else if ([unit isEqualToString:@"Decades"])
+    {
+        return result*60*60*24*365.25*10;
+    }
+    return 0;
 }
 
 - (void)mainView:(AWMainView *)mainView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
