@@ -11,13 +11,8 @@
 #import "AWIconSpinnerCell.h"
 //#import <EventKit/EventKit.h>
 //#import <EventKitUI/EventKitUI.h>
-<<<<<<< HEAD
-#import <FacebookSDK/FacebookSDK.h>
-#import "ShareViewController.h"
-=======
 //#import <FacebookSDK/FacebookSDK.h>
 //#import "ShareViewController.h"
->>>>>>> feature/new_main_view
 
 @interface AWMainViewController ()
 @property (nonatomic, strong) AWMainView *mainView;
