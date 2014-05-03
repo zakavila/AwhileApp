@@ -12,6 +12,6 @@
 
 @interface AWBirthTimeViewController : UIViewController <AWBirthTimeViewDelegate>
 
-- (id)initWithData:(AWDataModel*)dateModel;
+- (id)initWithDay:(NSString*)day Month:(NSString *)month Year:(NSString *)year;
 
 @end

@@ -15,5 +15,6 @@
 - (id)initWithDay:(NSString*)day Month:(NSString*)month Year:(NSString*)year;
 - (void)check;
 - (NSNumber*)youAreUnit:(NSString*)unit;
+- (NSNumber*)seconds:(NSTimeInterval)time withUnit:(NSString*)unit;
 
 @end
