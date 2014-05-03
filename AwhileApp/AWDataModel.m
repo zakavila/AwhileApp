@@ -29,21 +29,30 @@
     [dateFormat setDateStyle:NSDateFormatterShortStyle];
     NSMutableString* date = [[NSMutableString alloc] initWithCapacity:12];
     
-    if ([day isEqualToString:@"1"] || [day isEqualToString:@"2"] || [day isEqualToString:@"3"] || [day isEqualToString:@"4"] || [day isEqualToString:@"5"] || [day isEqualToString:@"6"] || [day isEqualToString:@"7"] || [day isEqualToString:@"8"] || [day isEqualToString:@"9"]) {
-        [date appendString:@"0"];
-    }
-    [date appendString:day];
-    [date appendString:@"/"];
-    
     if ([month isEqualToString:@"1"] || [month isEqualToString:@"2"] || [month isEqualToString:@"3"] || [month isEqualToString:@"4"] || [month isEqualToString:@"5"] || [month isEqualToString:@"6"] || [month isEqualToString:@"7"] || [month isEqualToString:@"8"] || [month isEqualToString:@"9"]) {
         [date appendString:@"0"];
     }
     [date appendString:month];
     [date appendString:@"/"];
+    
+    if ([day isEqualToString:@"1"] || [day isEqualToString:@"2"] || [day isEqualToString:@"3"] || [day isEqualToString:@"4"] || [day isEqualToString:@"5"] || [day isEqualToString:@"6"] || [day isEqualToString:@"7"] || [day isEqualToString:@"8"] || [day isEqualToString:@"9"]) {
+        [date appendString:@"0"];
+    }
+    [date appendString:day];
+    [date appendString:@"/"];
     [date appendString:year];
     
-   [self setBirthTime:[dateFormat dateFromString:date]];
+    self.birthTime = [dateFormat dateFromString:date];
     
+    return self;
+}
+
+- (id)initWithDate:(NSDate*)birthday
+{
+    self = [super init];
+    if (self) {
+        [self setBirthTime:birthday];
+    }
     return self;
 }
 
@@ -80,6 +89,57 @@
     }
     else {
         return [NSNumber numberWithInt:abs(difference/(60*60*24*365.25*10))];
+    }
+}
+
+- (NSNumber*)seconds:(NSTimeInterval)time withUnit:(NSString*)unit
+{
+    if ([unit isEqualToString:@"Seconds"]) {
+        return [NSNumber numberWithInt:abs((int)time)];
+    }
+    else if ([unit isEqualToString:@"Minutes"]) {
+        return [NSNumber numberWithInt:abs((int)time/60)];
+    }
+    else if ([unit isEqualToString:@"Hours"]) {
+        return [NSNumber numberWithInt:abs((int)time/(60*60))];
+    }
+    else if ([unit isEqualToString:@"Days"]) {
+        return [NSNumber numberWithInt:abs((int)time/(60*60*24))];
+    }
+    else if ([unit isEqualToString:@"Weeks"]) {
+        return [NSNumber numberWithInt:abs((int)time/(60*60*24*7))];
+    }
+    else if ([unit isEqualToString:@"Months"]) {
+        NSDateComponents* comps = [[NSDateComponents alloc] init];
+        [comps setSecond:time];
+        NSDate* tempDate = [[NSCalendar currentCalendar] dateByAddingComponents:comps toDate:self.birthTime options:0];
+        
+        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth | NSCalendarUnitYear fromDate:tempDate];
+        
+        NSDateComponents* birthComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.birthTime];
+        
+        NSNumber* temp = [NSNumber numberWithInteger:(([components year]-[birthComponents year])*12 + ([components month] - [birthComponents month]))];;
+        
+        NSLog([temp stringValue]);
+        
+        return [NSNumber numberWithInteger:(([components year]-[birthComponents year])*12 + ([components month] - [birthComponents month]))];
+    }
+    else if ([unit isEqualToString:@"Years"]) {
+        NSDateComponents* comps = [[NSDateComponents alloc] init];
+        [comps setSecond:time];
+        NSDate* tempDate = [[NSCalendar currentCalendar] dateByAddingComponents:comps toDate:self.birthTime options:0];
+        
+        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:tempDate];
+        
+        NSDateComponents* birthComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:self.birthTime];
+        
+        NSNumber* temp = [NSNumber numberWithInteger:([components year]-[birthComponents year])];
+        NSLog([temp stringValue]);
+        
+        return [NSNumber numberWithInteger:[components year]-[birthComponents year]];
+    }
+    else {
+        return [NSNumber numberWithInt:abs((int)time/(60*60*24*365.25*10))];
     }
 }
 

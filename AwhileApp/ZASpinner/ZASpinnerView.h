@@ -46,7 +46,6 @@ typedef enum {
 @property (nonatomic) ZASpinnerType spinnerType;
 @property (nonatomic, strong) NSArray *contents;
 @property (nonatomic) NSInteger startIndex;
-@property BOOL isInfinite;
 @property (nonatomic, strong) NSString *spinnerName;
 @property (nonatomic, readonly) NSInteger centeredIndex;
 @property (nonatomic, strong, readonly) NSString *centeredValue;

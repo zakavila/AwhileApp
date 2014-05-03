@@ -23,11 +23,26 @@
 {
     [super viewDidLoad];
     
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.view.bounds = CGRectMake(self.view.bounds.origin.x, statusBarHeight-20.0f, self.view.bounds.size.width, self.view.bounds.size.height);
+    
     [self setUpStatusBar];
     
     [self setUpComponents];
     
     [self.view addSubview:self.birthDateView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameDidChange:) name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setUpStatusBar {
@@ -40,6 +55,15 @@
     self.day = [NSString stringWithFormat:@"%ld",(long)[components day]];
     self.month = [NSString stringWithFormat:@"%ld",(long)[components month]];
     self.year = [NSString stringWithFormat:@"%ld",(long)[components year]];
+}
+
+- (void)statusBarFrameDidChange:(NSNotification*)notification
+{
+    NSValue* newFrameValue = [[notification userInfo] objectForKey:UIApplicationStatusBarFrameUserInfoKey];
+    CGRect newFrameRect;
+    [newFrameValue getValue:&newFrameRect];
+    self.view.bounds = CGRectMake(self.view.bounds.origin.x, newFrameRect.size.height-20.0f, self.view.bounds.size.width, self.view.bounds.size.height);
+    [self.view layoutIfNeeded];
 }
 
 - (AWBirthDateView*)birthDateView
@@ -116,11 +140,12 @@
     }
     else if (spinner == birthDateView.yearSpinner)
     {
+        NSLog(value);
         self.year = value;
     }
 }
 
-- (void)birthDateView:(AWBirthDateView*)birthDateView spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath
+- (void)birthDateView:(AWBirthDateView *)birthDateView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
 {
     NSString *selectedString = [spinner contentValueForIndexPath:indexPath];
     NSLog(selectedString);
@@ -129,11 +154,9 @@
 
 - (void)birthDateView:(AWBirthDateView *)birthDateView nextButtonTouched:(UIButton *)nextButton
 {
-    if ([self.month isEqualToString:@"1"] || [self.month isEqualToString:@"3"] || [self.month isEqualToString:@"5"] || [self.month isEqualToString:@"7"] || [self.month isEqualToString:@"8"] || [self.month isEqualToString:@"10"] || [self.month isEqualToString:@"12"] || (([self.month isEqualToString:@"4"] || [self.month isEqualToString:@"6"] || [self.month isEqualToString:@"9"] || [self.month isEqualToString:@"11"]) && [self.day intValue] < 31) || ([self.month isEqualToString:@"2"] && [self.day intValue] < 29) || ([self.month isEqualToString:@"2"] && [self.day intValue] < 30 && [self.year intValue] % 4 == 0))
+    if ([self.day intValue] < 29 || [self.month isEqualToString:@"1"] || [self.month isEqualToString:@"3"] || [self.month isEqualToString:@"5"] || [self.month isEqualToString:@"7"] || [self.month isEqualToString:@"8"] || [self.month isEqualToString:@"10"] || [self.month isEqualToString:@"12"] || (([self.month isEqualToString:@"4"] || [self.month isEqualToString:@"6"] || [self.month isEqualToString:@"9"] || [self.month isEqualToString:@"11"]) && [self.day intValue] < 31) || ([self.month isEqualToString:@"2"] && [self.day intValue] < 29) || ([self.month isEqualToString:@"2"] && [self.day intValue] < 30 && [self.year intValue] % 4 == 0))
     {
-        AWDataModel* dataModel = [[AWDataModel alloc] initWithDay:self.day Month:self.month Year:self.year];
-        
-        [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthTimeViewController alloc] initWithData:dataModel];
+        [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthTimeViewController alloc] initWithDay:self.day Month:self.month Year:self.year];
     }
 }
 
