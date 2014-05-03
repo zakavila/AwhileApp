@@ -306,7 +306,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _yearSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _yearSpinner.spinnerDelegate = self;
         _yearSpinner.spinnerType = InfiniteCountSpinner;
-        _yearSpinner.startIndex = [components year] + 75;
+        _yearSpinner.startIndex = [components year];
         _yearSpinner.spinnerName = @"yearSpinner";
         [_yearSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
