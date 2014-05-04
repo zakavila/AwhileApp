@@ -53,6 +53,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameDidChange:) name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.mainView.youSpinner.tableView beginUpdates];
+    [self.mainView.youSpinner.tableView endUpdates];
+    [self.mainView.incrementSpinner.tableView beginUpdates];
+    [self.mainView.incrementSpinner.tableView endUpdates];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -90,26 +99,26 @@
             self.calculatedDate = self.dataModel.birthTime;
             NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
             
-            [mainView.daySpinner goToRow:[components day]-1 withAnimation:YES];
+            [mainView.daySpinner goToRow:[components day]-1 withAnimation:NO];
             self.day = [components day];
-            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:YES];
+            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:NO];
             self.month = [components month];
-            [mainView.yearSpinner goToRow:[components year] withAnimation:YES];
+            [mainView.yearSpinner goToRow:[components year] withAnimation:NO];
             self.year = [components year];
-            [mainView.valueSpinner goToRow:0 withAnimation:YES];
+            [mainView.valueSpinner goToRow:0 withAnimation:NO];
         }
         else if ([value isEqualToString:@"You are"])
         {
             self.calculatedDate = [NSDate date];
             NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
             
-            [mainView.daySpinner goToRow:[components day]-1 withAnimation:YES];
+            [mainView.daySpinner goToRow:[components day]-1 withAnimation:NO];
             self.day = [components day];
-            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:YES];
+            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:NO];
             self.month = [components month];
-            [mainView.yearSpinner goToRow:[components year] withAnimation:YES];
+            [mainView.yearSpinner goToRow:[components year] withAnimation:NO];
             self.year = [components year];
-            [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
+            [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:NO];
         }
         else if ([value isEqualToString:@"You'll be"])
         {
@@ -117,13 +126,13 @@
             self.calculatedDate = [self.calculatedDate dateByAddingTimeInterval:(24*60*60)];
             NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
             
-            [mainView.daySpinner goToRow:[components day]-1 withAnimation:YES];
+            [mainView.daySpinner goToRow:[components day]-1 withAnimation:NO];
             self.day = [components day];
-            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:YES];
+            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:NO];
             self.month = [components month];
-            [mainView.yearSpinner goToRow:[components year] withAnimation:YES];
+            [mainView.yearSpinner goToRow:[components year] withAnimation:NO];
             self.year = [components year];
-            [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
+            [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:NO];
         }
     }
     else if (spinner == mainView.yearSpinner)
@@ -136,7 +145,8 @@
         NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:self.calculatedDate];
         
         self.year = [components year];
-        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
+
+        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:NO];
         [self adjustYouSpinnerWithMainView:mainView];
     }
     else if (spinner == mainView.monthSpinner)
@@ -198,8 +208,7 @@
         
         NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:self.calculatedDate];
         self.month = [components month];
-        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
-        
+        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:NO];
         [self adjustYouSpinnerWithMainView:mainView];
     }
     else if (spinner == mainView.daySpinner)
@@ -217,7 +226,7 @@
     }
     else if (spinner == mainView.incrementSpinner)
     {
-        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:YES];
+        [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:NO];
     }
     else if (spinner == mainView.valueSpinner)
     {
@@ -261,11 +270,11 @@
         
         NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
         
-        [mainView.daySpinner goToRow:[components day]-1 withAnimation:YES];
+        [mainView.daySpinner goToRow:[components day]-1 withAnimation:NO];
         self.day = [components day];
-        [mainView.monthSpinner goToRow:[components month]-1 withAnimation:YES];
+        [mainView.monthSpinner goToRow:[components month]-1 withAnimation:NO];
         self.month = [components month];
-        [mainView.yearSpinner goToRow:[components year] withAnimation:YES];
+        [mainView.yearSpinner goToRow:[components year] withAnimation:NO];
         self.year = [components year];
         [self adjustYouSpinnerWithMainView:mainView];
     }
@@ -328,7 +337,7 @@
 - (void)mainView:(AWMainView *)mainView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
 {
     if (spinner == mainView.menuSpinner) {
-        [spinner goToRow:indexPath.row withAnimation:YES];
+        [spinner goToRow:indexPath.row withAnimation:NO];
         
         NSString * day = self.mainView.daySpinner.centeredValue;
         NSString * month = self.mainView.monthSpinner.centeredValue;

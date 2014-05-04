@@ -87,6 +87,8 @@
         targetIndex = rowIndex;
     }
     [self moveToIndexPath:[NSIndexPath indexPathForRow:targetIndex inSection:0] withAnimation:animate];
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
 
 - (NSString*)contentValueForIndexPath:(NSIndexPath*)indexPath
@@ -141,6 +143,7 @@
         [self.spinnerDelegate spinner:self styleForCell:cell whileFocused:YES];
         [self.tableView layoutIfNeeded];
         [self scrollViewDidEndDecelerating:tableView];
+//        [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
