@@ -14,6 +14,7 @@
 
 
 @protocol ZASpinnerViewDelegate <NSObject>
+@optional
 - (void)spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
 - (void)spinner:(ZASpinnerView*)spinner styleForCell:(ZASpinnerCell*)cell whileFocused:(BOOL)isFocused;
 - (void)spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)index withContentValue:(NSString*)contentValue;
@@ -38,13 +39,13 @@ typedef enum {
 @property (nonatomic, strong) ZASpinnerTableView *tableView;
 
 @property (nonatomic) CGFloat radius;
+@property (nonatomic) CGFloat chordLength;
 @property (nonatomic) CGFloat extraSpacing;
 @property (nonatomic) CGFloat verticalShift;
 @property (nonatomic) CGFloat arcMultiplier;
 @property (nonatomic) ZASpinnerType spinnerType;
 @property (nonatomic, strong) NSArray *contents;
 @property (nonatomic) NSInteger startIndex;
-@property BOOL isInfinite;
 @property (nonatomic, strong) NSString *spinnerName;
 @property (nonatomic, readonly) NSInteger centeredIndex;
 @property (nonatomic, strong, readonly) NSString *centeredValue;

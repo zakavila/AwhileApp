@@ -8,6 +8,7 @@
 
 #import "AWBirthDateView.h"
 #import "AWArcTextSpinnerCell.h"
+#import "AWSpinnerContents.h"
 
 #define NUMBER_OF_CIRCLES 8
 
@@ -60,11 +61,8 @@ typedef NS_ENUM(NSInteger, CircleType) {
 @property (nonatomic, strong) UIImageView *awhileLogo;
 @property (nonatomic, strong) UIImageView *woodRings;
 @property (nonatomic, strong) UIImageView *nextButtonView;
-@property (nonatomic, strong) ZASpinnerView *daySpinner;
 @property (nonatomic, strong) CoreTextArcView *dayTextView;
-@property (nonatomic, strong) ZASpinnerView *monthSpinner;
 @property (nonatomic, strong) CoreTextArcView *monthTextView;
-@property (nonatomic, strong) ZASpinnerView *yearSpinner;
 @property (nonatomic, strong) CoreTextArcView *yearTextView;
 @property (nonatomic, strong) CoreTextArcView *yourBirthdayTextView;
 @end
@@ -149,7 +147,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         
         if (circleIndex == CircleTypeNext) {
             self.awhileLogo.frame = CGRectMake((kScreenWidth/3) - (154/12), 15.0f, 154/2, 42/2);
-            self.nextButton.frame = CGRectMake((kScreenWidth/3) - (154/12), 30.0f, 100, 100);
+            self.nextButton.frame = CGRectMake((kScreenWidth/3) - (154/12) - 10, 30.0f, 100, 100);
             previousFullRadius = fullRadius;
             fullRadius = previousFullRadius + [self normalBandWidth];
         }
@@ -253,7 +251,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         
         _daySpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _daySpinner.spinnerDelegate = self;
-        _daySpinner.contents = [self daySpinnerContents];
+        _daySpinner.contents = [AWSpinnerContents dayContentsForMonthIndex:0];
         _daySpinner.startIndex = [components day] - 1;
         _daySpinner.spinnerName = @"daySpinner";
         [_daySpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
@@ -280,7 +278,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         
         _monthSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _monthSpinner.spinnerDelegate = self;
-        _monthSpinner.contents = [self monthSpinnerContents];
+        _monthSpinner.contents = [AWSpinnerContents monthContents];
         _monthSpinner.startIndex = [components month] - 1;
         _monthSpinner.spinnerName = @"monthSpinner";
         [_monthSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
@@ -307,8 +305,13 @@ typedef NS_ENUM(NSInteger, CircleType) {
         
         _yearSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _yearSpinner.spinnerDelegate = self;
+<<<<<<< HEAD
         _yearSpinner.isInfinite = YES;
         _yearSpinner.startIndex = [components year] + 75;
+=======
+        _yearSpinner.spinnerType = InfiniteCountSpinner;
+        _yearSpinner.startIndex = [components year];
+>>>>>>> 5502a2cf552954d31e0fc4b0df89fa66afe9b605
         _yearSpinner.spinnerName = @"yearSpinner";
         [_yearSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
@@ -444,19 +447,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
         _awhileLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"NextButton"]];
     }
     return _awhileLogo;
-}
-
-- (NSArray*)daySpinnerContents
-{
-    NSMutableArray *returnArray = [NSMutableArray array];
-    for (NSUInteger currDay = 1; currDay < 32; currDay++)
-        [returnArray addObject:[NSString stringWithFormat:@"%lu", (unsigned long)currDay]];
-    return returnArray;
-}
-
-- (NSArray*)monthSpinnerContents
-{
-    return @[@"Jan", @"Feb", @"Mar", @"Apr", @"May", @"Jun", @"Jul", @"Aug", @"Sep", @"Oct", @"Nov", @"Dec"];
 }
 
 - (CGFloat)unfocusedIconSize

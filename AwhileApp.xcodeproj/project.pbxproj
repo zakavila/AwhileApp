@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		050CB6A61911D162000198D6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 050CB6A51911D162000198D6 /* QuartzCore.framework */; };
+		0523D35F1911D382002DF401 /* TCProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0523D35E1911D382002DF401 /* TCProgressHUD.m */; };
 		05918F3A18FF947300A0F579 /* awhileBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3918FF947300A0F579 /* awhileBar@2x.png */; };
 		05918F3D18FFA42300A0F579 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05918F3C18FFA42300A0F579 /* home@2x.png */; };
 		15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15A82F691910342600A01D4C /* AWBirthTimeView.m */; };
@@ -14,6 +16,7 @@
 		15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F6D3E318FEFED800A176DC /* AWDataModel.m */; };
 		15FDE071190B4C1B00DFE036 /* AWBirthDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */; };
 		15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */; };
+		B2111C6A1911B30B009F200C /* AWSpinnerContents.m in Sources */ = {isa = PBXBuildFile; fileRef = B2111C691911B30B009F200C /* AWSpinnerContents.m */; };
 		B24FD087190700C8009FD1C8 /* AWIconSpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */; };
 		B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3A18F728DB00497CDD /* Foundation.framework */; };
 		B295DE3D18F728DB00497CDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3C18F728DB00497CDD /* CoreGraphics.framework */; };
@@ -47,6 +50,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		050CB6A51911D162000198D6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0523D35D1911D382002DF401 /* TCProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCProgressHUD.h; sourceTree = "<group>"; };
+		0523D35E1911D382002DF401 /* TCProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCProgressHUD.m; sourceTree = "<group>"; };
 		05918F3918FF947300A0F579 /* awhileBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "awhileBar@2x.png"; sourceTree = "<group>"; };
 		05918F3C18FFA42300A0F579 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
 		15A82F681910342600A01D4C /* AWBirthTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthTimeView.h; sourceTree = "<group>"; };
@@ -59,6 +65,8 @@
 		15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthDateViewController.m; sourceTree = "<group>"; };
 		15FDE072190B4D1C00DFE036 /* AWBirthDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthDateView.h; sourceTree = "<group>"; };
 		15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthDateView.m; sourceTree = "<group>"; };
+		B2111C681911B30B009F200C /* AWSpinnerContents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSpinnerContents.h; sourceTree = "<group>"; };
+		B2111C691911B30B009F200C /* AWSpinnerContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSpinnerContents.m; sourceTree = "<group>"; };
 		B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWIconSpinnerCell.h; sourceTree = "<group>"; };
 		B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWIconSpinnerCell.m; sourceTree = "<group>"; };
 		B295DE3718F728DB00497CDD /* AwhileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwhileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				050CB6A61911D162000198D6 /* QuartzCore.framework in Frameworks */,
 				B295DE3D18F728DB00497CDD /* CoreGraphics.framework in Frameworks */,
 				B295DE3F18F728DB00497CDD /* UIKit.framework in Frameworks */,
 				B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */,
@@ -117,11 +126,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0523D35C1911D342002DF401 /* TCProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				0523D35D1911D382002DF401 /* TCProgressHUD.h */,
+				0523D35E1911D382002DF401 /* TCProgressHUD.m */,
+			);
+			name = TCProgressHUD;
+			sourceTree = "<group>";
+		};
 		057EFC2B18FE0BE80067C9DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				15F6D3E218FEFED800A176DC /* AWDataModel.h */,
 				15F6D3E318FEFED800A176DC /* AWDataModel.m */,
+				B2111C681911B30B009F200C /* AWSpinnerContents.h */,
+				B2111C691911B30B009F200C /* AWSpinnerContents.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -129,6 +149,7 @@
 		057EFC2C18FE0BED0067C9DF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0523D35C1911D342002DF401 /* TCProgressHUD */,
 				B295DE7818F77DFC00497CDD /* ZASpinner */,
 				B2FD342019118E7700EAE1EF /* Spinner Cells */,
 				B2AE2BC319077F52003C446B /* AWMainView.h */,
@@ -203,6 +224,7 @@
 		B295DE3918F728DB00497CDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				050CB6A51911D162000198D6 /* QuartzCore.framework */,
 				B295DE3A18F728DB00497CDD /* Foundation.framework */,
 				B295DE3C18F728DB00497CDD /* CoreGraphics.framework */,
 				B295DE3E18F728DB00497CDD /* UIKit.framework */,
@@ -328,7 +350,7 @@
 				ORGANIZATIONNAME = AwhileApp;
 				TargetAttributes = {
 					B295DE3618F728DB00497CDD = {
-						DevelopmentTeam = BG424EHT8K;
+						DevelopmentTeam = 94E25AA8V5;
 					};
 					B295DE5118F728DB00497CDD = {
 						TestTargetID = B295DE3618F728DB00497CDD;
@@ -383,6 +405,7 @@
 				B295DE7118F76E4A00497CDD /* CoreTextArcView.m in Sources */,
 				15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */,
 				B295DE8018F77DFC00497CDD /* ZASpinnerCell.m in Sources */,
+				B2111C6A1911B30B009F200C /* AWSpinnerContents.m in Sources */,
 				15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */,
 				15A82F6D1910BC5E00A01D4C /* AWBirthTimeViewController.m in Sources */,
 				B2AE2BC519077F52003C446B /* AWMainView.m in Sources */,
@@ -395,6 +418,7 @@
 				15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */,
 				B24FD087190700C8009FD1C8 /* AWIconSpinnerCell.m in Sources */,
 				B295DE8118F77DFC00497CDD /* ZASpinnerView.m in Sources */,
+				0523D35F1911D382002DF401 /* TCProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

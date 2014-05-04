@@ -14,6 +14,7 @@
 @interface ZASpinnerView ()
 
 //For infinite
+@property (nonatomic) NSInteger numberOfInfiniteCells;
 @property (nonatomic, strong) NSMutableArray *infiniteArrays;
 @property (nonatomic) NSInteger currInfiniteArrayIndex;
 
@@ -29,10 +30,11 @@
     if (self) {
         self.hasLoaded = NO;
         
+        self.spinnerType = DefaultSpinner;
         self.radius = -1;
+        self.chordLength = -1;
         self.extraSpacing = -1;
         self.arcMultiplier = 1.0f;
-        self.isInfinite = NO;
                 
         [self setUpTableView];
     }
@@ -68,18 +70,23 @@
 
 - (void)goToRow:(NSInteger)rowIndex withAnimation:(BOOL)animate
 {
-    if (![self isInfinite] || !self.hasLoaded) {
-        [self moveToIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0] withAnimation:animate];
+    NSInteger targetIndex;
+    if (self.spinnerType == DefaultSpinner || !self.hasLoaded) {
+        targetIndex = rowIndex;
     }
-    else {
+    else if (self.spinnerType == InfiniteCountSpinner) {
         NSInteger targetOffset = 0;
-        if (rowIndex > 175)
+        if (rowIndex > self.numberOfInfiniteCells*.875)
             targetOffset = [self offsetForInfiniteArraysFromValue:rowIndex];
         if (((NSNumber*)[[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:0]).integerValue != targetOffset)
             [self createInfiniteArraysForValue:rowIndex];
         NSInteger adjustedRowIndex = rowIndex-targetOffset;
-        [self moveToIndexPath:[NSIndexPath indexPathForRow:adjustedRowIndex inSection:0] withAnimation:animate];
+        targetIndex = adjustedRowIndex;
     }
+    else if (self.spinnerType == InfiniteLoopSpinner) {
+        targetIndex = rowIndex;
+    }
+    [self moveToIndexPath:[NSIndexPath indexPathForRow:targetIndex inSection:0] withAnimation:animate];
 }
 
 - (NSString*)contentValueForIndexPath:(NSIndexPath*)indexPath
@@ -92,8 +99,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.isInfinite)
-        return 200;
+    if (self.spinnerType != DefaultSpinner)
+        return self.numberOfInfiniteCells;
     return [self.contents count];
 }
 
@@ -118,12 +125,22 @@
     if (!self.hasLoaded && indexPath.row == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row) {
         self.hasLoaded = YES;
         [self.tableView reloadData];
-        if (!self.isInfinite || self.startIndex < 175)
-            [self moveToIndexPath:[NSIndexPath indexPathForRow:self.startIndex inSection:0] withAnimation:NO];
-        else if (self.isInfinite) {
+        NSIndexPath *targetIndexPath;
+        if (self.spinnerType == DefaultSpinner || (self.spinnerType == InfiniteCountSpinner && self.startIndex < 175))
+            targetIndexPath = [NSIndexPath indexPathForRow:self.startIndex inSection:0];
+        else if (self.spinnerType == InfiniteCountSpinner) {
             NSInteger targetOffset = [self offsetForInfiniteArraysFromValue:self.startIndex];
-            [self moveToIndexPath:[NSIndexPath indexPathForRow:(self.startIndex-targetOffset) inSection:0] withAnimation:NO];
+            targetIndexPath = [NSIndexPath indexPathForRow:(self.startIndex-targetOffset) inSection:0];
         }
+        else if (self.spinnerType == InfiniteLoopSpinner) {
+            NSInteger targetRow = 3*self.contents.count+self.startIndex-1;
+            targetIndexPath = [NSIndexPath indexPathForRow:targetRow inSection:0];
+        }
+        [self moveToIndexPath:targetIndexPath withAnimation:NO];
+        ZASpinnerCell *cell = (ZASpinnerCell*)[tableView cellForRowAtIndexPath:targetIndexPath];
+        [self.spinnerDelegate spinner:self styleForCell:cell whileFocused:YES];
+        [self.tableView layoutIfNeeded];
+        [self scrollViewDidEndDecelerating:tableView];
     }
 }
 
@@ -141,7 +158,7 @@
     _centeredValue = [self stringAtIndexPath:bestIndexPath];
     CGFloat newYOffset = [self getOffsetToShowIndex:bestIndexPath];
     if (scrollView.contentOffset.y != newYOffset) {
-        [UIView animateWithDuration:.3f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [UIView animateWithDuration:0.1f delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, newYOffset);
             [scrollView layoutSubviews];
         }completion:^(BOOL finished){
@@ -165,9 +182,22 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (self.isInfinite) {
+    if (self.spinnerType == InfiniteCountSpinner) {
+        if (![self hasLoaded])
+            return;
         CGPoint offset = scrollView.contentOffset;
         if (offset.y < scrollView.contentSize.height*0.125f && ![self isShowingBelow25]) {
+            [self moveToPreviousInfiniteArray];
+            scrollView.contentOffset = CGPointMake(offset.x, scrollView.contentSize.height*0.5f);
+        }
+        else if (offset.y > scrollView.contentSize.height*0.875f) {
+            [self moveToNextInfiniteArray];
+            scrollView.contentOffset = CGPointMake(offset.x, scrollView.contentSize.height*0.5f);
+        }
+    }
+    else if (self.spinnerType == InfiniteLoopSpinner) {
+        CGPoint offset = scrollView.contentOffset;
+        if (offset.y < scrollView.contentSize.height*0.125f) {
             [self moveToPreviousInfiniteArray];
             scrollView.contentOffset = CGPointMake(offset.x, scrollView.contentSize.height*0.5f);
         }
@@ -183,6 +213,8 @@
 
 - (void)moveToIndexPath:(NSIndexPath*)indexPath withAnimation:(BOOL)animate
 {
+    _centeredIndex = indexPath.row;
+    _centeredValue = [self stringAtIndexPath:indexPath];
     CGFloat newYOffset = self.tableView.contentOffset.y + [self getIndexPath:indexPath distanceFromCenterOf:self.tableView];
     CGFloat duration = animate ? 0.5f : 0.0f;
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -221,18 +253,27 @@
 
 - (NSString*)stringAtIndexPath:(NSIndexPath*)indexPath
 {
-    if (self.isInfinite)
-        return [self stringForInfiniteAtIndexPath:indexPath];
+    if (self.spinnerType == InfiniteCountSpinner)
+        return [self numberForInfiniteAtIndexPath:indexPath];
+    else if (self.spinnerType == InfiniteLoopSpinner)
+        return [self contentForInfiniteAtIndexPath:indexPath];
     NSString *cellString = @"";
     if ([[[self contents] objectAtIndex:indexPath.row] isKindOfClass:[NSString class]])
         cellString = [[self contents] objectAtIndex:indexPath.row];
     return cellString;
 }
 
-- (NSString*)stringForInfiniteAtIndexPath:(NSIndexPath*)indexPath
+- (NSString*)numberForInfiniteAtIndexPath:(NSIndexPath*)indexPath
 {
     NSNumber *currNumber = [[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:indexPath.row];
     return [NSString stringWithFormat:@"%ld", (long)currNumber.integerValue];
+}
+
+- (NSString*)contentForInfiniteAtIndexPath:(NSIndexPath*)indexPath
+{
+    NSNumber *currNumber = [[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:indexPath.row];
+    NSInteger contentIndex = currNumber.integerValue%self.contents.count;
+    return [self.contents objectAtIndex:contentIndex];
 }
 
 - (BOOL)isShowingBelow25
@@ -246,9 +287,9 @@
 {
     self.currInfiniteArrayIndex = [self previousInfiniteArrayIndexValue];
     NSInteger newPreviousArrayIndex = [self previousInfiniteArrayIndexValue];
-    [((NSMutableArray*)[self.infiniteArrays objectAtIndex:newPreviousArrayIndex]) removeAllObjects];
-    NSInteger startValue = ((NSNumber*)[((NSMutableArray*)[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex]) objectAtIndex:0]).integerValue-75;
-    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+    [((NSMutableArray*)[_infiniteArrays objectAtIndex:newPreviousArrayIndex]) removeAllObjects];
+    NSInteger startValue = ((NSNumber*)[((NSMutableArray*)[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex]) objectAtIndex:0]).integerValue-self.numberOfInfiniteCells*.375;
+    for (NSInteger currIndex = 0; currIndex < self.numberOfInfiniteCells; currIndex++) {
         NSNumber *currIndexValue = [NSNumber numberWithInteger:startValue+currIndex];
         [((NSMutableArray*)[self.infiniteArrays objectAtIndex:newPreviousArrayIndex]) addObject:currIndexValue];
     }
@@ -259,8 +300,8 @@
     self.currInfiniteArrayIndex = [self nextInfiniteArrayIndexValue];
     NSInteger newNextArrayIndex = [self nextInfiniteArrayIndexValue];
     [((NSMutableArray*)[self.infiniteArrays objectAtIndex:newNextArrayIndex]) removeAllObjects];
-    NSInteger startValue = ((NSNumber*)[((NSMutableArray*)[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex]) objectAtIndex:0]).integerValue+75;
-    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+    NSInteger startValue = ((NSNumber*)[((NSMutableArray*)[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex]) objectAtIndex:0]).integerValue+self.numberOfInfiniteCells*.375;
+    for (NSInteger currIndex = 0; currIndex < self.numberOfInfiniteCells; currIndex++) {
         NSNumber *currIndexValue = [NSNumber numberWithInteger:startValue+currIndex];
         [((NSMutableArray*)[self.infiniteArrays objectAtIndex:newNextArrayIndex]) addObject:currIndexValue];
     }
@@ -289,16 +330,16 @@
     NSMutableArray *firstArray = [[NSMutableArray alloc] init];
     NSMutableArray *secondArray = [[NSMutableArray alloc] init];
     NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
-    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
+    for (NSInteger currIndex = 0; currIndex < self.numberOfInfiniteCells; currIndex++) {
         [firstArray addObject:[NSNumber numberWithInteger:currIndex]];
-        [secondArray addObject:[NSNumber numberWithInteger:currIndex+75]];
+        [secondArray addObject:[NSNumber numberWithInteger:currIndex+self.numberOfInfiniteCells*.375]];
     }
     [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
 }
 
 - (NSUInteger)offsetForInfiniteArraysFromValue:(NSInteger)value
 {
-    return ceil((value-175)/75.0f)*75;
+    return ceil((value-(self.numberOfInfiniteCells*.875))/(self.numberOfInfiniteCells*.375))*(self.numberOfInfiniteCells*.375);
 }
 
 - (void)createInfiniteArraysForValue:(NSInteger)value
@@ -310,10 +351,10 @@
     NSMutableArray *secondArray = [[NSMutableArray alloc] init];
     NSMutableArray *thirdArray = [[NSMutableArray alloc] init];
     NSInteger offset =  [self offsetForInfiniteArraysFromValue:value];//Need to create offset to account for section of arrays
-    for (NSInteger currIndex = 0; currIndex < 200; currIndex++) {
-        [firstArray addObject:[NSNumber numberWithInteger:currIndex-75+offset]];
+    for (NSInteger currIndex = 0; currIndex < self.numberOfInfiniteCells; currIndex++) {
+        [firstArray addObject:[NSNumber numberWithInteger:currIndex-self.numberOfInfiniteCells*.375+offset]];
         [secondArray addObject:[NSNumber numberWithInteger:currIndex+offset]];
-        [thirdArray addObject:[NSNumber numberWithInteger:currIndex+175+offset]];
+        [thirdArray addObject:[NSNumber numberWithInteger:currIndex+self.numberOfInfiniteCells*.875+offset]];
     }
     [_infiniteArrays addObjectsFromArray:@[firstArray, secondArray, thirdArray]];
 }
@@ -327,6 +368,20 @@
     self.tableView.contentInset = UIEdgeInsetsMake(self.frame.size.width/2, 0.0f, self.frame.size.width/2, 0.0f);
 }
 
+- (void)setSpinnerType:(ZASpinnerType)spinnerType
+{
+    _spinnerType = spinnerType;
+    if (spinnerType == InfiniteCountSpinner) {
+        self.numberOfInfiniteCells = 200;
+    }
+    else if (spinnerType == InfiniteLoopSpinner) {
+        if (self.contents)
+            self.numberOfInfiniteCells = self.contents.count*8;
+        else
+            self.numberOfInfiniteCells = 0;
+    }
+}
+
 @synthesize radius = _radius;
 - (CGFloat)radius
 {
@@ -334,13 +389,19 @@
         return 260.0f;
     return _radius;
 }
-
 - (void)setRadius:(CGFloat)radius
 {
     _radius = radius;
     if (radius != -1) {
         self.tableView.radius = radius;
     }
+}
+
+- (CGFloat)chordLength
+{
+    if (_chordLength == -1)
+        return self.frame.size.width;
+    return _chordLength;
 }
 
 @synthesize centeredIndex = _centeredIndex;
@@ -377,10 +438,17 @@
     _startIndex = startIndex;
 }
 
+- (void)setContents:(NSArray *)contents
+{
+    _contents = contents;
+    if (self.spinnerType == InfiniteLoopSpinner)
+        self.numberOfInfiniteCells = contents.count*8;
+}
+
 - (NSMutableArray *)infiniteArrays
 {
     if (!_infiniteArrays) {
-        if (self.startIndex < 175)
+        if (self.startIndex < 175 && self.spinnerType == InfiniteCountSpinner)
             [self createInfiniteArraysForBeginning];
         else
             [self createInfiniteArraysForValue:self.startIndex];

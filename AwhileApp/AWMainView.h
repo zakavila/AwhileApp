@@ -30,6 +30,5 @@
 @property (nonatomic, strong) ZASpinnerView *incrementSpinner;
 @property (nonatomic, strong) ZASpinnerView *valueSpinner;
 @property (nonatomic, strong) ZASpinnerView *youSpinner;
-- (NSArray*)menuSpinnerContents;
 
 @end

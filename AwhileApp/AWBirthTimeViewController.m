@@ -10,6 +10,7 @@
 #import "AWDataModel.h"
 #import "AWMainViewController.h"
 #import "ZASpinnerView.h"
+#import "AWAppDelegate.h"
 
 @interface AWBirthTimeViewController ()
 @property (nonatomic, strong) AWBirthTimeView *birthTimeView;
@@ -35,11 +36,26 @@
 {
     [super viewDidLoad];
     
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.view.bounds = CGRectMake(self.view.bounds.origin.x, statusBarHeight-20.0f, self.view.bounds.size.width, self.view.bounds.size.height);
+    
     [self setUpStatusBar];
     
     [self setUpComponents];
     
     [self.view addSubview:self.birthTimeView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameDidChange:) name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setUpStatusBar {
@@ -50,6 +66,15 @@
     self.part = @"IDK";
     self.minute = 0;
     self.hour = [NSNumber numberWithInt:12];
+}
+
+- (void)statusBarFrameDidChange:(NSNotification*)notification
+{
+    NSValue* newFrameValue = [[notification userInfo] objectForKey:UIApplicationStatusBarFrameUserInfoKey];
+    CGRect newFrameRect;
+    [newFrameValue getValue:&newFrameRect];
+    self.view.bounds = CGRectMake(self.view.bounds.origin.x, newFrameRect.size.height-20.0f, self.view.bounds.size.width, self.view.bounds.size.height);
+    [self.view layoutIfNeeded];
 }
 
 - (AWBirthTimeView*)birthTimeView
@@ -92,13 +117,16 @@
 
 - (void)birthTimeView:(AWBirthTimeView *)birthTimeView nextButtonTouched:(UIButton *)nextButton
 {
+<<<<<<< HEAD
+=======
+    int addSeconds = 0;
+>>>>>>> 5502a2cf552954d31e0fc4b0df89fa66afe9b605
     if (self.dataModel.birthTime == nil)
     {
         NSLog(@"Shit");
     }
     if (![self.part isEqualToString:@"IDK"])
     {
-        int addSeconds = 0;
         if ([self.part isEqualToString:@"pm"])
         {
             addSeconds += 12 * 60 * 60;
@@ -113,19 +141,15 @@
         
         self.dataModel.birthTime = [self.dataModel.birthTime dateByAddingTimeInterval:addSeconds];
     }
+    else if ([self.part isEqualToString:@"IDK"]) {
+        //Set default to 10pm
+        addSeconds += 22 * 60 * 60;
+        self.dataModel.birthTime = [self.dataModel.birthTime dateByAddingTimeInterval:addSeconds];
+    }
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:self.dataModel.birthTime forKey:USER_BIRTHDAY_KEY];
     [UIApplication sharedApplication].keyWindow.rootViewController = [[AWMainViewController alloc] initWithData:_dataModel];
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
