@@ -335,13 +335,8 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_yearSpinner) {
         _yearSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _yearSpinner.spinnerDelegate = self;
-<<<<<<< HEAD
-        _yearSpinner.isInfinite = YES;
-        _yearSpinner.startIndex = 2014 + 75;
-=======
         _yearSpinner.spinnerType = InfiniteCountSpinner;
         _yearSpinner.startIndex = 2014;
->>>>>>> 5502a2cf552954d31e0fc4b0df89fa66afe9b605
         [_yearSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
     return _yearSpinner;
@@ -396,11 +391,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     if (!_youSpinner) {
         _youSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _youSpinner.spinnerDelegate = self;
-<<<<<<< HEAD
-        _youSpinner.contents = [self youSpinnerContents];
-=======
         _youSpinner.contents = [AWSpinnerContents youContents];
->>>>>>> 5502a2cf552954d31e0fc4b0df89fa66afe9b605
         _youSpinner.startIndex = 1;
         [_youSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
