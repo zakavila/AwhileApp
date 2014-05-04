@@ -152,10 +152,10 @@ typedef NS_ENUM(NSInteger, CircleType) {
             fullRadius = previousFullRadius + [self normalBandWidth];
         }
         else if (circleIndex == CircleTypeDay) {
-            #warning Fix spinner to work with more full circles
-            self.daySpinner.frame = CGRectMake(spinnerOriginX+30, 0.0f, kScreenWidth-60, fullRadius);
-            self.daySpinner.radius = previousFullRadius;
-            self.daySpinner.verticalShift = -65.0f;
+            self.daySpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, fullRadius);
+            self.daySpinner.radius = previousFullRadius + 5;
+            self.daySpinner.chordLength = [self nextDiameter];
+            self.daySpinner.verticalShift = -55.0f;
             previousFullRadius = fullRadius;
             fullRadius = previousFullRadius + [self weirdBandWidth];
         }

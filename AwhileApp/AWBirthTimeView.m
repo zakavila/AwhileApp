@@ -152,9 +152,10 @@ typedef NS_ENUM(NSInteger, CircleType) {
             fullRadius = previousFullRadius + [self normalBandWidth];
         }
         else if (circleIndex == CircleTypePart) {
-            self.partSpinner.frame = CGRectMake(spinnerOriginX+30, 0.0f, kScreenWidth-60, fullRadius);
-            self.partSpinner.radius = previousFullRadius;
-            self.partSpinner.verticalShift = -65.0f;
+            self.partSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, fullRadius);
+            self.partSpinner.radius = previousFullRadius + 5.0f;
+            self.partSpinner.chordLength = [self nextDiameter];
+            self.partSpinner.verticalShift = -55.0f;
             previousFullRadius = fullRadius;
             fullRadius = previousFullRadius + [self weirdBandWidth];
         }
