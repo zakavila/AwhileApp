@@ -11,7 +11,7 @@
 @interface AWDataModel : NSObject
 
 @property (nonatomic, strong) NSDate *birthTime;
-
+@property (nonatomic, strong) NSString *date;
 - (id)initWithDay:(NSString*)day Month:(NSString*)month Year:(NSString*)year;
 - (id)initWithDate:(NSDate*)birthday;
 - (void)check;
