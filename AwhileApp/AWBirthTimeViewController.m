@@ -117,10 +117,7 @@
 
 - (void)birthTimeView:(AWBirthTimeView *)birthTimeView nextButtonTouched:(UIButton *)nextButton
 {
-<<<<<<< HEAD
-=======
     int addSeconds = 0;
->>>>>>> 5502a2cf552954d31e0fc4b0df89fa66afe9b605
     if (self.dataModel.birthTime == nil)
     {
         NSLog(@"Shit");
