@@ -285,12 +285,12 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 - (void)spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value
 {
-    [self.delegate mainView:self spinner:spinner didChangeTo:value];
+    [self.delegate timeView:self spinner:spinner didChangeTo:value];
 }
 
 - (void)spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)index withContentValue:(NSString *)contentValue
 {
-    [self.delegate mainView:self spinner:spinner didSelectRowAtIndexPath:index withContentValue:contentValue];
+    [self.delegate timeView:self spinner:spinner didSelectRowAtIndexPath:index withContentValue:contentValue];
 }
 
 

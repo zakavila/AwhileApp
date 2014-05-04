@@ -17,8 +17,8 @@
 @class AWTimeView;
 
 @protocol AWTimeViewDelegate <NSObject>
-- (void)mainView:(AWTimeView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
-- (void)mainView:(AWTimeView*)mainView spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath withContentValue:(NSString*)contentValue;
+- (void)timeView:(AWTimeView*)timeView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
+- (void)timeView:(AWTimeView*)timeView spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath withContentValue:(NSString*)contentValue;
 
 @end
 

@@ -78,7 +78,7 @@
     self.view.bounds = CGRectMake(self.view.bounds.origin.x, newFrameRect.size.height-20.0f, self.view.bounds.size.width, self.view.bounds.size.height);
     [self.view layoutIfNeeded];
 }
-- (void)mainView:(AWTimeView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value
+- (void)timeView:(AWTimeView*)timeView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value
 {
     if (spinner==_timeView.hourSpinner)
     {
@@ -96,9 +96,9 @@
    
 }
 
-- (void)mainView:(AWTimeView *)mainView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
+- (void)timeView:(AWTimeView *)timeView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
 {
-    if (spinner == mainView.menuSpinner) {
+    if (spinner == timeView.menuSpinner) {
         [spinner goToRow:indexPath.row withAnimation:YES];
         NSString * dateString = [NSString stringWithFormat:@"%@ %@%@ %@", _dataModel.date, self.hour, self.minute, self.amPm];
         NSString * increment = _dataModel.increment;
