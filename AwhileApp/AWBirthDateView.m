@@ -152,7 +152,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
             fullRadius = previousFullRadius + [self normalBandWidth];
         }
         else if (circleIndex == CircleTypeDay) {
-            #warning Fix spinner to work with more full circles
+#warning Fix spinner to work with more full circles
             self.daySpinner.frame = CGRectMake(spinnerOriginX+30, 0.0f, kScreenWidth-60, fullRadius);
             self.daySpinner.radius = previousFullRadius;
             self.daySpinner.verticalShift = -65.0f;
@@ -274,7 +274,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 - (ZASpinnerView*)monthSpinner
 {
     if (!_monthSpinner) {
-         NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:[NSDate date]];
+        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:[NSDate date]];
         
         _monthSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _monthSpinner.spinnerDelegate = self;
@@ -305,13 +305,8 @@ typedef NS_ENUM(NSInteger, CircleType) {
         
         _yearSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
         _yearSpinner.spinnerDelegate = self;
-<<<<<<< HEAD
-        _yearSpinner.isInfinite = YES;
-        _yearSpinner.startIndex = [components year] + 75;
-=======
         _yearSpinner.spinnerType = InfiniteCountSpinner;
         _yearSpinner.startIndex = [components year];
->>>>>>> 5502a2cf552954d31e0fc4b0df89fa66afe9b605
         _yearSpinner.spinnerName = @"yearSpinner";
         [_yearSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
     }
@@ -489,12 +484,12 @@ typedef NS_ENUM(NSInteger, CircleType) {
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 @end
