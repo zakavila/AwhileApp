@@ -389,9 +389,9 @@ typedef NS_ENUM(NSInteger, CircleType) {
     [self.delegate birthDateView:self spinner:spinner didChangeTo:value];
 }
 
-- (void)mainView:(AWBirthDateView*)birthDateView spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath withContentValue:(NSString*)contentValue
+- (void)spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)index withContentValue:(NSString *)contentValue
 {
-    [self.delegate birthDateView:self spinner:spinner didSelectRowAtIndexPath:indexPath withContentValue:contentValue];
+//    [self.delegate birthDateView:self spinner:spinner didSelectRowAtIndexPath:indexPath withContentValue:contentValue];
 }
 
 - (void)styleArcTextForSpinner:(ZASpinnerView*)spinner styleForCell:(ZASpinnerCell*)cell whileFocused:(BOOL)isFocused

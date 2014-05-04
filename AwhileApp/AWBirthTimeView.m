@@ -379,7 +379,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
     [self.delegate birthTimeView:self spinner:spinner didChangeTo:value];
 }
 
-- (void)spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath
+- (void)spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath *)index withContentValue:(NSString *)contentValue
 {
     
 }
