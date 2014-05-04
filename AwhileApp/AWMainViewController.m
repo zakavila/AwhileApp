@@ -214,7 +214,8 @@
         NSString * increment = self.mainView.incrementSpinner.centeredValue;
         NSString * val = self.mainView.valueSpinner.centeredValue;
         NSString * you = self.mainView.youSpinner.centeredValue;
-        
+        NSString * date = [NSString stringWithFormat:@"%@/%@/%@", month, day, year];
+        _dataModel.date = date;
         if ([contentValue isEqualToString:@"Birthday"]) {
             [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
         }
