@@ -19,9 +19,12 @@
 @protocol AWTimeViewDelegate <NSObject>
 - (void)mainView:(AWTimeView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value;
 - (void)mainView:(AWTimeView*)mainView spinner:(ZASpinnerView*)spinner didSelectRowAtIndexPath:(NSIndexPath*)indexPath withContentValue:(NSString*)contentValue;
+
 @end
 
 @interface AWTimeView : UIView <ZASpinnerViewDelegate>
+@property (nonatomic, strong) NSString *date;
+- (id)initWithFrame:(CGRect)frame thing:(NSString*)date;
 
 @property id <AWTimeViewDelegate> delegate;
 

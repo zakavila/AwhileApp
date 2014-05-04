@@ -16,6 +16,8 @@
 		15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F6D3E318FEFED800A176DC /* AWDataModel.m */; };
 		15FDE071190B4C1B00DFE036 /* AWBirthDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */; };
 		15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */; };
+		227563F21916B01D0021BC40 /* AWTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227563F11916B01D0021BC40 /* AWTimeViewController.m */; };
+		227563F51916B02C0021BC40 /* AWTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 227563F41916B02C0021BC40 /* AWTimeView.m */; };
 		B2111C6A1911B30B009F200C /* AWSpinnerContents.m in Sources */ = {isa = PBXBuildFile; fileRef = B2111C691911B30B009F200C /* AWSpinnerContents.m */; };
 		B24FD087190700C8009FD1C8 /* AWIconSpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */; };
 		B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3A18F728DB00497CDD /* Foundation.framework */; };
@@ -65,6 +67,10 @@
 		15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthDateViewController.m; sourceTree = "<group>"; };
 		15FDE072190B4D1C00DFE036 /* AWBirthDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWBirthDateView.h; sourceTree = "<group>"; };
 		15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthDateView.m; sourceTree = "<group>"; };
+		227563F01916B01D0021BC40 /* AWTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWTimeViewController.h; sourceTree = "<group>"; };
+		227563F11916B01D0021BC40 /* AWTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWTimeViewController.m; sourceTree = "<group>"; };
+		227563F31916B02C0021BC40 /* AWTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWTimeView.h; sourceTree = "<group>"; };
+		227563F41916B02C0021BC40 /* AWTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWTimeView.m; sourceTree = "<group>"; };
 		B2111C681911B30B009F200C /* AWSpinnerContents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSpinnerContents.h; sourceTree = "<group>"; };
 		B2111C691911B30B009F200C /* AWSpinnerContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSpinnerContents.m; sourceTree = "<group>"; };
 		B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWIconSpinnerCell.h; sourceTree = "<group>"; };
@@ -149,6 +155,8 @@
 		057EFC2C18FE0BED0067C9DF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				227563F31916B02C0021BC40 /* AWTimeView.h */,
+				227563F41916B02C0021BC40 /* AWTimeView.m */,
 				0523D35C1911D342002DF401 /* TCProgressHUD */,
 				B295DE7818F77DFC00497CDD /* ZASpinner */,
 				B2FD342019118E7700EAE1EF /* Spinner Cells */,
@@ -168,6 +176,8 @@
 			isa = PBXGroup;
 			children = (
 				B2AE2BC019077F41003C446B /* AWMainViewController.h */,
+				227563F01916B01D0021BC40 /* AWTimeViewController.h */,
+				227563F11916B01D0021BC40 /* AWTimeViewController.m */,
 				B2AE2BC119077F41003C446B /* AWMainViewController.m */,
 				15FDE06F190B4C1B00DFE036 /* AWBirthDateViewController.h */,
 				15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */,
@@ -405,12 +415,14 @@
 				B295DE7118F76E4A00497CDD /* CoreTextArcView.m in Sources */,
 				15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */,
 				B295DE8018F77DFC00497CDD /* ZASpinnerCell.m in Sources */,
+				227563F21916B01D0021BC40 /* AWTimeViewController.m in Sources */,
 				B2111C6A1911B30B009F200C /* AWSpinnerContents.m in Sources */,
 				15A82F6A1910342600A01D4C /* AWBirthTimeView.m in Sources */,
 				15A82F6D1910BC5E00A01D4C /* AWBirthTimeViewController.m in Sources */,
 				B2AE2BC519077F52003C446B /* AWMainView.m in Sources */,
 				B295DE4B18F728DB00497CDD /* AWAppDelegate.m in Sources */,
 				B295DE4718F728DB00497CDD /* main.m in Sources */,
+				227563F51916B02C0021BC40 /* AWTimeView.m in Sources */,
 				B2AE2BC219077F41003C446B /* AWMainViewController.m in Sources */,
 				B2CF54031908A0E4009C15C6 /* AWArcTextSpinnerCell.m in Sources */,
 				B295DE7F18F77DFC00497CDD /* ZASpinnerTableView.m in Sources */,

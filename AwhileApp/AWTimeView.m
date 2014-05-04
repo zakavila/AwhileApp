@@ -75,10 +75,11 @@ typedef NS_ENUM(NSInteger, CircleType) {
 @implementation AWTimeView
 
 #pragma mark Setup
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame thing:(NSString*)date
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.date = date;
         [self setUpCircles];
     }
     return self;
@@ -111,16 +112,13 @@ typedef NS_ENUM(NSInteger, CircleType) {
             backgroundColor = [UIColor colorWithRed:HOUR_CIRCLE_R/255.0f green:HOUR_CIRCLE_G/255.0f blue:HOUR_CIRCLE_B/255.0f alpha:1.0f];
         }
         else if (i == CircleTypeIncrement) {
-            [circleView addSubview:self.incrementSpinner];
-            backgroundColor = [UIColor colorWithRed:INCREMENT_CIRCLE_R/255.0f green:INCREMENT_CIRCLE_G/255.0f blue:INCREMENT_CIRCLE_B/255.0f alpha:1.0f];
+
         }
         else if (i == CircleTypeValue) {
-            [circleView addSubview:self.valueSpinner];
-            backgroundColor = [UIColor colorWithRed:VALUE_CIRCLE_R/255.0f green:VALUE_CIRCLE_G/255.0f blue:VALUE_CIRCLE_B/255.0f alpha:1.0f];
+
         }
         else if (i == CircleTypeYou) {
-            [circleView addSubview:self.youSpinner];
-            backgroundColor = [UIColor colorWithRed:YOU_CIRCLE_R/255.0f green:YOU_CIRCLE_G/255.0f blue:YOU_CIRCLE_B/255.0f alpha:1.0f];
+         
         }
         else if (i == CircleTypeDate) {
             [circleView addSubview:self.onView];
@@ -480,7 +478,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 {
     if (!_dateTextView) {
         _dateTextView = [[CoreTextArcView alloc] initWithFrame:CGRectZero];
-        [_dateTextView setText:@"12/13/14"];
+        [_dateTextView setText:self.date];
         [_dateTextView setFont:[UIFont fontWithName:FOCUSED_FONT_NAME size:DATE_FONT_SIZE]];
         [_dateTextView setColor:[UIColor whiteColor]];
         [_dateTextView setBackgroundColor:[UIColor clearColor]];

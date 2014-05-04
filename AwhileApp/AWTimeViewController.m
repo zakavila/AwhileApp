@@ -16,19 +16,22 @@
 #define AWHILE_APP_URL @"http://awhileapp.com"
 
 @interface AWTimeViewController ()
-@property (nonatomic, strong) AWTimeView *mainView;
 @property (nonatomic, strong) AWDataModel* dataModel;
+@property (nonatomic, strong) NSString* hour;
+@property (nonatomic, strong) NSString* minute;
+@property (nonatomic, strong) NSString* amPm;
 @end
 
 @implementation AWTimeViewController
 
 - (id)initWithData:(AWDataModel *)dateModel {
     self = [super init];
-	
+	self.hour = @"12";
+    self.minute = @":00";
+    self.amPm = @"am";
     if (self) {
 		self.dataModel = dateModel;
     }
-	
     return self;
 }
 
@@ -39,8 +42,7 @@
     self.view.bounds = CGRectMake(self.view.bounds.origin.x, statusBarHeight-20.0f, self.view.bounds.size.width, self.view.bounds.size.height);
 	
 	[self setUpStatusBar];
-	
-    [self.view addSubview:self.mainView];
+    [self.view addSubview:self.timeView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -59,13 +61,13 @@
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
-- (AWTimeView*)mainView
+- (AWTimeView*)timeView
 {
-    if (!_mainView) {
-        _mainView = [[AWTimeView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight)];
-        _mainView.delegate = self;
+    if (!_timeView) {
+        _timeView = [[AWTimeView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight) thing:self.dataModel.date];
+        _timeView.delegate = self;
     }
-    return _mainView;
+    return _timeView;
 }
 
 - (void)statusBarFrameDidChange:(NSNotification*)notification
@@ -76,26 +78,41 @@
     self.view.bounds = CGRectMake(self.view.bounds.origin.x, newFrameRect.size.height-20.0f, self.view.bounds.size.width, self.view.bounds.size.height);
     [self.view layoutIfNeeded];
 }
-- (void)mainView:(AWTimeView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {}
+- (void)mainView:(AWTimeView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value
+{
+    if (spinner==_timeView.hourSpinner)
+    {
+        self.hour = value;
+    }
+    if (spinner==_timeView.minuteSpinner)
+    {
+        self.minute = value;
+    }
+    if (spinner==_timeView.amPmSpinner)
+    {
+        self.amPm = value;
+    }
+    
+   
+}
 
 - (void)mainView:(AWTimeView *)mainView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
 {
     if (spinner == mainView.menuSpinner) {
         [spinner goToRow:indexPath.row withAnimation:YES];
-        
-        NSString * minute = self.mainView.minuteSpinner.centeredValue;
-        NSString * hour = self.mainView.hourSpinner.centeredValue;
-        NSString * amPM = self.mainView.amPmSpinner.centeredValue;
-        NSString * increment = self.mainView.incrementSpinner.centeredValue;
-        NSString * val = self.mainView.valueSpinner.centeredValue;
-        NSString * you = self.mainView.youSpinner.centeredValue;
+        NSString * dateString = [NSString stringWithFormat:@"%@ %@%@ %@", _dataModel.date, self.hour, self.minute, self.amPm];
+        NSString * increment = _dataModel.increment;
+        NSString * val = _dataModel.value;
+        NSString * you = _dataModel.you;
         
         if ([contentValue isEqualToString:@"Birthday"]) {
             [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
         }
         
-        if ([contentValue isEqualToString:@"Time"]) {
-            [UIApplication sharedApplication].keyWindow.rootViewController = [[AWTimeViewController alloc] init];
+        if ([contentValue isEqualToString:@"Calculator"]) {
+            [self willMoveToParentViewController:nil];
+            [self.view removeFromSuperview];
+            [self removeFromParentViewController];
         }
         if ([contentValue isEqualToString: @"Alarm"]) {
             EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
@@ -105,9 +122,8 @@
                 EKEvent* event = [EKEvent eventWithEventStore:eventStore];
                 // Prepopulate all kinds of useful information with you event.
                 event.title = [NSString stringWithFormat:@"%@ %@ %@ on", you, val, increment];
-                NSString *dateString = [NSString stringWithFormat:@"%@-%@-%@", hour, minute, amPM];
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                dateFormatter.dateFormat = @"d-MMM-yy";
+                dateFormatter.dateFormat = @"MMM/d/yy hh:mm a";
                 NSDate *date = [dateFormatter dateFromString:dateString];
                 event.startDate = date;
                 event.endDate = date;

@@ -19,13 +19,25 @@
 @interface AWMainViewController ()
 @property (nonatomic, strong) AWMainView *mainView;
 @property (nonatomic, strong) AWDataModel* dataModel;
+@property (nonatomic, strong) NSString* day;
+@property (nonatomic, strong) NSString* month;
+@property (nonatomic, strong) NSString* year;
+@property (nonatomic, strong) NSString* increment;
+@property (nonatomic, strong) NSString* you;
+@property (nonatomic, strong) NSString* value;
+
 @end
 
 @implementation AWMainViewController
 
 - (id)initWithData:(AWDataModel *)dateModel {
     self = [super init];
-	
+	self.day = @"1";
+    self.month = @"Jan";
+    self.year = @"2014";
+    self.increment = @"seconds";
+    self.you = @"You were";
+    self.value = @"0";
     if (self) {
 		self.dataModel = dateModel;
     }
@@ -79,8 +91,10 @@
 }
 
 - (void)mainView:(AWMainView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {
-    /*if ([spinner.spinnerName isEqualToString:@"totalTimeSpinner"])
+    if (spinner==mainView.valueSpinner)
     {
+         self.value = value;
+        /*
         NSDate *newDate;
         if ([self.units isEqualToString:@"Seconds"])
         {
@@ -123,22 +137,31 @@
         self.month = [NSNumber numberWithInt:[components month]];
         [youllBeView.monthSpinner goToRow:([self.month intValue] - 1) withAnimation:YES];
         self.year = [NSNumber numberWithInt:[components year]];
-        [youllBeView.yearSpinner goToRow:[self.year intValue] withAnimation:YES];
+        [youllBeView.yearSpinner goToRow:[self.year intValue] withAnimation:YES];*/
     }
-    else if ([spinner.spinnerName isEqualToString:@"incrementSpinner"])
+    else if (spinner==mainView.incrementSpinner)
     {
+         self.increment = value;
+        /*
         self.units = value;
-        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];
+        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];*/
     }
-    else if ([spinner.spinnerName isEqualToString:@"daySpinner"])
+    else if (spinner==mainView.youSpinner)
     {
-        self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*(-[value integerValue] + [self.day integerValue])))];
+         self.you = value;
+    }
+    else if (spinner==mainView.daySpinner)
+    {
+        self.day = value;
+       /* self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*(-[value integerValue] + [self.day integerValue])))];
         self.day = @([value intValue]);
         
-        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];
+        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];*/
     }
-    else if ([spinner.spinnerName isEqualToString:@"monthSpinner"])
+    else if (spinner==mainView.monthSpinner)
     {
+        self.month = value;
+        /*
         int newMonth;
         if ([value isEqualToString:@"Jan"])
         {
@@ -192,15 +215,17 @@
         self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*30*(newMonth - [self.month integerValue])))];
         self.month = [NSNumber numberWithInt:newMonth];
         
-        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];
+        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];*/
     }
-    else
+    else if (spinner==mainView.yearSpinner)
     {
+        self.year = value;
+        /*
         self.value = [NSNumber numberWithInt:([self.value integerValue]+(60*60*24*365*([value integerValue] - [self.year integerValue])))];
         self.year = @([value intValue]);
         
-        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];
-    }*/
+        [self spinToTimeInUnitWithSpinner:youllBeView.totalTimeSpinner];*/
+    }
 }
 
 - (void)mainView:(AWMainView *)mainView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
@@ -208,20 +233,21 @@
     if (spinner == mainView.menuSpinner) {
         [spinner goToRow:indexPath.row withAnimation:YES];
         
-        NSString * day = self.mainView.daySpinner.centeredValue;
-        NSString * month = self.mainView.monthSpinner.centeredValue;
-        NSString * year = self.mainView.yearSpinner.centeredValue;
-        NSString * increment = self.mainView.incrementSpinner.centeredValue;
-        NSString * val = self.mainView.valueSpinner.centeredValue;
-        NSString * you = self.mainView.youSpinner.centeredValue;
-        NSString * date = [NSString stringWithFormat:@"%@/%@/%@", month, day, year];
+        
+        _dataModel.increment = self.increment;
+        _dataModel.value = self.value;
+        _dataModel.you = self.you;
+        NSString * date = [NSString stringWithFormat:@"%@/%@/%@", self.month, self.day, self.year];
         _dataModel.date = date;
         if ([contentValue isEqualToString:@"Birthday"]) {
             [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
         }
         
         if ([contentValue isEqualToString:@"Time"]) {
-            [UIApplication sharedApplication].keyWindow.rootViewController = [[AWTimeViewController alloc] init];
+            //[UIApplication sharedApplication].keyWindow.rootViewController = [[AWTimeViewController alloc] init];
+            AWTimeViewController *timeController = [[AWTimeViewController alloc] initWithData: _dataModel];
+            [self displayContentController:timeController];
+
         }
         if ([contentValue isEqualToString: @"Alarm"]) {
             EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
@@ -230,8 +256,8 @@
                 vc.eventStore = eventStore;
                 EKEvent* event = [EKEvent eventWithEventStore:eventStore];
                 // Prepopulate all kinds of useful information with you event.
-                event.title = [NSString stringWithFormat:@"%@ %@ %@ on", you, val, increment];
-                NSString *dateString = [NSString stringWithFormat:@"%@-%@-%@", day, month, year];
+                event.title = [NSString stringWithFormat:@"%@ %@ %@ on", self.you, self.value, self.increment];
+                NSString *dateString = [NSString stringWithFormat:@"%@-%@-%@", self.day, self.month, self.year];
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                 dateFormatter.dateFormat = @"d-MMM-yy";
                 NSDate *date = [dateFormatter dateFromString:dateString];
@@ -280,6 +306,14 @@
 			});
         }
     }
+}
+
+- (void) displayContentController: (AWTimeViewController*) content;
+{
+    [self addChildViewController:content];
+    [self.view addSubview:content.timeView];
+    [content didMoveToParentViewController:self];
+    
 }
 
 - (void)eventEditViewController:(EKEventEditViewController*)controller

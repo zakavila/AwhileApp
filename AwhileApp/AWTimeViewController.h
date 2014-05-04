@@ -14,5 +14,7 @@
 #import <EventKitUI/EventKitUI.h>
 
 @interface AWTimeViewController : UIViewController <AWTimeViewDelegate>
+@property (nonatomic, strong) AWTimeView *timeView;
+- (id)initWithData:(AWDataModel*)dateModel;
 
 @end
