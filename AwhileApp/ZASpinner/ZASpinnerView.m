@@ -79,7 +79,7 @@
         if (rowIndex > self.numberOfInfiniteCells*.875)
             targetOffset = [self offsetForInfiniteArraysFromValue:rowIndex];
         if (((NSNumber*)[[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:0]).integerValue != targetOffset) {
-            if (targetOffset < self.numberOfInfiniteCells*.875)
+            if (targetOffset == 0)
                 [self createInfiniteArraysForBeginning];
             else
                 [self createInfiniteArraysForValue:rowIndex];
@@ -92,6 +92,7 @@
     }
     [self moveToIndexPath:[NSIndexPath indexPathForRow:targetIndex inSection:0] withAnimation:animate];
     [self.tableView beginUpdates];
+    [self.tableView reloadData];
     [self.tableView endUpdates];
     NSIndexPath *bestIndexPath = [self getClosestIndexPathToCenter];
     _centeredIndex = bestIndexPath.row;
@@ -99,8 +100,7 @@
     CGFloat newYOffset = [self getOffsetToShowIndex:bestIndexPath];
     if (self.tableView.contentOffset.y != newYOffset) {
         self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, newYOffset);
-        //Not sure if needed, seems to work without for this
-//        [self.tableView layoutSubviews];
+        [self.tableView layoutSubviews];
     }
 }
 
