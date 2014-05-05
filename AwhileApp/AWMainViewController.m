@@ -297,112 +297,6 @@
     
 }
 
-- (void)timeView:(AWTimeView *)timeView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
-{
-    if (spinner == timeView.menuSpinner) {
-        [spinner goToRow:indexPath.row withAnimation:YES];
-        
-        NSString * day = self.mainView.daySpinner.centeredValue;
-        NSString * month = self.mainView.monthSpinner.centeredValue;
-        NSString * year = self.mainView.yearSpinner.centeredValue;
-        NSString * increment = self.mainView.incrementSpinner.centeredValue;
-        NSString * val = self.mainView.valueSpinner.centeredValue;
-        NSString * you = self.mainView.youSpinner.centeredValue;
-        
-        if ([contentValue isEqualToString:@"Birthday"]) {
-            [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
-        }
-        
-        if ([contentValue isEqualToString: @"Alarm"]) {
-            EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
-            EKEventStore* eventStore = [[EKEventStore alloc] init];
-            [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
-                vc.eventStore = eventStore;
-                EKEvent* event = [EKEvent eventWithEventStore:eventStore];
-                // Prepopulate all kinds of useful information with you event.
-                event.title = [NSString stringWithFormat:@"%@ %@ %@ on", you, val, increment];
-                NSString *dateString = [NSString stringWithFormat:@"%@-%@-%@", day, month, year];
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                dateFormatter.dateFormat = @"d-MMM-yy";
-                NSDate *date = [dateFormatter dateFromString:dateString];
-                event.startDate = date;
-                event.endDate = date;
-                event.URL = [NSURL URLWithString:@"awhile.appspot.com"];
-                //event.notes = @"This event will be awesome!";
-                NSMutableArray *myAlarmsArray = [[NSMutableArray alloc] init];
-                EKAlarm *arrAlarm = [EKAlarm alarmWithAbsoluteDate:date];
-                [myAlarmsArray addObject:arrAlarm];
-                
-                event.alarms = myAlarmsArray;
-                event.allDay = YES;
-                vc.event = event;
-                
-                vc.editViewDelegate = self;
-                [self presentViewController:vc animated:YES completion:nil];
-            }];
-        }
-        
-        if ([contentValue isEqualToString:@"Calculator"]) {
-            self.timeView.hidden = YES;
-        }
-    }
-
-}
-
-- (void)adjustYouSpinnerWithMainView:(AWMainView*)mainView
-{
-    if ([self.calculatedDate compare:[NSDate date]] == NSOrderedSame)
-    {
-        [mainView.youSpinner goToRow:1 withAnimation:YES];
-    }
-    else if ([self.calculatedDate compare:[NSDate date]] == NSOrderedDescending)
-    {
-        [mainView.youSpinner goToRow:2 withAnimation:YES];
-    }
-    else
-    {
-        [mainView.youSpinner goToRow:0 withAnimation:YES];
-    }
-}
-
-
-- (NSInteger)getResult:(NSInteger)result inSecondsFromUnit:(NSString*)unit
-{
-    if ([unit isEqualToString:@"Seconds"])
-    {
-        return result;
-    }
-    else if ([unit isEqualToString:@"Minutes"])
-    {
-        return result*60;
-    }
-    else if ([unit isEqualToString:@"Hours"])
-    {
-        return result*60*60;
-    }
-    else if ([unit isEqualToString:@"Days"])
-    {
-        return result*60*60*24;
-    }
-    else if ([unit isEqualToString:@"Weeks"])
-    {
-        return result*60*60*24*7;
-    }
-    else if ([unit isEqualToString:@"Months"])
-    {
-        return result*60*60*24*365.25/12;
-    }
-    else if ([unit isEqualToString:@"Years"])
-    {
-        return result*60*60*24*365.25;
-    }
-    else if ([unit isEqualToString:@"Decades"])
-    {
-        return result*60*60*24*365.25*10;
-    }
-    return 0;
-}
-
 - (void)mainView:(AWMainView *)mainView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
 {
     if (spinner == mainView.menuSpinner) {
@@ -483,6 +377,116 @@
 			});
         }
     }
+}
+
+- (void)timeView:(AWTimeView *)timeView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
+{
+    if (spinner == timeView.menuSpinner) {
+        [spinner goToRow:indexPath.row withAnimation:YES];
+        
+        NSString * day = self.mainView.daySpinner.centeredValue;
+        NSString * month = self.mainView.monthSpinner.centeredValue;
+        NSString * year = self.mainView.yearSpinner.centeredValue;
+        NSString * increment = self.mainView.incrementSpinner.centeredValue;
+        NSString * val = self.mainView.valueSpinner.centeredValue;
+        NSString * you = self.mainView.youSpinner.centeredValue;
+        NSString *hour = self.timeView.hourSpinner.centeredValue;
+        NSString *minute = self.timeView.minuteSpinner.centeredValue;
+        NSString *amPm = self.timeView.amPmSpinner.centeredValue;
+        
+        NSString * dateString = [NSString stringWithFormat:@"%@/%@/%@ %@%@ %@", month, day, year, hour, minute, amPm];
+
+        if ([contentValue isEqualToString:@"Birthday"]) {
+            [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
+        }
+        
+        if ([contentValue isEqualToString: @"Alarm"]) {
+            EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
+            EKEventStore* eventStore = [[EKEventStore alloc] init];
+            [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+                vc.eventStore = eventStore;
+                EKEvent* event = [EKEvent eventWithEventStore:eventStore];
+                // Prepopulate all kinds of useful information with you event.
+                event.title = [NSString stringWithFormat:@"%@ %@ %@ on", you, val, increment];
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                dateFormatter.dateFormat = @"MMM/d/yy hh:mm a";
+                NSDate *date = [dateFormatter dateFromString:dateString];
+                event.startDate = date;
+                event.endDate = date;
+                event.URL = [NSURL URLWithString:@"awhile.appspot.com"];
+                //event.notes = @"This event will be awesome!";
+                NSMutableArray *myAlarmsArray = [[NSMutableArray alloc] init];
+                EKAlarm *arrAlarm = [EKAlarm alarmWithAbsoluteDate:date];
+                [myAlarmsArray addObject:arrAlarm];
+                
+                event.alarms = myAlarmsArray;
+                event.allDay = YES;
+                vc.event = event;
+                
+                vc.editViewDelegate = self;
+                [self presentViewController:vc animated:YES completion:nil];
+            }];
+        }
+        
+        if ([contentValue isEqualToString:@"Calculator"]) {
+            self.timeView.hidden = YES;
+        }
+    }
+
+}
+
+- (void)adjustYouSpinnerWithMainView:(AWMainView*)mainView
+{
+    if ([self.calculatedDate compare:[NSDate date]] == NSOrderedSame)
+    {
+        [mainView.youSpinner goToRow:1 withAnimation:YES];
+    }
+    else if ([self.calculatedDate compare:[NSDate date]] == NSOrderedDescending)
+    {
+        [mainView.youSpinner goToRow:2 withAnimation:YES];
+    }
+    else
+    {
+        [mainView.youSpinner goToRow:0 withAnimation:YES];
+    }
+}
+
+
+- (NSInteger)getResult:(NSInteger)result inSecondsFromUnit:(NSString*)unit
+{
+    if ([unit isEqualToString:@"Seconds"])
+    {
+        return result;
+    }
+    else if ([unit isEqualToString:@"Minutes"])
+    {
+        return result*60;
+    }
+    else if ([unit isEqualToString:@"Hours"])
+    {
+        return result*60*60;
+    }
+    else if ([unit isEqualToString:@"Days"])
+    {
+        return result*60*60*24;
+    }
+    else if ([unit isEqualToString:@"Weeks"])
+    {
+        return result*60*60*24*7;
+    }
+    else if ([unit isEqualToString:@"Months"])
+    {
+        return result*60*60*24*365.25/12;
+    }
+    else if ([unit isEqualToString:@"Years"])
+    {
+        return result*60*60*24*365.25;
+    }
+    else if ([unit isEqualToString:@"Decades"])
+    {
+        return result*60*60*24*365.25*10;
+    }
+    return 0;
 }
 
 - (void)eventEditViewController:(EKEventEditViewController*)controller

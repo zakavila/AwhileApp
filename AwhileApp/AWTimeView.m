@@ -194,25 +194,13 @@ typedef NS_ENUM(NSInteger, CircleType) {
             fullRadius = previousFullRadius + [self weirdBandWidth];
         }
         else if (circleIndex == CircleTypeIncrement) {
-            self.incrementSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
-            self.incrementSpinner.radius = previousFullRadius;
-            self.incrementSpinner.verticalShift = -30.0f;
-            previousFullRadius = fullRadius;
-            fullRadius = previousFullRadius + [self normalBandWidth];
+            
         }
         else if (circleIndex == CircleTypeValue) {
-            self.valueSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
-            self.valueSpinner.radius = previousFullRadius;
-            self.valueSpinner.verticalShift = -25.0f;
-            previousFullRadius = fullRadius;
-            fullRadius = previousFullRadius + [self normalBandWidth];
+            
         }
         else if (circleIndex == CircleTypeYou) {
-            self.youSpinner.frame = CGRectMake(spinnerOriginX, 0.0f, kScreenWidth, spinnerHeight);
-            self.youSpinner.radius = previousFullRadius;
-            self.youSpinner.verticalShift = -20.0f;
-            previousFullRadius = fullRadius;
-            fullRadius = previousFullRadius + [self normalBandWidth];
+            
         }
         else if (circleIndex == CircleTypeDate) {
             self.onView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7-65, 0.0f+10, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
@@ -272,10 +260,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         arcTextCell.circularArcText.text = contentValue;
         arcTextCell.circularArcText.radius = spinner.radius;
         arcTextCell.circularArcText.shiftV = -0.534f*spinner.radius-0.8573f;
-        if (spinner == self.youSpinner)
-            arcTextCell.circularArcText.color = [UIColor colorWithRed:HOME_CIRCLE_R/255.0f green:HOME_CIRCLE_G/255.0f blue:HOME_CIRCLE_B/255.0f alpha:1.0f];
-        else
-            arcTextCell.circularArcText.color = [UIColor whiteColor];
+        arcTextCell.circularArcText.color = [UIColor whiteColor];
         cell = arcTextCell;
     }
     return cell;
@@ -449,39 +434,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
     return _hourSpinner;
 }
 
-- (ZASpinnerView*)incrementSpinner
-{
-    if (!_incrementSpinner) {
-        _incrementSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
-        _incrementSpinner.spinnerDelegate = self;
-        _incrementSpinner.contents = [AWSpinnerContents incrementContents];
-        [_incrementSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
-    }
-    return _incrementSpinner;
-}
-
-- (ZASpinnerView*)valueSpinner
-{
-    if (!_valueSpinner) {
-        _valueSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
-        _valueSpinner.spinnerDelegate = self;
-        _valueSpinner.spinnerType = InfiniteCountSpinner;
-        [_valueSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
-    }
-    return _valueSpinner;
-}
-
-- (ZASpinnerView*)youSpinner
-{
-    if (!_youSpinner) {
-        _youSpinner = [[ZASpinnerView alloc] initWithFrame:CGRectZero];
-        _youSpinner.spinnerDelegate = self;
-        _youSpinner.contents = [AWSpinnerContents youContents];
-        [_youSpinner registerClass:[AWArcTextSpinnerCell class] forCellReuseIdentifier:ARCTEXT_SPINNER_CELL_IDENTIFIER];
-    }
-    return _youSpinner;
-}
-
 - (CoreTextArcView*)dateTextView
 {
     if (!_dateTextView) {
@@ -506,13 +458,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 - (CGFloat)arcMultiplierForSpinner:(ZASpinnerView*)spinner andFocused:(BOOL)isFocused
 {
     CGFloat returnValue;
-    if (spinner == self.youSpinner)
-        returnValue = (isFocused) ? 0.1f : 0.1f;
-    else if (spinner == self.valueSpinner)
-        returnValue = (isFocused) ? 0.12f : 0.12f;
-    else if (spinner == self.incrementSpinner)
-        returnValue = (isFocused) ? 0.15f : 0.15f;
-    else if (spinner == self.hourSpinner)
+    if (spinner == self.hourSpinner)
         returnValue = (isFocused) ? 0.18f : 0.20f;
     else if (spinner == self.minuteSpinner)
         returnValue = (isFocused) ? 0.2f : 0.28f;

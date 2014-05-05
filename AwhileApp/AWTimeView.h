@@ -28,10 +28,6 @@
 
 @property id <AWTimeViewDelegate> delegate;
 
-@property (nonatomic, strong) ZASpinnerView *youSpinner;
-@property (nonatomic, strong) ZASpinnerView *incrementSpinner;
-@property (nonatomic, strong) ZASpinnerView *valueSpinner;
-
 @property (nonatomic, strong) ZASpinnerView *hourSpinner;
 @property (nonatomic, strong) ZASpinnerView *minuteSpinner;
 @property (nonatomic, strong) ZASpinnerView *amPmSpinner;
