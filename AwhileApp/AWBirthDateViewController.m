@@ -140,7 +140,6 @@
     }
     else if (spinner == birthDateView.yearSpinner)
     {
-        NSLog(value);
         self.year = value;
     }
 }
