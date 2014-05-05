@@ -266,13 +266,37 @@ typedef NS_ENUM(NSInteger, CircleType) {
     AWArcTextSpinnerCell *arcTextCell = (AWArcTextSpinnerCell*)cell;
     UIFont *textFont;
     if (isFocused)
+    {
         textFont = [UIFont fontWithName:FOCUSED_FONT_NAME size:FOCUSED_FONT_SIZE];
+    }
     else
         textFont = [UIFont fontWithName:UNFOCUSED_FONT_NAME size:UNFOCUSED_FONT_SIZE];
     arcTextCell.circularArcText.font = textFont;
+
     CGRect dummyRect = CGRectIntegral([arcTextCell.circularArcText.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: textFont} context:nil]);
     arcTextCell.circularArcText.arcSize = [self arcMultiplierForSpinner:spinner andFocused:isFocused]*dummyRect.size.width;
     arcTextCell.circularArcText.bounds = CGRectMake(0.0f, 0.0f, arcTextCell.bounds.size.width+(dummyRect.size.width-arcTextCell.bounds.size.width), arcTextCell.bounds.size.height);
+    
+    if (spinner == self.valueSpinner)
+    {
+        //We only ever want to add the commas once
+        if ([arcTextCell.circularArcText.text length] > 3)
+        {
+            const char* textHolder = [arcTextCell.circularArcText.text cStringUsingEncoding:1];
+            if (textHolder[1] == ',' || textHolder[2] == ',' || textHolder[3] == ',')
+            {
+                
+            }
+            else
+            {
+                NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
+                [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                NSInteger tempNumber = [arcTextCell.circularArcText.text integerValue];
+                arcTextCell.circularArcText.text = [formatter stringFromNumber:[NSNumber numberWithInteger:(int)tempNumber]];;
+            }
+        }
+    }
+    
     [arcTextCell.circularArcText setNeedsDisplay];
 }
 
