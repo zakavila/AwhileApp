@@ -89,6 +89,15 @@
     [self moveToIndexPath:[NSIndexPath indexPathForRow:targetIndex inSection:0] withAnimation:animate];
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
+    NSIndexPath *bestIndexPath = [self getClosestIndexPathToCenter];
+    _centeredIndex = bestIndexPath.row;
+    _centeredValue = [self stringAtIndexPath:bestIndexPath];
+    CGFloat newYOffset = [self getOffsetToShowIndex:bestIndexPath];
+    if (self.tableView.contentOffset.y != newYOffset) {
+        self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, newYOffset);
+        //Not sure if needed, seems to work without for this
+//        [self.tableView layoutSubviews];
+    }
 }
 
 - (NSString*)contentValueForIndexPath:(NSIndexPath*)indexPath
@@ -141,8 +150,9 @@
         [self moveToIndexPath:targetIndexPath withAnimation:NO];
         ZASpinnerCell *cell = (ZASpinnerCell*)[tableView cellForRowAtIndexPath:targetIndexPath];
         [self.spinnerDelegate spinner:self styleForCell:cell whileFocused:YES];
-        [self.tableView layoutIfNeeded];
-        [self scrollViewDidEndDecelerating:tableView];
+        //Not sure if these help with flickering/chopped initial cells, doesn't seem like it
+//        [self.tableView layoutIfNeeded];
+//        [self scrollViewDidEndDecelerating:tableView];
 //        [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
