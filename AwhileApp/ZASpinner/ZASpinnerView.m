@@ -78,8 +78,12 @@
         NSInteger targetOffset = 0;
         if (rowIndex > self.numberOfInfiniteCells*.875)
             targetOffset = [self offsetForInfiniteArraysFromValue:rowIndex];
-        if (((NSNumber*)[[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:0]).integerValue != targetOffset)
-            [self createInfiniteArraysForValue:rowIndex];
+        if (((NSNumber*)[[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:0]).integerValue != targetOffset) {
+            if (targetOffset == 0)
+                [self createInfiniteArraysForBeginning];
+            else
+                [self createInfiniteArraysForValue:rowIndex];
+        }
         NSInteger adjustedRowIndex = rowIndex-targetOffset;
         targetIndex = adjustedRowIndex;
     }
@@ -88,7 +92,16 @@
     }
     [self moveToIndexPath:[NSIndexPath indexPathForRow:targetIndex inSection:0] withAnimation:animate];
     [self.tableView beginUpdates];
+    [self.tableView reloadData];
     [self.tableView endUpdates];
+    NSIndexPath *bestIndexPath = [self getClosestIndexPathToCenter];
+    _centeredIndex = bestIndexPath.row;
+    _centeredValue = [self stringAtIndexPath:bestIndexPath];
+    CGFloat newYOffset = [self getOffsetToShowIndex:bestIndexPath];
+    if (self.tableView.contentOffset.y != newYOffset) {
+        self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, newYOffset);
+        [self.tableView layoutSubviews];
+    }
 }
 
 - (NSString*)contentValueForIndexPath:(NSIndexPath*)indexPath
@@ -141,8 +154,9 @@
         [self moveToIndexPath:targetIndexPath withAnimation:NO];
         ZASpinnerCell *cell = (ZASpinnerCell*)[tableView cellForRowAtIndexPath:targetIndexPath];
         [self.spinnerDelegate spinner:self styleForCell:cell whileFocused:YES];
-        [self.tableView layoutIfNeeded];
-        [self scrollViewDidEndDecelerating:tableView];
+        //Not sure if these help with flickering/chopped initial cells, doesn't seem like it
+//        [self.tableView layoutIfNeeded];
+//        [self scrollViewDidEndDecelerating:tableView];
 //        [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
     }
 }

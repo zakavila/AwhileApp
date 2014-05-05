@@ -57,6 +57,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 @interface AWMainView ()
 @property (nonatomic, strong) NSMutableArray *circleViews;
+@property (nonatomic, strong) UIImageView *woodRings;
 @property (nonatomic, strong) UIImageView *awhileLogo;
 @property (nonatomic, strong) UIImageView *menuShadow;
 @property (nonatomic, strong) UIView *onView;
@@ -83,6 +84,7 @@ typedef NS_ENUM(NSInteger, CircleType) {
         UIView *circleView = [[UIView alloc] init];
         UIColor *backgroundColor;
         if (i == CircleTypeMenu) {
+            [circleView addSubview:self.woodRings];
             [circleView addSubview:self.awhileLogo];
             [circleView addSubview:self.menuSpinner];
             [circleView addSubview:self.menuShadow];
@@ -300,6 +302,14 @@ typedef NS_ENUM(NSInteger, CircleType) {
 
 
 #pragma mark Lazyloading
+
+- (UIImageView*)woodRings
+{
+    if (!_woodRings) {
+        _woodRings = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WoodRings"]];
+    }
+    return _woodRings;
+}
 
 - (UIImageView*)menuShadow
 {
