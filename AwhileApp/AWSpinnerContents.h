@@ -18,5 +18,7 @@
 + (NSArray*)partContents;
 + (NSArray*)minuteContents;
 + (NSArray*)hourContents;
++ (NSArray*)amPmContents;
++ (NSArray*)colonMinuteContents;
 
 @end

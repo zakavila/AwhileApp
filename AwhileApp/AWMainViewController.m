@@ -17,6 +17,7 @@
 
 @interface AWMainViewController ()
 @property (nonatomic, strong) AWMainView *mainView;
+@property (nonatomic, strong) AWTimeView *timeView;
 @property (nonatomic, strong) AWDataModel* dataModel;
 @property (nonatomic, strong) NSDate* calculatedDate;
 @property (nonatomic) NSInteger year;
@@ -45,6 +46,8 @@
 	[self setUpStatusBar];
 	
     [self.view addSubview:self.mainView];
+    [self.view addSubview:self.timeView];
+    self.timeView.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,6 +82,15 @@
         _mainView.delegate = self;
     }
     return _mainView;
+}
+
+- (AWTimeView*)timeView
+{
+    if (!_timeView) {
+        _timeView = [[AWTimeView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight) thing:@""];
+        _timeView.delegate = self;
+    }
+    return _timeView;
 }
 
 - (void)statusBarFrameDidChange:(NSNotification*)notification
@@ -280,6 +292,63 @@
     }
 }
 
+- (void)timeView:(AWTimeView *)timeView spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value
+{
+    
+}
+
+- (void)timeView:(AWTimeView *)timeView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
+{
+    if (spinner == timeView.menuSpinner) {
+        [spinner goToRow:indexPath.row withAnimation:YES];
+        
+        NSString * day = self.mainView.daySpinner.centeredValue;
+        NSString * month = self.mainView.monthSpinner.centeredValue;
+        NSString * year = self.mainView.yearSpinner.centeredValue;
+        NSString * increment = self.mainView.incrementSpinner.centeredValue;
+        NSString * val = self.mainView.valueSpinner.centeredValue;
+        NSString * you = self.mainView.youSpinner.centeredValue;
+        
+        if ([contentValue isEqualToString:@"Birthday"]) {
+            [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
+        }
+        
+        if ([contentValue isEqualToString: @"Alarm"]) {
+            EKEventEditViewController* vc = [[EKEventEditViewController alloc] init];
+            EKEventStore* eventStore = [[EKEventStore alloc] init];
+            [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+                vc.eventStore = eventStore;
+                EKEvent* event = [EKEvent eventWithEventStore:eventStore];
+                // Prepopulate all kinds of useful information with you event.
+                event.title = [NSString stringWithFormat:@"%@ %@ %@ on", you, val, increment];
+                NSString *dateString = [NSString stringWithFormat:@"%@-%@-%@", day, month, year];
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                dateFormatter.dateFormat = @"d-MMM-yy";
+                NSDate *date = [dateFormatter dateFromString:dateString];
+                event.startDate = date;
+                event.endDate = date;
+                event.URL = [NSURL URLWithString:@"awhile.appspot.com"];
+                //event.notes = @"This event will be awesome!";
+                NSMutableArray *myAlarmsArray = [[NSMutableArray alloc] init];
+                EKAlarm *arrAlarm = [EKAlarm alarmWithAbsoluteDate:date];
+                [myAlarmsArray addObject:arrAlarm];
+                
+                event.alarms = myAlarmsArray;
+                event.allDay = YES;
+                vc.event = event;
+                
+                vc.editViewDelegate = self;
+                [self presentViewController:vc animated:YES completion:nil];
+            }];
+        }
+        
+        if ([contentValue isEqualToString:@"Calculator"]) {
+            self.timeView.hidden = YES;
+        }
+    }
+
+}
+
 - (void)adjustYouSpinnerWithMainView:(AWMainView*)mainView
 {
     if ([self.calculatedDate compare:[NSDate date]] == NSOrderedSame)
@@ -337,7 +406,7 @@
 - (void)mainView:(AWMainView *)mainView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
 {
     if (spinner == mainView.menuSpinner) {
-        [spinner goToRow:indexPath.row withAnimation:NO];
+        [spinner goToRow:indexPath.row withAnimation:YES];
         
         NSString * day = self.mainView.daySpinner.centeredValue;
         NSString * month = self.mainView.monthSpinner.centeredValue;
@@ -345,6 +414,8 @@
         NSString * increment = self.mainView.incrementSpinner.centeredValue;
         NSString * val = self.mainView.valueSpinner.centeredValue;
         NSString * you = self.mainView.youSpinner.centeredValue;
+        
+        NSString * date = [NSString stringWithFormat:@"%@/%@/%@", month, day, year];
         
         if ([contentValue isEqualToString:@"Birthday"]) {
             [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
@@ -377,6 +448,11 @@
                 vc.editViewDelegate = self;
                 [self presentViewController:vc animated:YES completion:nil];
             }];
+        }
+        
+        if ([contentValue isEqualToString:@"Time"]) {
+            self.timeView.date = date;
+            self.timeView.hidden = NO;
         }
         
         if ([contentValue isEqualToString: @"Share"]) {

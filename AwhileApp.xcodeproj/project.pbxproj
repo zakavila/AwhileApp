@@ -17,6 +17,7 @@
 		15FDE071190B4C1B00DFE036 /* AWBirthDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */; };
 		15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */; };
 		B2111C6A1911B30B009F200C /* AWSpinnerContents.m in Sources */ = {isa = PBXBuildFile; fileRef = B2111C691911B30B009F200C /* AWSpinnerContents.m */; };
+		B24EB9BA19176D9600EA5584 /* AWTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B24EB9B919176D9600EA5584 /* AWTimeView.m */; };
 		B24FD087190700C8009FD1C8 /* AWIconSpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */; };
 		B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3A18F728DB00497CDD /* Foundation.framework */; };
 		B295DE3D18F728DB00497CDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3C18F728DB00497CDD /* CoreGraphics.framework */; };
@@ -67,6 +68,8 @@
 		15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWBirthDateView.m; sourceTree = "<group>"; };
 		B2111C681911B30B009F200C /* AWSpinnerContents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSpinnerContents.h; sourceTree = "<group>"; };
 		B2111C691911B30B009F200C /* AWSpinnerContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSpinnerContents.m; sourceTree = "<group>"; };
+		B24EB9B819176D9600EA5584 /* AWTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWTimeView.h; sourceTree = "<group>"; };
+		B24EB9B919176D9600EA5584 /* AWTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWTimeView.m; sourceTree = "<group>"; };
 		B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWIconSpinnerCell.h; sourceTree = "<group>"; };
 		B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWIconSpinnerCell.m; sourceTree = "<group>"; };
 		B295DE3718F728DB00497CDD /* AwhileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwhileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +157,8 @@
 				B2FD342019118E7700EAE1EF /* Spinner Cells */,
 				B2AE2BC319077F52003C446B /* AWMainView.h */,
 				B2AE2BC419077F52003C446B /* AWMainView.m */,
+				B24EB9B819176D9600EA5584 /* AWTimeView.h */,
+				B24EB9B919176D9600EA5584 /* AWTimeView.m */,
 				15FDE072190B4D1C00DFE036 /* AWBirthDateView.h */,
 				15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */,
 				15A82F681910342600A01D4C /* AWBirthTimeView.h */,
@@ -411,6 +416,7 @@
 				B2AE2BC519077F52003C446B /* AWMainView.m in Sources */,
 				B295DE4B18F728DB00497CDD /* AWAppDelegate.m in Sources */,
 				B295DE4718F728DB00497CDD /* main.m in Sources */,
+				B24EB9BA19176D9600EA5584 /* AWTimeView.m in Sources */,
 				B2AE2BC219077F41003C446B /* AWMainViewController.m in Sources */,
 				B2CF54031908A0E4009C15C6 /* AWArcTextSpinnerCell.m in Sources */,
 				B295DE7F18F77DFC00497CDD /* ZASpinnerTableView.m in Sources */,
