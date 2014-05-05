@@ -78,8 +78,12 @@
         NSInteger targetOffset = 0;
         if (rowIndex > self.numberOfInfiniteCells*.875)
             targetOffset = [self offsetForInfiniteArraysFromValue:rowIndex];
-        if (((NSNumber*)[[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:0]).integerValue != targetOffset)
-            [self createInfiniteArraysForValue:rowIndex];
+        if (((NSNumber*)[[self.infiniteArrays objectAtIndex:self.currInfiniteArrayIndex] objectAtIndex:0]).integerValue != targetOffset) {
+            if (targetOffset < self.numberOfInfiniteCells*.875)
+                [self createInfiniteArraysForBeginning];
+            else
+                [self createInfiniteArraysForValue:rowIndex];
+        }
         NSInteger adjustedRowIndex = rowIndex-targetOffset;
         targetIndex = adjustedRowIndex;
     }
