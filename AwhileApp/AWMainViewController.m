@@ -581,7 +581,7 @@
     {
         [mainView.youSpinner goToRow:2 withAnimation:YES];
     }
-    else if (mainView.youSpinner.centeredIndex != 0)
+    else if ([self.calculatedDate compare:[NSDate date]] == NSOrderedAscending&mainView.youSpinner.centeredIndex != 0)
     {
         [mainView.youSpinner goToRow:0 withAnimation:YES];
     }
