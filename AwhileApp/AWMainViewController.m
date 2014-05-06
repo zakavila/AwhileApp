@@ -72,10 +72,9 @@
     [self.mainView.youSpinner.tableView endUpdates];
     [self.mainView.incrementSpinner.tableView beginUpdates];
     [self.mainView.incrementSpinner.tableView endUpdates];
-    if(self.year==nil)
+    if (!self.year)
         [self goToYouAre:_mainView];
 
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -573,15 +572,15 @@
 
 - (void)adjustYouSpinnerWithMainView:(AWMainView*)mainView
 {
-    if ([self.calculatedDate compare:[NSDate date]] == NSOrderedSame)
+    if ([self.calculatedDate compare:[NSDate date]] == NSOrderedSame&&mainView.youSpinner.centeredIndex != 1)
     {
         [mainView.youSpinner goToRow:1 withAnimation:YES];
     }
-    else if ([self.calculatedDate compare:[NSDate date]] == NSOrderedDescending)
+    else if ([self.calculatedDate compare:[NSDate date]] == NSOrderedDescending&&mainView.youSpinner.centeredIndex != 2)
     {
         [mainView.youSpinner goToRow:2 withAnimation:YES];
     }
-    else
+    else if ([self.calculatedDate compare:[NSDate date]] == NSOrderedAscending&mainView.youSpinner.centeredIndex != 0)
     {
         [mainView.youSpinner goToRow:0 withAnimation:YES];
     }

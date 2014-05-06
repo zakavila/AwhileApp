@@ -52,6 +52,24 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameDidChange:) name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDate *userBirthday = [userDefaults objectForKey:USER_BIRTHDAY_KEY];
+    if (userBirthday) {
+#warning This needs to be added
+//        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:userBirthday];
+//        
+//        [self.birthDateView.daySpinner goToRow:[components day]-1 withAnimation:NO];
+//        self.day = [NSString stringWithFormat:@"%i",[components day]];
+//        [self.birthDateView.monthSpinner goToRow:[components month]-1 withAnimation:NO];
+//        self.month = [NSString stringWithFormat:@"%i",[components month]];
+//        [self.birthDateView.yearSpinner goToRow:[components year] withAnimation:NO];
+//        self.year = [NSString stringWithFormat:@"%i",[components year]];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];

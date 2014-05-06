@@ -90,10 +90,10 @@
     else if (self.spinnerType == InfiniteLoopSpinner) {
         targetIndex = rowIndex;
     }
-    [self moveToIndexPath:[NSIndexPath indexPathForRow:targetIndex inSection:0] withAnimation:animate];
     [self.tableView beginUpdates];
     [self.tableView reloadData];
     [self.tableView endUpdates];
+    [self moveToIndexPath:[NSIndexPath indexPathForRow:targetIndex inSection:0] withAnimation:animate];
     NSIndexPath *bestIndexPath = [self getClosestIndexPathToCenter];
     _centeredIndex = bestIndexPath.row;
     _centeredValue = [self stringAtIndexPath:bestIndexPath];
