@@ -56,7 +56,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
 };
 
 @interface AWMainView ()
-@property (nonatomic, strong) NSMutableArray *circleViews;
 @property (nonatomic, strong) UIImageView *woodRings;
 @property (nonatomic, strong) UIImageView *awhileLogo;
 @property (nonatomic, strong) UIImageView *menuShadow;

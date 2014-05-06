@@ -10,6 +10,7 @@
 #import "AWBirthTimeViewController.h"
 #import "ZASpinnerView.h"
 #import "AWAppDelegate.h"
+#import "AWFallingCircleAnimator.h"
 
 @interface AWBirthDateViewController ()
 @property (nonatomic, strong) AWBirthDateView *birthDateView;
@@ -55,6 +56,7 @@
         [self.birthDateView.yearSpinner goToRow:[components year] withAnimation:NO];
         self.year = [NSString stringWithFormat:@"%i",[components year]];
     }
+    self.circles = self.birthDateView.circleViews;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -173,8 +175,20 @@
 {
     if ([self.day intValue] < 29 || [self.month isEqualToString:@"1"] || [self.month isEqualToString:@"3"] || [self.month isEqualToString:@"5"] || [self.month isEqualToString:@"7"] || [self.month isEqualToString:@"8"] || [self.month isEqualToString:@"10"] || [self.month isEqualToString:@"12"] || (([self.month isEqualToString:@"4"] || [self.month isEqualToString:@"6"] || [self.month isEqualToString:@"9"] || [self.month isEqualToString:@"11"]) && [self.day intValue] < 31) || ([self.month isEqualToString:@"2"] && [self.day intValue] < 29) || ([self.month isEqualToString:@"2"] && [self.day intValue] < 30 && [self.year intValue] % 4 == 0))
     {
-        [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthTimeViewController alloc] initWithDay:self.day Month:self.month Year:self.year];
+        AWBirthTimeViewController *timeVC = [[AWBirthTimeViewController alloc] initWithDay:self.day Month:self.month Year:self.year];
+        timeVC.transitioningDelegate = self;
+        timeVC.modalPresentationStyle = UIModalPresentationCustom;
+        [self presentViewController:timeVC animated:YES completion:nil];
+
     }
 }
+
+#pragma mark Transitioning Delegate
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    AWFallingCircleAnimator *animator = [[AWFallingCircleAnimator alloc] init];
+    return animator;
+}
+
 
 @end

@@ -18,6 +18,9 @@
 		15FDE074190B4D1D00DFE036 /* AWBirthDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FDE073190B4D1C00DFE036 /* AWBirthDateView.m */; };
 		B2111C6A1911B30B009F200C /* AWSpinnerContents.m in Sources */ = {isa = PBXBuildFile; fileRef = B2111C691911B30B009F200C /* AWSpinnerContents.m */; };
 		B24EB9BA19176D9600EA5584 /* AWTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B24EB9B919176D9600EA5584 /* AWTimeView.m */; };
+		B24EB9BF1919444300EA5584 /* AWFallingCircleAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = B24EB9BB1919444300EA5584 /* AWFallingCircleAnimator.m */; };
+		B24EB9C01919444300EA5584 /* UIViewController+Animator.m in Sources */ = {isa = PBXBuildFile; fileRef = B24EB9BC1919444300EA5584 /* UIViewController+Animator.m */; };
+		B24EB9C31919446C00EA5584 /* AWCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B24EB9C21919446C00EA5584 /* AWCircleViewController.m */; };
 		B24FD087190700C8009FD1C8 /* AWIconSpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */; };
 		B295DE3B18F728DB00497CDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3A18F728DB00497CDD /* Foundation.framework */; };
 		B295DE3D18F728DB00497CDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B295DE3C18F728DB00497CDD /* CoreGraphics.framework */; };
@@ -70,6 +73,12 @@
 		B2111C691911B30B009F200C /* AWSpinnerContents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSpinnerContents.m; sourceTree = "<group>"; };
 		B24EB9B819176D9600EA5584 /* AWTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWTimeView.h; sourceTree = "<group>"; };
 		B24EB9B919176D9600EA5584 /* AWTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWTimeView.m; sourceTree = "<group>"; };
+		B24EB9BB1919444300EA5584 /* AWFallingCircleAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWFallingCircleAnimator.m; sourceTree = "<group>"; };
+		B24EB9BC1919444300EA5584 /* UIViewController+Animator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Animator.m"; sourceTree = "<group>"; };
+		B24EB9BD1919444300EA5584 /* UIViewController+Animator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Animator.h"; sourceTree = "<group>"; };
+		B24EB9BE1919444300EA5584 /* AWFallingCircleAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWFallingCircleAnimator.h; sourceTree = "<group>"; };
+		B24EB9C11919446C00EA5584 /* AWCircleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWCircleViewController.h; sourceTree = "<group>"; };
+		B24EB9C21919446C00EA5584 /* AWCircleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWCircleViewController.m; sourceTree = "<group>"; };
 		B24FD085190700C8009FD1C8 /* AWIconSpinnerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWIconSpinnerCell.h; sourceTree = "<group>"; };
 		B24FD086190700C8009FD1C8 /* AWIconSpinnerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWIconSpinnerCell.m; sourceTree = "<group>"; };
 		B295DE3718F728DB00497CDD /* AwhileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwhileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +187,12 @@
 				15FDE070190B4C1B00DFE036 /* AWBirthDateViewController.m */,
 				15A82F6B1910BC5D00A01D4C /* AWBirthTimeViewController.h */,
 				15A82F6C1910BC5E00A01D4C /* AWBirthTimeViewController.m */,
+				B24EB9BE1919444300EA5584 /* AWFallingCircleAnimator.h */,
+				B24EB9BB1919444300EA5584 /* AWFallingCircleAnimator.m */,
+				B24EB9BC1919444300EA5584 /* UIViewController+Animator.m */,
+				B24EB9BD1919444300EA5584 /* UIViewController+Animator.h */,
+				B24EB9C11919446C00EA5584 /* AWCircleViewController.h */,
+				B24EB9C21919446C00EA5584 /* AWCircleViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -415,11 +430,14 @@
 				15A82F6D1910BC5E00A01D4C /* AWBirthTimeViewController.m in Sources */,
 				B2AE2BC519077F52003C446B /* AWMainView.m in Sources */,
 				B295DE4B18F728DB00497CDD /* AWAppDelegate.m in Sources */,
+				B24EB9C31919446C00EA5584 /* AWCircleViewController.m in Sources */,
 				B295DE4718F728DB00497CDD /* main.m in Sources */,
+				B24EB9C01919444300EA5584 /* UIViewController+Animator.m in Sources */,
 				B24EB9BA19176D9600EA5584 /* AWTimeView.m in Sources */,
 				B2AE2BC219077F41003C446B /* AWMainViewController.m in Sources */,
 				B2CF54031908A0E4009C15C6 /* AWArcTextSpinnerCell.m in Sources */,
 				B295DE7F18F77DFC00497CDD /* ZASpinnerTableView.m in Sources */,
+				B24EB9BF1919444300EA5584 /* AWFallingCircleAnimator.m in Sources */,
 				15FDE071190B4C1B00DFE036 /* AWBirthDateViewController.m in Sources */,
 				15F6D3E418FEFED800A176DC /* AWDataModel.m in Sources */,
 				B24FD087190700C8009FD1C8 /* AWIconSpinnerCell.m in Sources */,

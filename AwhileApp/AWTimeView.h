@@ -28,6 +28,8 @@
 
 @property id <AWTimeViewDelegate> delegate;
 
+@property (nonatomic, strong) NSMutableArray *circleViews;
+
 @property (nonatomic, strong) ZASpinnerView *hourSpinner;
 @property (nonatomic, strong) ZASpinnerView *minuteSpinner;
 @property (nonatomic, strong) ZASpinnerView *amPmSpinner;
