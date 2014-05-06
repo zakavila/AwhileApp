@@ -139,7 +139,6 @@
         else if ([value isEqualToString:@"You are"])
         {
             self.calculatedDate = [NSDate date];
-            //[self goToYouAre:mainView];
         }
         else if ([value isEqualToString:@"You'll be"])
         {
@@ -334,7 +333,7 @@
                 [self.timeView.amPmSpinner goToRow:0 withAnimation:NO];
             }
         }
-        self.timeView.date = [NSString stringWithFormat:@"%ld/%ld/%ld", (long)self.month, (long)self.day, (long)self.year];;
+        self.timeView.date = [NSString stringWithFormat:@"%ld/%ld/%ld", (long)self.month, (long)self.day, (long)self.year];
         [self adjustYouSpinnerWithMainView:mainView];
     }
     if(![self.mainView.incrementSpinner.centeredValue isEqualToString:@""])
@@ -460,6 +459,7 @@
             [self presentViewController:activityViewController animated:YES completion:nil];
         });
     });
+
 }
 
 - (void)mainView:(AWMainView *)mainView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue

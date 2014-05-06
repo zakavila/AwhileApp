@@ -118,10 +118,6 @@
         
         NSDateComponents* birthComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.birthTime];
         
-        NSNumber* temp = [NSNumber numberWithInteger:(([components year]-[birthComponents year])*12 + ([components month] - [birthComponents month]))];;
-        
-        NSLog([temp stringValue]);
-        
         return [NSNumber numberWithInteger:(([components year]-[birthComponents year])*12 + ([components month] - [birthComponents month]))];
     }
     else if ([unit isEqualToString:@"Years"]) {
@@ -132,9 +128,6 @@
         NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:tempDate];
         
         NSDateComponents* birthComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:self.birthTime];
-        
-        NSNumber* temp = [NSNumber numberWithInteger:([components year]-[birthComponents year])];
-        NSLog([temp stringValue]);
         
         return [NSNumber numberWithInteger:[components year]-[birthComponents year]];
     }
