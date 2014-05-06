@@ -72,10 +72,9 @@
     [self.mainView.youSpinner.tableView endUpdates];
     [self.mainView.incrementSpinner.tableView beginUpdates];
     [self.mainView.incrementSpinner.tableView endUpdates];
-    if(self.year==nil)
+    if (!self.year)
         [self goToYouAre:_mainView];
 
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
