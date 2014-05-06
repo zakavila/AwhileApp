@@ -203,12 +203,12 @@ typedef NS_ENUM(NSInteger, CircleType) {
             
         }
         else if (circleIndex == CircleTypeDate) {
-            self.onView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7-65, 0.0f+10, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
+            self.onView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7-75, 0.0f+12, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
             self.onView.layer.cornerRadius = [self normalBandWidth]/7;
             self.onView.layer.masksToBounds = YES;
             self.onLabel.frame = CGRectMake(0.0f, -2.0f, self.onView.frame.size.width, self.onView.frame.size.height);
             
-            self.atView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7+65, 0.0f+10, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
+            self.atView.frame = CGRectMake(spinnerOriginX+kScreenWidth/2-[self normalBandWidth]/7+75, 0.0f+12, [self normalBandWidth]/3.5, [self normalBandWidth]/3.5);
             self.atView.layer.cornerRadius = [self normalBandWidth]/7;
             self.atView.layer.masksToBounds = YES;
             self.atLabel.frame = CGRectMake(0.0f, -2.0f, self.atView.frame.size.width, self.atView.frame.size.height);
