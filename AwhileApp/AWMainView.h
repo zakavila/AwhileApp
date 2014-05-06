@@ -23,6 +23,8 @@
 
 @property id <AWMainViewDelegate> delegate;
 
+@property (nonatomic, strong) NSMutableArray *circleViews;
+
 @property (nonatomic, strong) ZASpinnerView *menuSpinner;
 @property (nonatomic, strong) ZASpinnerView *yearSpinner;
 @property (nonatomic, strong) ZASpinnerView *daySpinner;

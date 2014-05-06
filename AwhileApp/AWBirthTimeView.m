@@ -57,7 +57,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
 };
 
 @interface AWBirthTimeView ()
-@property (nonatomic, strong) NSMutableArray *circleViews;
 @property (nonatomic, strong) UIImageView *awhileLogo;
 @property (nonatomic, strong) UIImageView *woodRings;
 @property (nonatomic, strong) UIImageView *nextButtonView;

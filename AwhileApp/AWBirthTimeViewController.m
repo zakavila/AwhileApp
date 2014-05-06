@@ -11,6 +11,7 @@
 #import "AWMainViewController.h"
 #import "ZASpinnerView.h"
 #import "AWAppDelegate.h"
+#import "AWFallingCircleAnimator.h"
 
 @interface AWBirthTimeViewController ()
 @property (nonatomic, strong) AWBirthTimeView *birthTimeView;
@@ -68,6 +69,7 @@
 //        [self.birthDateView.yearSpinner goToRow:[components year] withAnimation:NO];
 //        self.year = [NSString stringWithFormat:@"%i",[components year]];
     }
+    self.circles = self.birthTimeView.circleViews;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -164,7 +166,17 @@
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:self.dataModel.birthTime forKey:USER_BIRTHDAY_KEY];
-    [UIApplication sharedApplication].keyWindow.rootViewController = [[AWMainViewController alloc] initWithData:_dataModel];
+    AWMainViewController *timeVC = [[AWMainViewController alloc] initWithData:_dataModel];
+    timeVC.transitioningDelegate = self;
+    timeVC.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:timeVC animated:YES completion:nil];
+}
+
+#pragma mark Transitioning Delegate
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    AWFallingCircleAnimator *animator = [[AWFallingCircleAnimator alloc] init];
+    return animator;
 }
 
 @end

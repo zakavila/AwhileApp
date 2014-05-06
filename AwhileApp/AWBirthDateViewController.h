@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "AWBirthDateView.h"
 #import "AWDataModel.h"
+#import "AWCircleViewController.h"
 
-@interface AWBirthDateViewController : UIViewController <AWBirthDateViewDelegate>
+
+@interface AWBirthDateViewController : AWCircleViewController <AWBirthDateViewDelegate, UIViewControllerTransitioningDelegate>
 
 @end

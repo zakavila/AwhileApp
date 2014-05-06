@@ -61,7 +61,6 @@ typedef NS_ENUM(NSInteger, CircleType) {
 };
 
 @interface AWTimeView ()
-@property (nonatomic, strong) NSMutableArray *circleViews;
 @property (nonatomic, strong) UIImageView *woodRings;
 @property (nonatomic, strong) UIImageView *awhileLogo;
 @property (nonatomic, strong) UIImageView *menuShadow;

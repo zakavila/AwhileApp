@@ -24,6 +24,8 @@
 
 @property id <AWBirthTimeViewDelegate> delegate;
 
+@property (nonatomic, strong) NSMutableArray *circleViews;
+
 @property (nonatomic, strong) UIButton *nextButton;
 @property (nonatomic, strong) ZASpinnerView *partSpinner;
 @property (nonatomic, strong) ZASpinnerView *minutesSpinner;

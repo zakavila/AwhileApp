@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "AWBirthTimeView.h"
 #import "AWDataModel.h"
+#import "AWCircleViewController.h"
 
-@interface AWBirthTimeViewController : UIViewController <AWBirthTimeViewDelegate>
+
+@interface AWBirthTimeViewController : AWCircleViewController <AWBirthTimeViewDelegate, UIViewControllerTransitioningDelegate>
 
 - (id)initWithDay:(NSString*)day Month:(NSString *)month Year:(NSString *)year;
 

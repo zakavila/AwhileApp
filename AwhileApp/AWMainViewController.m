@@ -11,6 +11,7 @@
 #import "AWIconSpinnerCell.h"
 #import "TCProgressHUD.h"
 #import "AWBirthDateViewController.h"
+#import "AWFallingCircleAnimator.h"
 
 #define AWHILE_APP_SHARE @"It's been awhile. Check out my age."
 #define AWHILE_APP_URL @"http://awhileapp.com"
@@ -68,6 +69,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    self.circles = self.mainView.circleViews;
     [self.mainView.youSpinner.tableView beginUpdates];
     [self.mainView.youSpinner.tableView endUpdates];
     [self.mainView.incrementSpinner.tableView beginUpdates];
@@ -474,7 +476,10 @@
         NSString * date = [NSString stringWithFormat:@"%@/%@/%@", month, day, year];
         
         if ([contentValue isEqualToString:@"Birthday"]) {
-            [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
+            AWBirthDateViewController *timeVC = [[AWBirthDateViewController alloc] init];
+            timeVC.transitioningDelegate = self;
+            timeVC.modalPresentationStyle = UIModalPresentationCustom;
+            [self presentViewController:timeVC animated:YES completion:nil];
         }
         
         if ([contentValue isEqualToString: @"Alarm"]) {
@@ -529,7 +534,10 @@
         NSString * dateString = [NSString stringWithFormat:@"%@/%@/%@ %@%@ %@", month, day, year, self.hourString, self.minuteString, self.amPm];
 
         if ([contentValue isEqualToString:@"Birthday"]) {
-            [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
+            AWBirthDateViewController *timeVC = [[AWBirthDateViewController alloc] init];
+            timeVC.transitioningDelegate = self;
+            timeVC.modalPresentationStyle = UIModalPresentationCustom;
+            [self presentViewController:timeVC animated:YES completion:nil];
         }
         
         if ([contentValue isEqualToString: @"Alarm"]) {
@@ -629,6 +637,14 @@
 {
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
+
+#pragma mark Transitioning Delegate
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    AWFallingCircleAnimator *animator = [[AWFallingCircleAnimator alloc] init];
+    return animator;
+}
+
 
 - (void)didReceiveMemoryWarning
 {

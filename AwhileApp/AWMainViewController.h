@@ -12,8 +12,9 @@
 #import <EventKit/EventKit.h>
 #import <EventKitUI/EventKitUI.h>
 #import "AWTimeView.h"
+#import "AWCircleViewController.h"
 
-@interface AWMainViewController : UIViewController <AWMainViewDelegate, AWTimeViewDelegate, EKEventEditViewDelegate>
+@interface AWMainViewController : AWCircleViewController <AWMainViewDelegate, AWTimeViewDelegate, UIViewControllerTransitioningDelegate, EKEventEditViewDelegate>
 
 - (id)initWithData:(AWDataModel*)dateModel;
 
