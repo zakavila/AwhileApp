@@ -23,6 +23,12 @@
 @property (nonatomic) NSInteger year;
 @property (nonatomic) NSInteger month;
 @property (nonatomic) NSInteger day;
+@property (nonatomic, strong) NSString* increment;
+@property (nonatomic, strong) NSString* you;
+@property (nonatomic, strong) NSString* value;
+@property (nonatomic, strong) NSString* minute;
+@property (nonatomic, strong) NSString* hour;
+@property (nonatomic, strong) NSString* amPm;
 @end
 
 @implementation AWMainViewController
@@ -63,6 +69,10 @@
     [self.mainView.youSpinner.tableView endUpdates];
     [self.mainView.incrementSpinner.tableView beginUpdates];
     [self.mainView.incrementSpinner.tableView endUpdates];
+    if(self.year==nil)
+        [self goToYouAre:_mainView];
+
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -102,6 +112,19 @@
     [self.view layoutIfNeeded];
 }
 
+- (void)goToYouAre:(AWMainView *)mainView {
+    self.calculatedDate = [NSDate date];
+    NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
+    
+    [mainView.daySpinner goToRow:[components day]-1 withAnimation:NO];
+    self.day = [components day];
+    [mainView.monthSpinner goToRow:[components month]-1 withAnimation:NO];
+    self.month = [components month];
+    [mainView.yearSpinner goToRow:[components year] withAnimation:NO];
+    self.year = [components year];
+    [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:NO];
+}
+
 - (void)mainView:(AWMainView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {
     
     if (spinner == mainView.youSpinner)
@@ -121,16 +144,7 @@
         }
         else if ([value isEqualToString:@"You are"])
         {
-            self.calculatedDate = [NSDate date];
-            NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
-            
-            [mainView.daySpinner goToRow:[components day]-1 withAnimation:NO];
-            self.day = [components day];
-            [mainView.monthSpinner goToRow:[components month]-1 withAnimation:NO];
-            self.month = [components month];
-            [mainView.yearSpinner goToRow:[components year] withAnimation:NO];
-            self.year = [components year];
-            [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:NO];
+            [self goToYouAre:mainView];
         }
         else if ([value isEqualToString:@"You'll be"])
         {
@@ -290,11 +304,61 @@
         self.year = [components year];
         [self adjustYouSpinnerWithMainView:mainView];
     }
+    if(![self.mainView.incrementSpinner.centeredValue isEqualToString:@""])
+    {
+        self.increment = self.mainView.incrementSpinner.centeredValue;
+    }
+    if(![self.mainView.valueSpinner.centeredValue isEqualToString:@""])
+    {
+        self.value = self.mainView.valueSpinner.centeredValue;
+    }
+    if(![self.mainView.youSpinner.centeredValue isEqualToString:@""])
+    {
+        self.you = self.mainView.youSpinner.centeredValue;
+    }
 }
 
 - (void)timeView:(AWTimeView *)timeView spinner:(ZASpinnerView *)spinner didChangeTo:(NSString *)value
 {
+    if(![self.timeView.hourSpinner.centeredValue isEqualToString:@""])
+    {
+        self.hour = self.timeView.hourSpinner.centeredValue;
+    }
+    if(![self.timeView.minuteSpinner.centeredValue isEqualToString:@""])
+    {
+        self.minute = self.timeView.minuteSpinner.centeredValue;
+    }
+    if(![self.timeView.amPmSpinner.centeredValue isEqualToString:@""])
+    {
+        self.amPm = self.timeView.amPmSpinner.centeredValue;
+    }
+}
+
+- (void)share
+{
+    [TCProgressHUD showWithMaskType:TCProgressHUDMaskTypeBlack];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *shareString = AWHILE_APP_SHARE;
+        NSString *shareURL = [NSURL URLWithString:AWHILE_APP_URL];
+        UIImage *shareImage;
+        
+        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
+        [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+        shareImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareString, shareURL, shareImage] applicationActivities:nil];
+        
+        CGFloat delayInSeconds = 0.4f;
+        dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds*NSEC_PER_SEC);
+        
+        dispatch_after(delay, dispatch_get_main_queue(), ^{
+            [TCProgressHUD dismiss];
+            
+            [self presentViewController:activityViewController animated:YES completion:nil];
+        });
+    });
 }
 
 - (void)mainView:(AWMainView *)mainView spinner:(ZASpinnerView *)spinner didSelectRowAtIndexPath:(NSIndexPath *)indexPath withContentValue:(NSString *)contentValue
@@ -302,12 +366,10 @@
     if (spinner == mainView.menuSpinner) {
         [spinner goToRow:indexPath.row withAnimation:YES];
         
-        NSString * day = self.mainView.daySpinner.centeredValue;
-        NSString * month = self.mainView.monthSpinner.centeredValue;
-        NSString * year = self.mainView.yearSpinner.centeredValue;
-        NSString * increment = self.mainView.incrementSpinner.centeredValue;
-        NSString * val = self.mainView.valueSpinner.centeredValue;
-        NSString * you = self.mainView.youSpinner.centeredValue;
+        NSString * day = [NSString stringWithFormat: @"%d", (int)self.day];
+        NSString * month = [NSString stringWithFormat: @"%d", (int)self.month];
+        NSString * year = [NSString stringWithFormat: @"%d", (int)self.year];
+
         
         NSString * date = [NSString stringWithFormat:@"%@/%@/%@", month, day, year];
         
@@ -322,10 +384,10 @@
                 vc.eventStore = eventStore;
                 EKEvent* event = [EKEvent eventWithEventStore:eventStore];
                 // Prepopulate all kinds of useful information with you event.
-                event.title = [NSString stringWithFormat:@"%@ %@ %@ on", you, val, increment];
+                event.title = [NSString stringWithFormat:@"%@ %@ %@ on", self.you, self.value, self.increment];
                 NSString *dateString = [NSString stringWithFormat:@"%@-%@-%@", day, month, year];
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                dateFormatter.dateFormat = @"d-MMM-yy";
+                dateFormatter.dateFormat = @"d-MM-yy";
                 NSDate *date = [dateFormatter dateFromString:dateString];
                 event.startDate = date;
                 event.endDate = date;
@@ -350,31 +412,7 @@
         }
         
         if ([contentValue isEqualToString: @"Share"]) {
-			NSLog(@"Should share");
-			
-			[TCProgressHUD showWithMaskType:TCProgressHUDMaskTypeBlack];
-			
-			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-				NSString *shareString = AWHILE_APP_SHARE;
-				NSString *shareURL = [NSURL URLWithString:AWHILE_APP_URL];
-				UIImage *shareImage;
-				
-				UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
-				[self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
-				shareImage = UIGraphicsGetImageFromCurrentImageContext();
-				UIGraphicsEndImageContext();
-				
-				UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareString, shareURL, shareImage] applicationActivities:nil];
-				
-				CGFloat delayInSeconds = 0.4f;
-				dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds*NSEC_PER_SEC);
-				
-				dispatch_after(delay, dispatch_get_main_queue(), ^{
-					[TCProgressHUD dismiss];
-					
-					[self presentViewController:activityViewController animated:YES completion:nil];
-				});
-			});
+			[self share];
         }
     }
 }
@@ -383,18 +421,12 @@
 {
     if (spinner == timeView.menuSpinner) {
         [spinner goToRow:indexPath.row withAnimation:YES];
+        NSString * day = [NSString stringWithFormat: @"%d", (int)self.day];
+        NSString * month = [NSString stringWithFormat: @"%d", (int)self.month];
+        NSString * year = [NSString stringWithFormat: @"%d", (int)self.year];
+
         
-        NSString * day = self.mainView.daySpinner.centeredValue;
-        NSString * month = self.mainView.monthSpinner.centeredValue;
-        NSString * year = self.mainView.yearSpinner.centeredValue;
-        NSString * increment = self.mainView.incrementSpinner.centeredValue;
-        NSString * val = self.mainView.valueSpinner.centeredValue;
-        NSString * you = self.mainView.youSpinner.centeredValue;
-        NSString *hour = self.timeView.hourSpinner.centeredValue;
-        NSString *minute = self.timeView.minuteSpinner.centeredValue;
-        NSString *amPm = self.timeView.amPmSpinner.centeredValue;
-        
-        NSString * dateString = [NSString stringWithFormat:@"%@/%@/%@ %@%@ %@", month, day, year, hour, minute, amPm];
+        NSString * dateString = [NSString stringWithFormat:@"%@/%@/%@ %@%@ %@", month, day, year, self.hour, self.minute, self.amPm];
 
         if ([contentValue isEqualToString:@"Birthday"]) {
             [UIApplication sharedApplication].keyWindow.rootViewController = [[AWBirthDateViewController alloc] init];
@@ -407,9 +439,9 @@
                 vc.eventStore = eventStore;
                 EKEvent* event = [EKEvent eventWithEventStore:eventStore];
                 // Prepopulate all kinds of useful information with you event.
-                event.title = [NSString stringWithFormat:@"%@ %@ %@ on", you, val, increment];
+                event.title = [NSString stringWithFormat:@"%@ %@ %@ on", self.you, self.value, self.increment];
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                dateFormatter.dateFormat = @"MMM/d/yy hh:mm a";
+                dateFormatter.dateFormat = @"MM/d/yy hh:mm a";
                 NSDate *date = [dateFormatter dateFromString:dateString];
                 event.startDate = date;
                 event.endDate = date;
@@ -430,6 +462,9 @@
         
         if ([contentValue isEqualToString:@"Calculator"]) {
             self.timeView.hidden = YES;
+        }
+        if ([contentValue isEqualToString: @"Share"]) {
+			[self share];
         }
     }
 
