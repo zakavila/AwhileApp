@@ -267,10 +267,15 @@ typedef NS_ENUM(NSInteger, CircleType) {
 {
     AWArcTextSpinnerCell *arcTextCell = (AWArcTextSpinnerCell*)cell;
     UIFont *textFont;
-    if (isFocused)
-        textFont = [UIFont fontWithName:FOCUSED_FONT_NAME size:FOCUSED_FONT_SIZE];
-    else
+    if (isFocused) {
+        if (arcTextCell.circularArcText.text.length > 9)
+            textFont = [UIFont fontWithName:FOCUSED_FONT_NAME size:FOCUSED_FONT_SIZE-12.0f];
+        else
+            textFont = [UIFont fontWithName:FOCUSED_FONT_NAME size:FOCUSED_FONT_SIZE];
+    }
+    else {
         textFont = [UIFont fontWithName:UNFOCUSED_FONT_NAME size:UNFOCUSED_FONT_SIZE];
+    }
     arcTextCell.circularArcText.font = textFont;
     CGRect dummyRect = CGRectIntegral([arcTextCell.circularArcText.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: textFont} context:nil]);
     arcTextCell.circularArcText.arcSize = [self arcMultiplierForSpinner:spinner andFocused:isFocused]*dummyRect.size.width;
