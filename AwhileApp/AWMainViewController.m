@@ -129,6 +129,25 @@
     [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:NO];
 }
 
+- (void)setTime:(NSDateComponents *)components {
+    if (!self.timeView.hidden)
+    {
+        [self.timeView.minuteSpinner goToRow:[components minute] withAnimation:NO];
+        
+        if (self.hour >= 12)
+        {
+            [self.timeView.hourSpinner goToRow:[components hour]-12 withAnimation:NO];
+            [self.timeView.amPmSpinner goToRow:1 withAnimation:NO];
+        }
+        else
+        {
+            [self.timeView.hourSpinner goToRow:[components hour] withAnimation:NO];
+            [self.timeView.amPmSpinner goToRow:0 withAnimation:NO];
+        }
+    }
+    self.timeView.date = [NSString stringWithFormat:@"%ld/%ld/%ld", (long)self.month, (long)self.day, (long)self.year];;
+}
+
 - (void)mainView:(AWMainView*)mainView spinner:(ZASpinnerView*)spinner didChangeTo:(NSString*)value {
     
     if (spinner == mainView.youSpinner)
@@ -145,6 +164,18 @@
         {
             self.calculatedDate = [NSDate date];
             self.calculatedDate = [self.calculatedDate dateByAddingTimeInterval:(24*60*60)];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"hh:mm"];
+            NSString *timeString = [formatter stringFromDate:self.dataModel.birthTime];
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            NSString *dateString = [formatter stringFromDate:self.calculatedDate];
+            dateString = [NSString stringWithFormat:@"%@ %@", dateString, timeString];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"yyyy-MM-dd hh:mm";
+            self.calculatedDate = [dateFormatter dateFromString:dateString];
+
+            
+
         }
         
         NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
@@ -157,24 +188,9 @@
         self.year = [components year];
         self.hour = [components hour];
         self.minute = [components minute];
-        if (!self.timeView.hidden)
-        {
-            [self.timeView.minuteSpinner goToRow:[components minute] withAnimation:NO];
-            
-            if (self.hour >= 12)
-            {
-                [self.timeView.hourSpinner goToRow:[components hour]-12 withAnimation:NO];
-                [self.timeView.amPmSpinner goToRow:1 withAnimation:NO];
-            }
-            else
-            {
-                [self.timeView.hourSpinner goToRow:[components hour] withAnimation:NO];
-                [self.timeView.amPmSpinner goToRow:0 withAnimation:NO];
-            }
-        }
+        [self setTime:components];
         [mainView.valueSpinner goToRow:[[self.dataModel seconds:[self.calculatedDate timeIntervalSinceDate:self.dataModel.birthTime] withUnit:self.mainView.incrementSpinner.centeredValue] intValue] withAnimation:NO];
         
-        self.timeView.date = [NSString stringWithFormat:@"%ld/%ld/%ld", (long)self.month, (long)self.day, (long)self.year];;
     }
     else if (spinner == mainView.yearSpinner)
     {
@@ -514,6 +530,8 @@
         if ([contentValue isEqualToString:@"Time"]) {
             self.timeView.date = date;
             self.timeView.hidden = NO;
+            NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.calculatedDate];
+            [self setTime:components];
         }
         
         if ([contentValue isEqualToString: @"Share"]) {
